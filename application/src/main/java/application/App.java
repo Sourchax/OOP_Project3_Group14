@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,13 +19,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("InputToOutput"), 640, 480);
-        stage.setScene(scene);
-        stage.show();
-    }
+        scene = new Scene(loadFXML("fxml/cashier/CashierScene"), 1200, 768);
+            
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+        stage.setScene(scene);
+        stage.setMinHeight(768);
+        stage.setMinWidth(1200);
+        stage.setTitle("Group14 Cinema Center");
+        stage.show();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

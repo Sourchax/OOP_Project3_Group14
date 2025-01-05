@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.stage.FileChooser?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER" spacing="10" style="-fx-padding: 20;"
+      fx:controller="application.AddMovieController">
+    <Label text="Add a New Movie" style="-fx-font-size: 16;" />
+    <TextField fx:id="titleField" promptText="Enter movie title" />
+    <TextField fx:id="genreField" promptText="Enter movie genre" />
+    <TextField fx:id="yearField" promptText="Enter movie year" />
+    
+    <Button fx:id="uploadImageButton" text="Upload Image" onAction="#onUploadImage" />
+    
+    <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" preserveRatio="true" />
+    
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="Add"  />
+        <Button text="Cancel" onAction="#onCancel"/>
+    </HBox>
+</VBox>

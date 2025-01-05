@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MoviesTabController">
+   <children>
+      <Button fx:id="addNewMovieButton" layoutX="555.0" layoutY="455.0" mnemonicParsing="false" text="Add new Movie" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="150.0" />
+      <Button fx:id="editDetailsButton" layoutX="151.0" layoutY="455.0" mnemonicParsing="false" text="Edit Details" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="150.0" />
+      <TableView layoutX="14.0" layoutY="19.0" prefHeight="400.0" prefWidth="760.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Title" />
+          <TableColumn prefWidth="75.0" text="Genre" />
+            <TableColumn prefWidth="264.0" text="Summary" />
+        </columns>
+      </TableView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="404.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
