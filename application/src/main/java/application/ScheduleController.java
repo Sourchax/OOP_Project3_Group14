@@ -10,6 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDate;
 
+import entities.Session;
+
 public class ScheduleController {
 
     @FXML
@@ -25,18 +27,6 @@ public class ScheduleController {
     private DatePicker datePicker;
 
     @FXML
-    private TableView<Schedule> scheduleTableView;
-
-    @FXML
-    private TableColumn<Schedule, String> hallColumn;
-
-    @FXML
-    private TableColumn<Schedule, LocalDate> dateColumn;
-
-    @FXML
-    private TableColumn<Schedule, String> movieColumn;
-
-    @FXML
     private void initialize() {
         createScheduleButton.setOnAction(event -> createSchedule());
         updateScheduleButton.setOnAction(event -> updateSchedule());
@@ -50,40 +40,4 @@ public class ScheduleController {
 
     }
 
-    
-    public static class Schedule {
-        private String hall;
-        private LocalDate date;
-        private String movie;
-
-        public Schedule(String hall, LocalDate date, String movie) {
-            this.hall = hall;
-            this.date = date;
-            this.movie = movie;
-        }
-
-        public String getHall() {
-            return hall;
-        }
-
-        public void setHall(String hall) {
-            this.hall = hall;
-        }
-
-        public LocalDate getDate() {
-            return date;
-        }
-
-        public void setDate(LocalDate date) {
-            this.date = date;
-        }
-
-        public String getMovie() {
-            return movie;
-        }
-
-        public void setMovie(String movie) {
-            this.movie = movie;
-        }
-    }
 }
