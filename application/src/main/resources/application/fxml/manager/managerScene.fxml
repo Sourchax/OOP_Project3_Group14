@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" minHeight="768.0" minWidth="1200.0" stylesheets="@../styles/loginStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ManagerSceneController">
+   <top>
+      <AnchorPane prefHeight="145.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="topBar" minHeight="150.0" prefHeight="183.0" prefWidth="1265.0" spacing="20.0" AnchorPane.leftAnchor="0.0">
+               <children>
+                  <ImageView fx:id="profilePicture" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../hornet.gif" />
+                     </image>
+                  </ImageView>
+                  <VBox prefHeight="163.0" prefWidth="414.0" spacing="10.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="150.0" spacing="20.0">
+                           <children>
+                              <Label minWidth="100.0" text="Role:">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="Calibri" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="34.0" prefWidth="200.0" text="Manager">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="Calibri" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="336.0" spacing="20.0">
+                           <children>
+                              <Label minWidth="100.0" text="Username:">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="Calibri" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="usernameLabel" prefHeight="34.0" prefWidth="200.0" text="Username">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="Calibri" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <HBox alignment="TOP_RIGHT">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="201.0" text="Date">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="94.0" prefWidth="596.0" spacing="10.0">
+                           <children>
+                              <Button mnemonicParsing="false" onMouseClicked="#onClickInventory" text="Inventory" />
+                              <Button mnemonicParsing="false" onMouseClicked="#onClickEmployees" text="Employees" />
+                              <Button mnemonicParsing="false" onMouseClicked="#onClickTickets" text="Tickets" />
+                              <Button mnemonicParsing="false" onMouseClicked="#onCLickRevenueTax" prefHeight="34.0" prefWidth="159.0" text="Revenue and Tax" />
+                              <Button mnemonicParsing="false" onMouseClicked="#onLogoutClick" text="Log Out" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

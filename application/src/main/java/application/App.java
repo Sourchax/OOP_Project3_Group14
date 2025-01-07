@@ -21,7 +21,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("fxml/newAdminMenu"), 1200, 768);
+        scene = new Scene(loadFXML("fxml/login"), 1200, 768);
         
         stage.setScene(scene);
         stage.setMinHeight(768);

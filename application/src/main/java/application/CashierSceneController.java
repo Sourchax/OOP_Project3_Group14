@@ -11,6 +11,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.Scene;
 
 public class CashierSceneController {
 
@@ -69,7 +72,21 @@ public class CashierSceneController {
     }
 
     @FXML
-    void handleLogOut() {
-        // Method to handle logout
+    void handleLogOut(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/login.fxml"));
+        BorderPane root = loader.load();
+
+        LoginController loginController = loader.getController();//loginController
+
+        // Get the current stage
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        Scene loginScene = new Scene(root, 640, 480);
+        currentStage.setTitle("Login Page"); 
+        currentStage.setScene(loginScene); 
+        currentStage.show();
+
+        //  pass any data to the LoginController
+        //loginController.setSomeData(someData);
     }
 }

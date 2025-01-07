@@ -1,0 +1,21 @@
+#mainPane {
+    -fx-background-color: #f0ea8e;
+}
+
+#sideBar{
+    -fx-background-color: #D3D3D3;
+}
+
+#chosenProductCard{
+    -fx-background-color: #8417e8;
+    -fx-background-radius: 20px;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+#scrollPane {
+    -fx-background-color: rgba(0,0,0,0);
+    
+}

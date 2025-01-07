@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -7,27 +8,73 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MoviesTabController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="973.0" stylesheets="@styles/loginStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MoviesTabController">
     <children>
-        <ListView fx:id="moviesList" layoutX="14.0" layoutY="100.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
-        
-        <Label layoutX="230.0" layoutY="189.0" text="Title:" AnchorPane.bottomAnchor="294.0" AnchorPane.leftAnchor="230.0" />
-        <TextField fx:id="titleField" layoutX="309.0" layoutY="185.0" prefHeight="25.0" prefWidth="350.0" AnchorPane.bottomAnchor="290.0" AnchorPane.leftAnchor="309.0" />
+      <VBox alignment="CENTER" layoutX="26.0" layoutY="32.0" spacing="20.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="94.0" styleClass="moviesHeader" text="Movies" textAlignment="CENTER">
+               <font>
+                  <Font name="Calibri" size="20.0" />
+               </font>
+            </Label>
+              <ListView fx:id="moviesList" prefHeight="491.0" prefWidth="319.0" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="433.0" layoutY="20.0" prefHeight="601.0" prefWidth="486.0" spacing="15.0" styleClass="updateMovieSection">
+         <children>
+            <ImageView fx:id="moviePoster" fitHeight="150.0" fitWidth="335.0" nodeOrientation="INHERIT" preserveRatio="true" />
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="selectNewPosterButton" alignment="CENTER" mnemonicParsing="false" text="Select New Poster" />
+               </children>
+            </HBox>
+            <GridPane alignment="CENTER" prefHeight="289.0" prefWidth="464.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.4285888671875" minWidth="10.0" prefWidth="150.28571428571428" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="338.85707310267856" minWidth="10.0" prefWidth="336.57142857142856" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="70.14283098493303" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="72.14286586216518" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="123.42857142857144" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                    
+                  <Label alignment="CENTER" maxWidth="211.0" prefHeight="51.0" prefWidth="182.0" styleClass="title" text="Title:" />
 
-        <Label layoutX="230.0" layoutY="229.0" text="Release Year:" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="230.0" />
-        <TextField fx:id="yearField" layoutX="309.0" layoutY="226.0" prefWidth="350.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="309.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="179.0" styleClass="year" text="Release Year:" textAlignment="CENTER" GridPane.rowIndex="1" />
 
-        <Label layoutX="230.0" layoutY="279.0" text="Genre:" AnchorPane.bottomAnchor="205.0" AnchorPane.leftAnchor="230.0" />
-        <TextField fx:id="genreField" layoutX="309.0" layoutY="278.0" prefHeight="25.0" prefWidth="350.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="309.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="175.0" styleClass="genre" text="Genre:" textAlignment="CENTER" GridPane.rowIndex="2" />
 
-        <Label layoutX="230.0" layoutY="325.0" text="Summary:" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="230.0" />
-        <TextArea fx:id="summaryField" layoutX="309.0" layoutY="327.0" prefHeight="100.0" prefWidth="350.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="309.0" />
-
-        <Button fx:id="editDetailsButton" layoutX="439.0" layoutY="461.0" text="Save Changes" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="440.0" />
-        <Button fx:id="addMovieButton" layoutX="678.0" layoutY="35.0" text="Add New Movie" AnchorPane.leftAnchor="680.0" AnchorPane.topAnchor="40.0" />
-      <Label layoutX="20.0" layoutY="58.0" text="Movies" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" />
-      <ImageView fx:id="moviePoster" fitHeight="180.0" fitWidth="350.0" layoutX="301.0" layoutY="14.0" nodeOrientation="INHERIT" preserveRatio="true" AnchorPane.bottomAnchor="365.0" AnchorPane.leftAnchor="301.0" AnchorPane.rightAnchor="149.0" />
-      <Button fx:id="selectNewPosterButton" layoutX="419.0" layoutY="151.0" mnemonicParsing="false" text="Select New Poster" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="420.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="49.0" prefWidth="176.0" styleClass="summary" text="Summary:" textAlignment="CENTER" GridPane.rowIndex="3" />
+                  <TextArea fx:id="summaryField" prefHeight="99.0" prefWidth="331.0" styleClass="summaryField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="genreField" styleClass="genreField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="yearField" styleClass="yearField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="titleField" styleClass="titleField" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="515.0" spacing="30.0">
+               <children>
+            
+                    <Button fx:id="editDetailsButton" text="Save Changes" />
+                    <Button fx:id="addMovieButton" text="Add New Movie" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </VBox>
     </children>
 </AnchorPane>

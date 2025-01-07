@@ -49,7 +49,7 @@
                      </Label>
                   </children>
                </HBox>
-         <Button fx:id="logOutButton" maxHeight="50.0" maxWidth="80.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" text="Log Out" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" onAction="#handleLogOutAction"/>
+         <Button fx:id="logOutButton" maxHeight="50.0" maxWidth="80.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" text="Log Out" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" onMouseClicked="#handleLogOutAction"/>
       </children>
    </AnchorPane>
 </top>
