@@ -4,7 +4,9 @@ import java.sql.Blob;
 
 public class Movie {
     
+    private int id;
     private String name;
+    private String year;
     private String genre;
     private String summary;
     private Blob poster;
@@ -12,8 +14,16 @@ public class Movie {
     public Movie(){}
 
 
+    public int getID(){
+        return id;
+    }
+
     public String getName(){
         return name;
+    }
+
+    public String getReleaseYear(){
+        return year;
     }
 
     public String getGenre(){
@@ -28,8 +38,16 @@ public class Movie {
         return poster;
     }
 
+    public void setID(int id){
+        this.id = id;
+    }
+
     public void setName(String name){
         this.name = name;
+    }
+
+    public void setReleaseYear(String releaseYear){
+        this.year = releaseYear;
     }
 
     public void setGenre(String genre){

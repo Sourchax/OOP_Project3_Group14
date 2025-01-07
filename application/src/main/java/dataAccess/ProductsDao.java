@@ -7,7 +7,7 @@ import entities.Product;
 
 public class ProductsDao extends GenericDao<Product>{
 
-    ProductsDao(){
+    public ProductsDao(){
         this.tableName = "products";
     }
 

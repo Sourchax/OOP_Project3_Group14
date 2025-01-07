@@ -16,25 +16,27 @@ public abstract class GenericDao<T> {
     public abstract T mapToObj(ResultSet resultSet) throws SQLException;
 
     public void mapToStatement(PreparedStatement statement, Object[] vararg) throws SQLException {
-        for(int i = 0; i < vararg.length-1; i++){
-            statement.setObject(i, vararg[i]);
+        for(int i = 1; i <= vararg.length; i++){
+            statement.setObject(i, vararg[i-1]);
         }
     }
 
     public void mapToStatement(PreparedStatement statement, T obj) throws Exception {
         Class<?> cla = obj.getClass();
         Method[] methods = cla.getDeclaredMethods();
-        int i = 0;
+        int i = 1;
         for(Method m : methods){
-            if(m.getName().contains("get"))
-                statement.setObject(i++, m.invoke(obj));
+            if(m.getName().contains("get")){
+                if(!m.getName().contains("ID")){
+                    statement.setObject(i++, m.invoke(obj));
+                }
+            }      
         }
     }
 
     public void insert(T obj){
         String[] queryParts = Regex.formatColumns(obj);
         String query = "INSERT INTO " + tableName + queryParts[0] + " VALUES " + queryParts[1] + ";";
-
         try{
             Connection connection = DBConnector.createConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -53,7 +55,7 @@ public abstract class GenericDao<T> {
         try{
             Connection connection = DBConnector.createConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(0, id);
+            statement.setInt(1, id);
             statement.executeUpdate();
         
         } catch(SQLException e) {
@@ -67,10 +69,11 @@ public abstract class GenericDao<T> {
         try{
             String query = "UPDATE " + tableName + " SET " + Regex.formatColumns(columnUpdate, "update") + " WHERE id = ?;";
             
+            System.out.println(query);
             Connection connection = DBConnector.createConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             mapToStatement(statement, vararg);
-            statement.setInt(vararg.length, id);
+            statement.setInt(vararg.length+1, id);
             statement.executeUpdate();
         
         } catch(Exception e) {

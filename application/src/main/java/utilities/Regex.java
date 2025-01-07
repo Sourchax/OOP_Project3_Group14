@@ -75,20 +75,28 @@ public class Regex {
         columnBuilder.append(" (");
         
         for(Field f : fields){
+            System.out.println(f.getName());
+            if(f.getName().contains("id")){
+                continue;
+            }
             if(f != fields[fields.length-1])
-                columnBuilder.append(f + ", ");
+                columnBuilder.append(f.getName() + ", ");
             else
-                columnBuilder.append(f + ")");
+                columnBuilder.append(f.getName() + ")");
         }
 
         StringBuilder valuesBuilder = new StringBuilder();
-        columnBuilder.append("(");
+        valuesBuilder.append("(");
 
         for(Field f : fields){
+            System.out.println(f.getName());
+            if(f.getName().contains("id")){
+                continue;
+            }
             if(f != fields[fields.length-1])
-                columnBuilder.append("?, ");
+                valuesBuilder.append("?, ");
             else
-                columnBuilder.append("?)");
+                valuesBuilder.append("?)");
         }
 
         return new String[] {columnBuilder.toString(), valuesBuilder.toString()};

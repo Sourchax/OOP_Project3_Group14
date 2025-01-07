@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import dataAccess.DBConnector;
+
 /**
  * JavaFX App
  */
@@ -19,9 +21,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("fxml/cashier/CashierScene"), 1200, 768);
-            
-
+        scene = new Scene(loadFXML("fxml/newAdminMenu"), 1200, 768);
+        
         stage.setScene(scene);
         stage.setMinHeight(768);
         stage.setMinWidth(1200);

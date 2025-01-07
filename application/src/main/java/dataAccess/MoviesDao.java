@@ -7,7 +7,7 @@ import entities.Movie;
 
 public class MoviesDao extends GenericDao<Movie>{
 
-    MoviesDao(){
+    public MoviesDao(){
         this.tableName = "movies";
     }
 
@@ -17,6 +17,8 @@ public class MoviesDao extends GenericDao<Movie>{
         movie.setName(resultSet.getString("name"));
         movie.setGenre(resultSet.getString("genre"));
         movie.setSummary(resultSet.getString("summary"));
+        movie.setID(resultSet.getInt("id"));
+        movie.setReleaseYear(resultSet.getString("year"));
         movie.setPoster(resultSet.getBlob("poster"));
         return movie;
     }

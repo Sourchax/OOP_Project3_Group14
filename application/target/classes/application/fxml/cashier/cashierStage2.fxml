@@ -27,7 +27,7 @@ xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CashierStage2Cont
       <Label layoutX="20.0" layoutY="173.0" text="Vacant Seats for Selected Hall:" />
 
       
-      <Button fx:id="confirmSelectionButton" layoutX="600.0" layoutY="500.0" mnemonicParsing="false" text="Confirm Selection" />
+      <Button fx:id="confirmSelectionButton" layoutX="600.0" layoutY="500.0" mnemonicParsing="false" text="Confirm Selection" onAction="#handleConfirmSelection"/>
       <Button fx:id="backToSearchButton" layoutX="20.0" layoutY="500.0" mnemonicParsing="false" text="Back to Search"  onAction="#handleBackToSearch"/>
       <ComboBox fx:id="sessionsComboBox1" layoutX="150.0" layoutY="136.0" prefWidth="200.0" />
    </children>

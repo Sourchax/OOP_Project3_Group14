@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MoviesTabController">
-   <children>
-      <Button fx:id="addNewMovieButton" layoutX="555.0" layoutY="455.0" mnemonicParsing="false" text="Add new Movie" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="150.0" />
-      <Button fx:id="editDetailsButton" layoutX="151.0" layoutY="455.0" mnemonicParsing="false" text="Edit Details" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="150.0" />
-      <TableView layoutX="14.0" layoutY="19.0" prefHeight="400.0" prefWidth="760.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="Title" />
-          <TableColumn prefWidth="75.0" text="Genre" />
-            <TableColumn prefWidth="264.0" text="Summary" />
-        </columns>
-      </TableView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="404.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
-   </children>
+    <children>
+        <ListView fx:id="moviesList" layoutX="14.0" layoutY="100.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+        
+        <Label layoutX="230.0" layoutY="189.0" text="Title:" AnchorPane.bottomAnchor="294.0" AnchorPane.leftAnchor="230.0" />
+        <TextField fx:id="titleField" layoutX="309.0" layoutY="185.0" prefHeight="25.0" prefWidth="350.0" AnchorPane.bottomAnchor="290.0" AnchorPane.leftAnchor="309.0" />
+
+        <Label layoutX="230.0" layoutY="229.0" text="Release Year:" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="230.0" />
+        <TextField fx:id="yearField" layoutX="309.0" layoutY="226.0" prefWidth="350.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="309.0" />
+
+        <Label layoutX="230.0" layoutY="279.0" text="Genre:" AnchorPane.bottomAnchor="205.0" AnchorPane.leftAnchor="230.0" />
+        <TextField fx:id="genreField" layoutX="309.0" layoutY="278.0" prefHeight="25.0" prefWidth="350.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="309.0" />
+
+        <Label layoutX="230.0" layoutY="325.0" text="Summary:" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="230.0" />
+        <TextArea fx:id="summaryField" layoutX="309.0" layoutY="327.0" prefHeight="100.0" prefWidth="350.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="309.0" />
+
+        <Button fx:id="editDetailsButton" layoutX="439.0" layoutY="461.0" text="Save Changes" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="440.0" />
+        <Button fx:id="addMovieButton" layoutX="678.0" layoutY="35.0" text="Add New Movie" AnchorPane.leftAnchor="680.0" AnchorPane.topAnchor="40.0" />
+      <Label layoutX="20.0" layoutY="58.0" text="Movies" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" />
+      <ImageView fx:id="moviePoster" fitHeight="180.0" fitWidth="350.0" layoutX="301.0" layoutY="14.0" nodeOrientation="INHERIT" preserveRatio="true" AnchorPane.bottomAnchor="365.0" AnchorPane.leftAnchor="301.0" AnchorPane.rightAnchor="149.0" />
+      <Button fx:id="selectNewPosterButton" layoutX="419.0" layoutY="151.0" mnemonicParsing="false" text="Select New Poster" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="420.0" />
+    </children>
 </AnchorPane>

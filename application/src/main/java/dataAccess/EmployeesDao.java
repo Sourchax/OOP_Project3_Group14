@@ -8,7 +8,7 @@ import entities.Profile;
 
 public class EmployeesDao extends GenericDao<Employee>{
 
-    EmployeesDao(){
+    public EmployeesDao(){
         this.tableName = "employees";
     }
 

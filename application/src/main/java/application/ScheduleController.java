@@ -38,7 +38,6 @@ public class ScheduleController {
 
     @FXML
     private void initialize() {
-        System.out.println("initial");
         createScheduleButton.setOnAction(event -> createSchedule());
         updateScheduleButton.setOnAction(event -> updateSchedule());
     }

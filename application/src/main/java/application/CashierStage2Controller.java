@@ -32,7 +32,7 @@ public class CashierStage2Controller {
 
     @FXML
     private void handleConfirmSelection() {
-        // Method to handle confirming the selection
+        cashierParent.getParent().handleScenes("seatPlanStage");
     }
 
     @FXML

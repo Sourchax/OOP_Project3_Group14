@@ -7,7 +7,7 @@ import entities.Invoice;
 
 public class InvoicesDao extends GenericDao<Invoice>{
 
-    InvoicesDao(){
+    public InvoicesDao(){
         this.tableName = "invoices";
     }
 
