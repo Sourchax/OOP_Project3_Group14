@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 public class Invoice {
     
+    private int id;
     private String name;
     private String surname;
     private LocalDateTime purhcaseDate;
@@ -14,6 +15,10 @@ public class Invoice {
     public Invoice(){}
 
     /* Getters */
+
+    public int getId(){
+        return id;
+    }
 
     public String getName(){
         return name;
@@ -37,6 +42,9 @@ public class Invoice {
 
     /* Setters */
 
+    public void setID(int id){
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;

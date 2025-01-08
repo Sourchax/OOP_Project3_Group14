@@ -14,6 +14,7 @@ public class ProductsDao extends GenericDao<Product>{
     @Override
     public Product mapToObj(ResultSet resultSet) throws SQLException {
         Product product = new Product();
+        product.setID(resultSet.getInt("id"));
         product.setName(resultSet.getString("name"));
         product.setType(resultSet.getString("type"));
         product.setStock(resultSet.getInt("stock"));

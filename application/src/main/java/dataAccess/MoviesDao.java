@@ -17,8 +17,8 @@ public class MoviesDao extends GenericDao<Movie>{
         movie.setName(resultSet.getString("name"));
         movie.setGenre(resultSet.getString("genre"));
         movie.setSummary(resultSet.getString("summary"));
-        movie.setID(resultSet.getInt("id"));
-        movie.setReleaseYear(resultSet.getString("year"));
+        movie.setId(resultSet.getInt("id"));
+        movie.setYear(resultSet.getString("year"));
         movie.setPoster(resultSet.getBlob("poster"));
         return movie;
     }

@@ -1,17 +1,24 @@
 package entities;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.sql.Time;
 
 public class Session {
     
-    private char hall;
+    private int id;
+    private String hall;
     private long seats;
     private String movie;
-    private LocalDateTime sessionTime;
+    private Date sessionDate;
+    private Time sessionTime;
 
     public Session(){}
 
-    public char getHall(){
+    public int getId(){
+        return id;
+    }
+
+    public String getHall(){
         return hall;
     }
 
@@ -23,11 +30,19 @@ public class Session {
         return movie;
     }
 
-    public LocalDateTime getSessionTime(){
+    public Date getSessionDate(){
+        return sessionDate;
+    }
+
+    public Time getSessionTime(){
         return sessionTime;
     }
 
-    public void setHall(char hall){
+    public void setID(int id){
+        this.id = id;
+    }
+
+    public void setHall(String hall){
         this.hall = hall;
     }
 
@@ -38,7 +53,12 @@ public class Session {
     public void setMovie(String movie){
         this.movie = movie;
     }
-    public void setSessionTime(LocalDateTime sessionTime){
+
+    public void setSessionDate(Date sessionDate){
+        this.sessionDate = sessionDate;
+    }
+
+    public void setSessionTime(Time sessionTime){
         this.sessionTime = sessionTime;
     }
 }

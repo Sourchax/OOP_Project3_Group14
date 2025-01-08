@@ -1,5 +1,6 @@
 package dataAccess;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,16 +24,18 @@ public abstract class GenericDao<T> {
 
     public void mapToStatement(PreparedStatement statement, T obj) throws Exception {
         Class<?> cla = obj.getClass();
-        Method[] methods = cla.getDeclaredMethods();
+        Field[] fields = cla.getDeclaredFields();
         int i = 1;
-        for(Method m : methods){
-            if(m.getName().contains("get")){
-                if(!m.getName().contains("ID")){
-                    statement.setObject(i++, m.invoke(obj));
-                }
-            }      
+        for(Field f : fields){
+            String fName = f.getName();
+            if(fName != "id"){
+                Method m = cla.getMethod("get" + fName.substring(0, 1).toUpperCase() + fName.substring(1));
+                System.out.println(i++ + " - " + m.invoke(obj));
+                //statement.setObject(i++, m.invoke(obj));
+            }
         }
     }
+
 
     public void insert(T obj){
         String[] queryParts = Regex.formatColumns(obj);
@@ -128,4 +131,32 @@ public abstract class GenericDao<T> {
         
     }
 
+    public T getByFilter(String columns, Object... vararg){
+
+        try{
+            String query = "SELECT * FROM " + tableName + " WHERE " + Regex.formatColumns(columns, "filter") + ";";
+            
+            Connection connection = DBConnector.createConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            mapToStatement(statement, vararg);
+            ResultSet resultSet = statement.executeQuery();
+            
+            T obj;
+            if(resultSet.next())
+                obj = mapToObj(resultSet);
+            else
+                return null;
+
+            if(resultSet.next())
+                throw new Exception("ERROR: This query returned multiple results!");
+            
+            return obj;
+            
+        } catch (Exception e){
+            //need error handler
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 }

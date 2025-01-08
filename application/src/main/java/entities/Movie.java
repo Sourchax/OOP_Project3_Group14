@@ -14,7 +14,7 @@ public class Movie {
     public Movie(){}
 
 
-    public int getID(){
+    public int getId(){
         return id;
     }
 
@@ -22,7 +22,7 @@ public class Movie {
         return name;
     }
 
-    public String getReleaseYear(){
+    public String getYear(){
         return year;
     }
 
@@ -38,7 +38,7 @@ public class Movie {
         return poster;
     }
 
-    public void setID(int id){
+    public void setId(int id){
         this.id = id;
     }
 
@@ -46,7 +46,7 @@ public class Movie {
         this.name = name;
     }
 
-    public void setReleaseYear(String releaseYear){
+    public void setYear(String releaseYear){
         this.year = releaseYear;
     }
 

@@ -4,6 +4,7 @@ import java.sql.Blob;
 
 public class Product {
     
+    private int id;
     private String name;
     private String type; 
     private int stock;
@@ -12,6 +13,9 @@ public class Product {
 
     public Product(){}
 
+    public int getId(){
+        return id;
+    }
 
     public String getName(){
         return name;
@@ -31,6 +35,10 @@ public class Product {
 
     public Blob getImage(){
         return image;
+    }
+
+    public void setID(int id){
+        this.id = id;
     }
 
     public void setName(String name){
