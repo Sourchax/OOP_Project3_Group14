@@ -17,9 +17,9 @@ public class seatPlanController {
     private final Map<Button, String> seatStatus = new HashMap<>();
 
     // Icons for seat statuses
-    private final Image availableSeatIcon = new Image(getClass().getResource("/application/fxml/styles/availableSeat.png").toExternalForm());
-    private final Image selectedSeatIcon = new Image(getClass().getResource("/application/fxml/styles/selectedSeat.png").toExternalForm());
-    private final Image occupiedSeatIcon = new Image(getClass().getResource("/application/fxml/styles/occupiedSeat.png").toExternalForm());
+    private final Image availableSeatIcon = new Image(getClass().getResource("/application/fxml/icons/availableSeat.png").toExternalForm());
+    private final Image selectedSeatIcon = new Image(getClass().getResource("/application/fxml/icons/selectedSeat.png").toExternalForm());
+    private final Image occupiedSeatIcon = new Image(getClass().getResource("/application/fxml/icons/occupiedSeat.png").toExternalForm());
     
 
     // Initialize the seat layout dynamically

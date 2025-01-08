@@ -15,7 +15,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
@@ -26,9 +28,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
 import dataAccess.GenericDao;
 import dataAccess.MoviesDao;
 import entities.*;
@@ -47,6 +51,13 @@ public class MoviesTabController {
 
     @FXML
     private Button editDetailsButton;
+
+    @FXML
+    private Button deleteButton;
+
+    @FXML
+    private Button genreButton;
+
     @FXML
     private Button selectNewPosterButton;
 
@@ -60,7 +71,7 @@ public class MoviesTabController {
     private TextField yearField;
 
     @FXML
-    private TextField genreField;
+    private Label genreField;
 
     @FXML
     private TextArea summaryField;
@@ -72,7 +83,7 @@ public class MoviesTabController {
 
     private Movie selectedMovie;
 
-    private File selectedPoster;
+    private Blob selectedImageBlob;
     
     private MoviesDao database;
 
@@ -81,6 +92,9 @@ public class MoviesTabController {
         addMovieButton.setOnAction(event -> onAddNewMovie());
         editDetailsButton.setOnAction(event -> editMovieDetails());
         selectNewPosterButton.setOnAction(event -> selectNewPoster());
+        genreButton.setOnAction(event -> showGenreSelectionPopup());
+        deleteButton.setOnAction(event -> handleDeleteMovie());
+
 
         yearField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
             String newText = change.getControlNewText();
@@ -98,6 +112,7 @@ public class MoviesTabController {
         moviesList.setOnMouseClicked(this::handleMovieSelection);
 
         selectedMovie = movieData.get(0);
+        selectedImageBlob = movieData.get(0).getPoster();
         populateMovieDetails(selectedMovie);
     }
 
@@ -108,7 +123,27 @@ public class MoviesTabController {
             selectedMovie = movieData.get(index);
             populateMovieDetails(selectedMovie);
         }
-        selectedPoster = null;
+        selectedImageBlob = movieData.get(index).getPoster();
+    }
+
+    private void showGenreSelectionPopup() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/GenreSelection.fxml"));
+            AnchorPane popupRoot = loader.load();
+
+            GenreSelectionController controller = loader.getController();
+
+            controller.setGenreSelectionCallback(this::updateSelectedGenres);
+
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Select Genres");
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setScene(new Scene(popupRoot));
+            popupStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -116,7 +151,7 @@ public class MoviesTabController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.jpeg"));
 
-        selectedPoster = fileChooser.showOpenDialog(null);
+        File selectedPoster = fileChooser.showOpenDialog(null);
         if (selectedPoster != null) {
             try {
                 Image image = new Image(new FileInputStream(selectedPoster));
@@ -154,24 +189,18 @@ public class MoviesTabController {
     private void editMovieDetails(){
         String title = titleField.getText();
         String genre = genreField.getText();
+        String year = yearField.getText();
         String summary = summaryField.getText();
 
-        if (title.isEmpty() || genre.isEmpty() || summary.isEmpty() || selectedPoster == null) {
+        if (year.isEmpty() || title.isEmpty() || summary.isEmpty() || selectedImageBlob == null) {
             System.out.println("Please fill all fields and select an image.");
 
             return;
         }
 
-        try {
-            FileInputStream file = new FileInputStream(selectedPoster);
-        
-            byte[] imageBytes = file.readAllBytes();
-            Blob imageBlob = new SerialBlob(imageBytes);
-            database.updateById(selectedMovie.getID(), "name, genre, summary, poster", title, genre, summary, imageBlob);
-            
-        } catch (Exception e) {
-            System.out.println("HELP ME!");
-        }
+
+        database.updateById(selectedMovie.getID(), "name, year, genre, summary, poster", title, year, genre, summary, selectedImageBlob);
+
         
         populateTableWithMovies();
 
@@ -188,6 +217,11 @@ public class MoviesTabController {
         moviesList.setItems(FXCollections.observableArrayList(
             movieData.stream().map(Movie::getName).collect(Collectors.toList())
         ));
+
+        selectedMovie = movieData.get(0);
+        selectedImageBlob = movieData.get(0).getPoster();
+        populateMovieDetails(selectedMovie);
+
     }
 
     private void populateMovieDetails(Movie movie) {
@@ -213,5 +247,32 @@ public class MoviesTabController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateSelectedGenres(StringBuilder genres) {
+        if(genres.length()!=0)
+            genreField.setText(genres.toString());
+    }
+
+    private void handleDeleteMovie() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Delete Movie");
+        confirmation.setHeaderText("Delete " + selectedMovie.getName());
+        confirmation.setContentText("Are you sure you want to delete this movie?");
+
+        database.deleteById(selectedMovie.getID());
+
+        if (confirmation.showAndWait().get() == ButtonType.OK) {
+            /* if (database.deleteById(selectedMovie.getID())) {
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error");
+                error.setHeaderText("Delete Failed");
+                error.setContentText("Could not delete the movie. It may be scheduled for showing.");
+                error.show();
+            } */
+        }
+        populateTableWithMovies();
+        
     }
 }

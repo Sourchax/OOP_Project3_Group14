@@ -1,69 +1,66 @@
-/* General Styles */
 .root {
-    -fx-background-color: #f4f4f4; /* Light background color for the entire window */
+    -fx-background-color: #f4f4f4;
 }
 
-/* (top section) */
 .toptab-container {
-    -fx-background-color: #333; /* Dark background color for top section */
+    -fx-background-color: #333;
 }
 
-/* (left section) */
+
 .leftsection-container {
     -fx-background-color: #2758b3b9;
 }
 
-/* ImageView styling for user picture */
+
 .image-view {
-    -fx-border-radius: 50%; /* Round image */
+    -fx-border-radius: 50%; 
     -fx-background-radius: 50%;
     -fx-border-color: white;
     -fx-border-width: 2px;
 }
 
-/* VBox container for role and username labels */
 .vbox-container {
-    -fx-spacing: 10px; /* Space between labels */
-    -fx-alignment: top-left; /* Align labels to the left */
+    -fx-spacing: 10px;
+    -fx-alignment: top-left;
 }
 
-/* Role label style */
+
 .label-admin {
-    -fx-text-fill: white; /* White text color */
-    -fx-font-size: 16px; /* Larger font size for better visibility */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
 
-/* Username label style */
+
 .label-username {
-    -fx-text-fill: #eeeeee; /* Light grey text color */
+    -fx-text-fill: #eeeeee;
     -fx-font-size: 14px;
     -fx-font-weight: normal;
 }
 
-/* DateTime label style */
+
 .label-datetime {
-    -fx-background-color: #555; /* Dark background for datetime label */
-    -fx-text-fill: white; /* White text color */
-    -fx-padding: 5px; /* Padding inside the label */
+    -fx-background-color: #555; 
+    -fx-text-fill: white;
+    -fx-padding: 5px;
     -fx-font-size: 14px;
     -fx-font-weight: normal;
-    -fx-border-radius: 5px; /* Rounded corners */
-    -fx-background-radius: 5px; /* Rounded background */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 
-/* Hover effects for labels */
+
 .label-admin:hover,
 .label-username:hover,
 .label-datetime:hover {
-    -fx-opacity: 0.8; /* Slightly transparent when hovered */
+    -fx-opacity: 0.8; 
 }
 
-/* Padding and margins */
+
 HBox {
-    -fx-padding: 0 20px; /* Horizontal padding for HBox */
+    -fx-padding: 0 20px;
 }
 
 VBox {
-    -fx-padding: 0 10px; /* Horizontal padding for VBox */
+    -fx-padding: 0 10px; 
 }

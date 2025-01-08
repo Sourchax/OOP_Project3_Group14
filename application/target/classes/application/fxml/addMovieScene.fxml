@@ -11,7 +11,8 @@
     <Label style="-fx-font-size: 16;" text="Add a New Movie" />
     <TextField fx:id="titleField" promptText="Enter movie title" />
     <TextField fx:id="yearField" promptText="Enter movie release year" />
-    <TextField fx:id="genreField" promptText="Enter movie genre" />
+   <Label fx:id="genreField" text="Label" />
+   <Button fx:id="addGenreButton" mnemonicParsing="false" text="Add Genre(s)" />
     <TextField fx:id="summaryField" promptText="Enter movie summary" />
     
     <Button fx:id="uploadImageButton" onAction="#onUploadImage" text="Upload Image" />

@@ -1,12 +1,17 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -24,7 +29,7 @@ public class AddMovieController {
     @FXML
     private TextField titleField;
     @FXML
-    private TextField genreField;
+    private Label genreField;
     @FXML
     private TextField summaryField;
     @FXML
@@ -33,6 +38,9 @@ public class AddMovieController {
     private ImageView imageView;
     @FXML
     private Button uploadImageButton;
+    @FXML
+    private Button addGenreButton;
+
 
     private File selectedImageFile;
 
@@ -46,6 +54,7 @@ public class AddMovieController {
             }
             return null;
         }));
+        addGenreButton.setOnAction(event -> showGenreSelectionPopup());
     }
 
     @FXML
@@ -111,5 +120,32 @@ public class AddMovieController {
         // Close the window without saving
         Stage stage = (Stage) titleField.getScene().getWindow();
         stage.close();
+    }
+
+    private void showGenreSelectionPopup() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/GenreSelection.fxml"));
+            AnchorPane popupRoot = loader.load();
+
+            // Get the controller for Genre Selection
+            GenreSelectionController controller = loader.getController();
+
+            // Set a callback to receive the selected genres
+            controller.setGenreSelectionCallback(this::updateSelectedGenres);
+
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Select Genres");
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Block interaction with the main stage
+            popupStage.setScene(new Scene(popupRoot));
+            popupStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateSelectedGenres(StringBuilder genres) {
+        if(genres.length()!=0)
+            genreField.setText(genres.toString());
     }
 }

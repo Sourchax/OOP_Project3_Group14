@@ -2,18 +2,25 @@ package application;
 
 import java.io.IOException;
 
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 
 public class CashierSceneController {
 
@@ -39,7 +46,16 @@ public class CashierSceneController {
     @FXML
     private void initialize(){
         cashierParent.setParent(this);
-        System.out.println("Naber");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/slidingSubScene.fxml"));
+        HBox subSceneContent;
+        try {
+            subSceneContent = loader.load();
+            mainPane.setBottom(subSceneContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         handleScenes("cashierStage1");
     }
 
