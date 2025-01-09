@@ -1,25 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0"
- xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ScheduleController">
    <children>
-      <Label layoutX="20.0" layoutY="29.0" prefHeight="20.0" prefWidth="90.0" text="Schedules" textAlignment="CENTER" AnchorPane.leftAnchor="20.0">
+      <Label layoutX="20.0" layoutY="29.0" prefHeight="20.0" prefWidth="90.0" text="Sessions" textAlignment="CENTER" AnchorPane.leftAnchor="20.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="555.0" layoutY="238.0" mnemonicParsing="false" text="Create Schedule" AnchorPane.rightAnchor="140.0" fx:id="createScheduleButton"/>
-      <Button layoutX="673.0" layoutY="238.0" mnemonicParsing="false" text="Update Schedule" AnchorPane.rightAnchor="20.0" fx:id="updateScheduleButton"/>
-      <DatePicker layoutX="337.0" layoutY="27.0" AnchorPane.rightAnchor="289.0" />
-      <ListView fx:id="scheduleList" layoutX="20.0" layoutY="63.0" prefHeight="400.0" prefWidth="500.0" AnchorPane.leftAnchor="20.0"/>
+      <Button fx:id="createScheduleButton" layoutX="580.0" layoutY="308.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Create Session" AnchorPane.leftAnchor="580.0" />
+      <Button fx:id="updateScheduleButton" layoutX="580.0" layoutY="346.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Update Session" AnchorPane.leftAnchor="580.0" />
+      <DatePicker fx:id="datePicker" layoutX="580.0" layoutY="64.0" AnchorPane.leftAnchor="580.0" />
+      <TableView fx:id="tableView" editable="true" layoutX="28.0" layoutY="63.0" prefHeight="407.0" prefWidth="452.0" AnchorPane.leftAnchor="20.0">
+        <columns>
+          <TableColumn fx:id="sHall" prefWidth="49.0" text="Hall" />
+          <TableColumn fx:id="sMovie" prefWidth="225.0" text="Movie" />
+            <TableColumn fx:id="sTime" minWidth="0.0" prefWidth="81.0" text="Time" />
+            <TableColumn fx:id="sTickets" prefWidth="96.0" text="Tickets Sold" />
+        </columns>
+      </TableView>
+      <ChoiceBox fx:id="hallBox" layoutX="580.0" layoutY="162.0" prefHeight="26.0" prefWidth="57.0" AnchorPane.leftAnchor="580.0" />
+      <Button fx:id="deleteScheduleButton" layoutX="580.0" layoutY="385.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Delete Session" AnchorPane.leftAnchor="580.0" />
+      <ChoiceBox fx:id="movieBox" layoutX="580.0" layoutY="122.0" prefWidth="150.0" AnchorPane.leftAnchor="580.0" />
+      <Label layoutX="510.0" layoutY="124.0" prefHeight="22.0" prefWidth="64.0" text="Movie:" AnchorPane.leftAnchor="510.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="510.0" layoutY="164.0" prefHeight="22.0" prefWidth="64.0" text="Hall:" AnchorPane.leftAnchor="510.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="510.0" layoutY="205.0" prefHeight="22.0" prefWidth="64.0" text="Time:" AnchorPane.leftAnchor="510.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="timeBox" layoutX="580.0" layoutY="203.0" prefWidth="150.0" AnchorPane.leftAnchor="580.0" />
+      <Label fx:id="warningLabel" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="512.0" layoutY="247.0" maxWidth="258.0" prefHeight="43.0" prefWidth="258.0" text="This is a so very long ultra big text that will be shown as warped hopefully." textAlignment="CENTER" textFill="#bf0a0a" wrapText="true" AnchorPane.leftAnchor="512.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
 
    </children>
 </AnchorPane>

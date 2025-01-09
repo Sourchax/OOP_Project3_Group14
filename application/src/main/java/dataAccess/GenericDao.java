@@ -43,7 +43,6 @@ public abstract class GenericDao<T> {
             Connection connection = DBConnector.createConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             mapToStatement(statement, obj);
-            System.out.println(statement.toString());
             statement.executeUpdate();
         
         } catch(Exception e) {
@@ -75,6 +74,7 @@ public abstract class GenericDao<T> {
             System.out.println(query);
             Connection connection = DBConnector.createConnection();
             PreparedStatement statement = connection.prepareStatement(query);
+
             mapToStatement(statement, vararg);
             statement.setInt(vararg.length+1, id);
             statement.executeUpdate();

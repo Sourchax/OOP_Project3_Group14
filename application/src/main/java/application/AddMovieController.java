@@ -2,7 +2,6 @@ package application;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -21,7 +20,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import java.sql.Blob;
-import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -84,6 +82,12 @@ public class AddMovieController {
         String genre = genreField.getText();
         String summary = summaryField.getText();
         String year = yearField.getText();
+        
+        if (title.trim().length() == 0 || genre.isEmpty() || summary.trim().length() == 0 || year.isEmpty() || selectedImageFile == null) {
+            cancelProcess("Cannot be empty!");
+    
+            return;
+        }
 
         int currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
         int yearIn = Integer.parseInt(year);
@@ -93,12 +97,6 @@ public class AddMovieController {
             alert.setHeaderText("Current Process Canceled");
             alert.setContentText("Year is invalid!");
             alert.showAndWait();
-            return;
-        }
-
-        if (title.trim().length() == 0 || genre.isEmpty() || summary.trim().length() == 0 || year.isEmpty() || selectedImageFile == null) {
-            cancelProcess("Cannot be empty!");
-    
             return;
         }
         

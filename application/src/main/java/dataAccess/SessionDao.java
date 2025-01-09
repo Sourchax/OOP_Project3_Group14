@@ -14,7 +14,7 @@ public class SessionDao extends GenericDao<Session>{
     @Override
     public Session mapToObj(ResultSet resultSet) throws SQLException {
         Session session = new Session();
-        session.setID(resultSet.getInt("id"));
+        session.setId(resultSet.getInt("id"));
         session.setHall(resultSet.getString("hall"));
         session.setSeats(resultSet.getLong("seats"));
         session.setMovie(resultSet.getString("movie"));

@@ -38,7 +38,7 @@ public class Session {
         return sessionTime;
     }
 
-    public void setID(int id){
+    public void setId(int id){
         this.id = id;
     }
 
