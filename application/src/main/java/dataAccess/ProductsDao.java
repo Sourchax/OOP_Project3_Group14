@@ -19,7 +19,7 @@ public class ProductsDao extends GenericDao<Product>{
         product.setType(resultSet.getString("type"));
         product.setStock(resultSet.getInt("stock"));
         product.setPrice(resultSet.getFloat("price"));
-        product.setImage(resultSet.getBlob("image"));
+        product.setImage(resultSet.getBlob("picture"));
         return product;
     }
     

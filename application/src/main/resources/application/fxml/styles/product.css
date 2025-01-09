@@ -2,8 +2,15 @@
     -fx-text-fill: black;
 }
 
-.anchor-pane {
-    -fx-background-color: #d971e7;
-    -fx-border-width: 1px;
-    -fx-border-color: black;
+.product-box {
+    -fx-background-radius: 25px;
+    -fx-border-width: 0;
+    -fx-background-color: #e799f1;
+    -fx-border-color: #e799f1;
 }
+
+.product-box:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #f1abfa;
+    -fx-border-color: #f1abfa;
+} 

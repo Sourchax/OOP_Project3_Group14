@@ -9,10 +9,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onMousePressed="#click" styleClass="anchor-pane" stylesheets="@../styles/product.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProductController">
+<AnchorPane onMousePressed="#click" styleClass="product-box" stylesheets="@../styles/product.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProductController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="63.0" layoutY="8.0" prefHeight="215.0" prefWidth="225.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" layoutX="63.0" layoutY="8.0" prefHeight="215.0" prefWidth="225.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <ImageView fx:id="productImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../deneme.jpg" />
+               </image>
+            </ImageView>
             <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="185.0">
                <children>
                   <Label fx:id="nameLabel" alignment="CENTER" prefHeight="50.0" prefWidth="137.0" text="product">
@@ -30,11 +35,10 @@
                   <Insets />
                </VBox.margin>
             </HBox>
-            <ImageView fx:id="productImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../deneme.jpg" />
-               </image></ImageView>
          </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
       </VBox>
    </children>
 </AnchorPane>

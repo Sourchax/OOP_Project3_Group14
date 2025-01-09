@@ -1,34 +1,29 @@
 package application;
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import dataAccess.ProductsDao;
 import entities.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class InventoryController implements Initializable{
-    @FXML
-    private void initialize(){
-        System.out.println("initial manager inventory");
-    }
-
     @FXML
     private VBox chosenProductCard;
 
@@ -48,6 +43,9 @@ public class InventoryController implements Initializable{
     private Label productQuantityLabel;
 
     @FXML
+    private Label productTypeLabel;
+
+    @FXML
     private GridPane productsGrid;
 
     @FXML
@@ -56,79 +54,96 @@ public class InventoryController implements Initializable{
     @FXML
     private VBox sideBar;
 
-    private List<Product> products = new ArrayList<>();
-    private Image image;
-    //private MyListener myListener;
+    public Product selectedProduct;
+    
+    private ProductsDao productsDatabase;
 
-    private Product assignProduct(String name, float price) {
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
-        //product.setImgSrc("/img/kiwi.png");
-        return product;
+    private List<Product> products =  new ArrayList<>();
+
+    private CardClickListener cardClickListener;
+    
+    @FXML
+    private void initialize(){
+        System.out.println("initial manager inventory");
     }
 
-    private List<Product> getProducts() {
-        List<Product> products = new ArrayList<>();
-        String[] names = {"toy", "popcorn"};
-        Float[] prices = { (float) 12.9, (float) 4.0};
-
-        for (int i = 0; i < 45; i++) {
-            products.add(assignProduct("toy",(float)12.9));
-        }
-        return products;
-    }
-
-    private void setChosenProduct(Product product) {
+    public void setChosenProduct(Product product) {
         productNameLabel.setText(product.getName());
+        updateImage(product.getImage());
         productPriceLabel.setText(String.valueOf(product.getPrice()));
-        //image = new Image(getClass().getResourceAsStream(product.getImgSrc()));
-        //productImgage.setImage(image);
+        productQuantityLabel.setText(String.valueOf(product.getStock()));
+        productTypeLabel.setText(product.getType());
+    }
+
+    private void updateImage(Blob imageBlob) {
+        // Update the ImageView with a new image
+        if(imageBlob == null){
+            productImage.setImage(null);
+            return;
+        }
+        InputStream inputStream;
+        try {
+            inputStream = imageBlob.getBinaryStream();
+            Image image = new Image(inputStream);
+            productImage.setImage(image);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.products = getProducts();
+        System.out.println("initial inventory with parameters");
+        productsDatabase = new ProductsDao();
+        this.products = productsDatabase.getList();
+        for (int i = 0; i < products.size(); i++) {
+            System.out.println(products.get(i).getName());
+            System.out.println(products.get(i).getStock());
+        }
         System.out.println(products.size());
 
         // select the first product if there is any product
         if (products.size() > 0) {
+            selectedProduct = products.get(0);
             setChosenProduct(products.get(0));
+            cardClickListener = new CardClickListener() {
+                @Override
+                public void clickListener(Product product) {
+                    setChosenProduct(product);
+                }
+            };
         }
 
-        // Define the number of gridColumnNumber (for the GridPane)
-        int gridColumnNumber = 4;
+        //  number of gridColumnNumber for gridPane
+        int maxGridColumnNumber = 4;
         int columnIndex = 0;
         int rowIndex = 1;
 
         try {
-            // Load and display each product in the GridPane
+            // Load fxml for each product
             for (int i = 0; i < products.size(); i++) {
-                // Check if the FXML file is found before attempting to load it
                 URL productFXMLUrl = ProductController.class.getResource("fxml/manager/product.fxml");
                 System.out.println("Resource URL: " + productFXMLUrl);
 
                 if (productFXMLUrl != null) {
-                    // Load the FXML for each product
                     FXMLLoader fxmlLoader = new FXMLLoader(productFXMLUrl);
                     AnchorPane anchorPane = fxmlLoader.load();  
 
-                    // Get the controller for the loaded FXML and set the product data
+                    // product controller
                     ProductController productController = fxmlLoader.getController();
-                    productController.setData(products.get(i));
+                    productController.setProductData(products.get(i), cardClickListener);
 
-                    // Manage gridColumnNumber and rows for GridPane layout
-                    // Move to the next row after 'gridColumnNumber' number of items
-                    if (columnIndex == gridColumnNumber) {  
+                    // reset the column index when it becomes the maximumGridColumnNumber
+                    if (columnIndex == maxGridColumnNumber) {  
                         columnIndex = 0;
                         rowIndex++;
                     }
 
-                    // Add the loaded anchorPane (product view) to the grid at the calculated position
+                    // add the loaded fxml to the grid
                     productsGrid.add(anchorPane, columnIndex++, rowIndex);
                 } else {
-                    // Handle the case where the FXML resource is not found
-                    System.out.println("FXML file not found: fxml/manager/product.fxml");
+                    System.out.println("No such fxml");
                 }
             }
 

@@ -33,11 +33,11 @@
 
 .button:hover {
     -fx-cursor: hand;
-    -fx-background-color: #a657ef; /* Darker shade on hover */
+    -fx-background-color: #a657ef;
 }
 
 .button:pressed {
-    -fx-background-color: #bb7ef4; /* Even darker shade on click */
+    -fx-background-color: #bb7ef4;
 }
 
 #profilePicture {

@@ -1,7 +1,9 @@
 package application;
 
 import java.io.IOException;
+import java.util.List;
 
+import dataAccess.EmployeesDao;
 import entities.Employee;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +38,8 @@ public class LoginController {
     @FXML
     private BorderPane mainPane;
 
+    private Employee currentEmployee;
+
     public void setMainPane(BorderPane borderPane) {
         this.mainPane = borderPane;
     }
@@ -50,65 +54,24 @@ public class LoginController {
         System.exit(0);
     }
 
-    /*Fix after db */
-    // private void login(MouseEvent event) {
-    //     String usernameEntry = usernameField.getText().trim();
-    //     String passwordEntry = passwordField.getText().trim();
-    //     System.out.println(usernameEntry + " " + passwordEntry);
-    //     Employee currentEmployee = login(usernameEntry, passwordEntry);
-    //     if (currentEmployee != null) {
-    //         try {
-    //             getData.username = currentEmployee.getUsername();
-    //             getData.role = currentEmployee.getRole();
-    //             goRelatedPage(currentEmployee, event);
-    //         }
-    //         catch (IOException e){
-    //             e.printStackTrace();
-    //         }
-    //     }
-    //     else {
-    //         //make a pop up element 
-    //         System.out.println("Invalid userame or password"); 
-    //     }
-    // }
-
     private void login(MouseEvent event) {
         String usernameEntry = usernameField.getText().trim();
         String passwordEntry = passwordField.getText().trim();
         System.out.println(usernameEntry + " " + passwordEntry);
-        if (usernameEntry.equals("manager1") && passwordEntry.equals("manager1")) {
+
+        //get employee based on username and passwd filters that matched with the user entries 
+        EmployeesDao employeeDatabase = new EmployeesDao();
+        List<Employee> matchedEmployees = employeeDatabase.getListByFilter("username, passwd", usernameEntry, passwordEntry);
+        if (!matchedEmployees.isEmpty()) {
+            currentEmployee = matchedEmployees.get(0);
+            currentEmployee.displayNonProfile();
+
             try {
-                getData.username = usernameEntry;
-                getData.role = "manager";
-                goRelatedPage("manager", event);
+                goRelatedPage(currentEmployee.getRole(), event);
             }
             catch (IOException e){
                 e.printStackTrace();
             }
-        }
-        else if (usernameEntry.equals("cashier1") && passwordEntry.equals("cashier1")) {
-            try {
-                getData.username = usernameEntry;
-                getData.role = "cashier";
-                goRelatedPage("cashier", event);
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
-        }
-        else if (usernameEntry.equals("admin1") && passwordEntry.equals("admin1")) {
-            try {
-                getData.username = usernameEntry;
-                getData.role = "admin";
-                goRelatedPage("admin", event);
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
-        }
-        else {
-            //make a pop up element 
-            System.out.println("Invalid userame or password"); 
         }
     }
     
@@ -166,48 +129,4 @@ public class LoginController {
             }
         }
     }
-
-    /* change after db */
-    // public void goRelatedPage(User currentUser, MouseEvent event) throws IOException {
-    //     currentUser.displayNonProfile();
-    //     switch (currentUser.getRole()) {
-    //         case "manager": {
-    //             System.out.println("You are a manager");
-                
-    //             loginButton.getScene().getWindow().hide();
-
-    //             // changeScene("manager.fxml");
-
-    //             FXMLLoader loader = new FXMLLoader(getClass().getResource("manager.fxml"));
-        
-    //             Parent root = loader.load();
-    //             ManagerController controller = loader.getController();
-    //             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    //             controller.setStage(stage);
-               
-    //             Scene scene = new Scene(root);
-    //             stage.setTitle("Manager Page");
-    //             stage.setScene(scene);
-    //             stage.show();
-
-    //         }
-    //         case "cashier": {
-    //             System.out.println("You are a cashier");
-                
-    //             loginButton.getScene().getWindow().hide();
-    //             changeScene("cashier.fxml");
-                
-    //         }
-    //         case "admin":{
-    //             System.out.println("You are an admin");
-                
-    //             loginButton.getScene().getWindow().hide();
-
-    //             changeScene("admin.fxml");
-    //         }
-    //         default: {
-    //             System.out.println("No such role");
-    //         }
-    //     }
-    // }
 }

@@ -62,12 +62,13 @@ public class ManagerSceneController {
 
     @FXML
     void onClickInventory(MouseEvent event) {
-        System.out.println("Inventory section clicked");
+        handleScenes("fxml/manager/inventory.fxml");
     }
     @FXML
     void onClickEmployees(MouseEvent event) {
-        System.out.println("Employees section clicked");
+        handleScenes("fxml/manager/employees.fxml");
     }
+
     @FXML
     void onClickTickets(MouseEvent event) {
         System.out.println("Tickets section clicked");
