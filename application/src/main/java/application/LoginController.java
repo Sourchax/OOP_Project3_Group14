@@ -64,6 +64,7 @@ public class LoginController {
         List<Employee> matchedEmployees = employeeDatabase.getListByFilter("username, passwd", usernameEntry, passwordEntry);
         if (!matchedEmployees.isEmpty()) {
             currentEmployee = matchedEmployees.get(0);
+            currentUser.setUsername(usernameEntry);
             currentEmployee.displayNonProfile();
 
             try {

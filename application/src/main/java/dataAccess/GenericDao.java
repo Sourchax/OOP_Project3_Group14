@@ -30,8 +30,7 @@ public abstract class GenericDao<T> {
             String fName = f.getName();
             if(fName != "id"){
                 Method m = cla.getMethod("get" + fName.substring(0, 1).toUpperCase() + fName.substring(1));
-                System.out.println(i++ + " - " + m.invoke(obj));
-                //statement.setObject(i++, m.invoke(obj));
+                statement.setObject(i++, m.invoke(obj));
             }
         }
     }
@@ -44,6 +43,7 @@ public abstract class GenericDao<T> {
             Connection connection = DBConnector.createConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             mapToStatement(statement, obj);
+            System.out.println(statement.toString());
             statement.executeUpdate();
         
         } catch(Exception e) {

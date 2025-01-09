@@ -46,6 +46,10 @@ public class CashierSceneController {
     @FXML
     private void initialize(){
         cashierParent.setParent(this);
+        usernameLabel.setText(currentUser.getUsername());
+        Image iconPlace = new Image(getClass().getResource("/application/fxml/icons/cashier-logo.png").toExternalForm());
+
+        logoImageView.setImage(iconPlace);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/slidingSubScene.fxml"));
         HBox subSceneContent;

@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
@@ -42,6 +43,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 
 import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 
 public class MoviesTabController {
@@ -156,7 +158,18 @@ public class MoviesTabController {
             try {
                 Image image = new Image(new FileInputStream(selectedPoster));
                 moviePoster.setImage(image);
+                FileInputStream file = new FileInputStream(selectedPoster);
+            
+                byte[] imageBytes = file.readAllBytes();
+                selectedImageBlob = new SerialBlob(imageBytes);
+
             } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {              
+                e.printStackTrace();
+            } catch (SerialException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -192,14 +205,48 @@ public class MoviesTabController {
         String year = yearField.getText();
         String summary = summaryField.getText();
 
-        if (year.isEmpty() || title.isEmpty() || summary.isEmpty() || selectedImageBlob == null) {
-            System.out.println("Please fill all fields and select an image.");
-
+        int currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+        int yearIn = Integer.parseInt(year);
+        if(yearIn < 1888 || yearIn > currentYear){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Invalid Year");
+            alert.setHeaderText("Current Process Canceled");
+            alert.setContentText("Year is invalid!");
+            populateMovieDetails(selectedMovie);
+            alert.showAndWait();
             return;
         }
 
+        if(!title.equals(selectedMovie.getName())){
+            if(!database.getListByFilter("name", titleField.getText()).isEmpty()){
+                cancelProcess("title");
+                populateMovieDetails(selectedMovie);
+                return;
+            }
+        }
 
-        database.updateById(selectedMovie.getID(), "name, year, genre, summary, poster", title, year, genre, summary, selectedImageBlob);
+        if(!summary.equals(selectedMovie.getSummary())){
+            if( !database.getListByFilter("summary", summaryField.getText()).isEmpty()){
+                cancelProcess("summary");
+                populateMovieDetails(selectedMovie);
+                return;
+            }
+        }
+
+        if(selectedImageBlob != selectedMovie.getPoster()){
+            if( !database.getListByFilter("poster", selectedImageBlob).isEmpty()){
+                cancelProcess("poster");
+                populateMovieDetails(selectedMovie);
+                return;
+            }
+        }
+
+        if (title.trim().length() == 0 || genre.isEmpty() || summary.trim().length() == 0 || year.isEmpty() || selectedImageBlob == null) {
+            cancelProcess("Cannot be empty!"); 
+            return;
+        }
+
+        database.updateById(selectedMovie.getId(), "name, year, genre, summary, poster", title, year, genre, summary, selectedImageBlob);
 
         
         populateTableWithMovies();
@@ -210,17 +257,13 @@ public class MoviesTabController {
         List<Movie> movieList = database.getList();
         for(Movie a: movieList){
             System.out.println(a.getName());
-            System.out.println(a.getID());
+            System.out.println(a.getId());
         }
         movieData = FXCollections.observableArrayList(movieList);
 
         moviesList.setItems(FXCollections.observableArrayList(
             movieData.stream().map(Movie::getName).collect(Collectors.toList())
         ));
-
-        selectedMovie = movieData.get(0);
-        selectedImageBlob = movieData.get(0).getPoster();
-        populateMovieDetails(selectedMovie);
 
     }
 
@@ -229,7 +272,7 @@ public class MoviesTabController {
         updateImage(movie.getPoster());
         genreField.setText(movie.getGenre());
         summaryField.setText(movie.getSummary());
-        yearField.setText(movie.getReleaseYear());
+        yearField.setText(movie.getYear());
     }
 
     private void updateImage(Blob imageBlob) {
@@ -243,6 +286,7 @@ public class MoviesTabController {
             inputStream = imageBlob.getBinaryStream();
             Image image = new Image(inputStream);
             moviePoster.setImage(image);
+            selectedImageBlob = imageBlob;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -260,7 +304,7 @@ public class MoviesTabController {
         confirmation.setHeaderText("Delete " + selectedMovie.getName());
         confirmation.setContentText("Are you sure you want to delete this movie?");
 
-        database.deleteById(selectedMovie.getID());
+        database.deleteById(selectedMovie.getId());
 
         if (confirmation.showAndWait().get() == ButtonType.OK) {
             /* if (database.deleteById(selectedMovie.getID())) {
@@ -273,6 +317,24 @@ public class MoviesTabController {
             } */
         }
         populateTableWithMovies();
-        
+        selectedMovie = movieData.get(0);
+        selectedImageBlob = movieData.get(0).getPoster();
+        populateMovieDetails(selectedMovie);
+    }
+
+    private void cancelProcess(String errorMessage) {
+        Alert alert = new Alert(AlertType.ERROR);
+        if(errorMessage.length() > 10){
+            alert.setTitle(errorMessage);
+            alert.setHeaderText("Current Process Canceled");
+            alert.setContentText("All fields must be filled!");
+            alert.showAndWait();
+        }
+        else{
+            alert.setTitle("Existing " + errorMessage);
+            alert.setHeaderText("Current Process Canceled");
+            alert.setContentText("Movie " + errorMessage + " existing");
+            alert.showAndWait();
+        }
     }
 }

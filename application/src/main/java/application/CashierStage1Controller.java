@@ -141,10 +141,11 @@ public class CashierStage1Controller implements Initializable {
 
     public void setChosenMovie(Movie movie) {
             
-        StaticMovie.staticMovie.setName(movie.getName());
-        StaticMovie.staticMovie.setPoster(movie.getPoster());
-        StaticMovie.staticMovie.setGenre(movie.getGenre());
-        StaticMovie.staticMovie.setSummary(movie.getSummary());
+        StaticSelection.staticMovie.setName(movie.getName());
+        StaticSelection.staticMovie.setPoster(movie.getPoster());
+        StaticSelection.staticMovie.setGenre(movie.getGenre());
+        StaticSelection.staticMovie.setSummary(movie.getSummary());
+        StaticSelection.staticMovie.setYear(movie.getYear());
     }
 
     @Override

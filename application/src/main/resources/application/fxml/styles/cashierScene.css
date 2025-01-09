@@ -1,0 +1,9 @@
+
+#mainPane {
+    -fx-background-color: linear-gradient(to top right, #2a2a72, #2e6b8f);
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}

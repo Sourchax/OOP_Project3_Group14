@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,6 +21,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import java.sql.Blob;
+import java.util.List;
+
 import javax.sql.rowset.serial.SerialBlob;
 
 import dataAccess.MoviesDao;
@@ -81,29 +85,53 @@ public class AddMovieController {
         String summary = summaryField.getText();
         String year = yearField.getText();
 
-        if (title.isEmpty() || genre.isEmpty() || summary.isEmpty() || year.isEmpty()) {
-            System.out.println("Please fill all fields and select an image.");
-
+        int currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+        int yearIn = Integer.parseInt(year);
+        if(yearIn < 1888 || yearIn > currentYear){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Invalid Year");
+            alert.setHeaderText("Current Process Canceled");
+            alert.setContentText("Year is invalid!");
+            alert.showAndWait();
             return;
         }
 
-        // Save the movie logic here (e.g., add to a list, database, etc.)
-        System.out.println("Movie Added: " + title + " (" + genre + ", " + summary + ")");
+        if (title.trim().length() == 0 || genre.isEmpty() || summary.trim().length() == 0 || year.isEmpty() || selectedImageFile == null) {
+            cancelProcess("Cannot be empty!");
+    
+            return;
+        }
         
         Movie newMovie = new Movie();
         newMovie.setName(title);
         newMovie.setGenre(genre);
-        newMovie.setReleaseYear(year);
+        newMovie.setYear(year);
         newMovie.setSummary(summary);
         try {
+            MoviesDao database = new MoviesDao();
 
+            if(!database.getListByFilter("name", titleField.getText()).isEmpty()){
+                cancelProcess("title");
+                return;
+            }
+            
+            if( !database.getListByFilter("summary", summaryField.getText()).isEmpty()){
+                cancelProcess("summary");
+                return;
+            }
+            
             FileInputStream file = new FileInputStream(selectedImageFile);
-    
+            
             byte[] imageBytes = file.readAllBytes();
             Blob imageBlob = new SerialBlob(imageBytes);
+            
+            if( !database.getListByFilter("poster", imageBlob).isEmpty()){
+                cancelProcess("poster");
+                return;
+            }
+
             newMovie.setPoster(imageBlob);
     
-            MoviesDao database = new MoviesDao();
             database.insert(newMovie);
             
         } catch (Exception e) {
@@ -147,5 +175,21 @@ public class AddMovieController {
     public void updateSelectedGenres(StringBuilder genres) {
         if(genres.length()!=0)
             genreField.setText(genres.toString());
+    }
+
+    private void cancelProcess(String errorMessage) {
+        Alert alert = new Alert(AlertType.ERROR);
+        if(errorMessage.length() > 10){
+            alert.setTitle(errorMessage);
+            alert.setHeaderText("Current Process Canceled");
+            alert.setContentText("All fields must be filled!");
+            alert.showAndWait();
+        }
+        else{
+            alert.setTitle("Existing " + errorMessage);
+            alert.setHeaderText("Current Process Canceled");
+            alert.setContentText("Movie " + errorMessage + " existing");
+            alert.showAndWait();
+        }
     }
 }

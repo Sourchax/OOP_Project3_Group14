@@ -41,6 +41,9 @@ public class CashierStage2Controller {
     private Label movieGenresLabel;
 
     @FXML
+    private Label releaseYearLabel;
+
+    @FXML
     private ImageView movieImage;
 
     @FXML
@@ -51,18 +54,20 @@ public class CashierStage2Controller {
 
     @FXML
     private void initialize() {
-        movieGenresLabel.setText(StaticMovie.staticMovie.getGenre());
-        movieTitleLabel.setText(StaticMovie.staticMovie.getName());
-        summaryTextArea.setText(StaticMovie.staticMovie.getSummary());
+        summaryTextArea.setDisable(true);
+        movieGenresLabel.setText(StaticSelection.staticMovie.getGenre());
+        movieTitleLabel.setText(StaticSelection.staticMovie.getName());
+        summaryTextArea.setText(StaticSelection.staticMovie.getSummary());
+        releaseYearLabel.setText(StaticSelection.staticMovie.getYear());
 
-        if(StaticMovie.staticMovie.getPoster() == null){
+        if(StaticSelection.staticMovie.getPoster() == null){
             movieImage.setImage(null);
             return;
         }
 
         InputStream inputStream;
         try {
-            Blob imageBlob = StaticMovie.staticMovie.getPoster();
+            Blob imageBlob = StaticSelection.staticMovie.getPoster();
             inputStream = imageBlob.getBinaryStream();
             Image image = new Image(inputStream);
             movieImage.setImage(image);

@@ -9,13 +9,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="1200.0" prefHeight="768.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CashierSceneController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="1200.0" 
+   prefHeight="768.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" 
+   stylesheets="@../styles/cashierScene.css" fx:controller="application.CashierSceneController">
    <top>
       <AnchorPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <HBox layoutX="21.0" layoutY="25.0" prefHeight="100.0" prefWidth="360.0" AnchorPane.leftAnchor="20.0">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="logoImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -27,7 +29,7 @@
                               <Insets left="10.0" top="20.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Username">
+                        <Label fx:id="usernameLabel" text="Username">
                            <VBox.margin>
                               <Insets left="10.0" top="20.0" />
                            </VBox.margin>

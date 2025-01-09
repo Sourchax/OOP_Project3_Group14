@@ -25,9 +25,40 @@ public class seatPlanController {
     // Initialize the seat layout dynamically
     @FXML
     public void initialize() {
-        int rows = 5;  // Example row count
-        int cols = 10; // Example column count
 
+/*
+        //Hangi hall olduğunu al
+        //if(hall == 'A'){
+            long seatCrypted = databaseden seat sayısı al;
+            for(int i = 0; i<6; i++){
+                for(int j = 0; j<8; j++){
+                    if((seatCrypted & 1)){
+                        //occupied
+                    }
+                    else{
+                        //available
+                    }
+                    seatCrypted = seatCrypted >> 1;
+                }
+            }
+        }
+        //if(hall == 'B'){
+            long seatCrypted = databaseden seat sayısı al;
+            for(int i = 0; i<4; i++){
+                for(int j = 0; j<4; j++){
+                    if((seatCrypted & 1)){
+                        //occupied
+                    }
+                    else{
+                        //available
+                    }
+                    seatCrypted = seatCrypted >> 1;
+                }
+            }
+        }          
+
+        int rows = 4;
+        int cols = 4;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 Button seat = new Button();
@@ -38,10 +69,29 @@ public class seatPlanController {
                 seat.setPrefSize(10, 30);
 
                 seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-                // Default seat status to "available"
                 seatStatus.put(seat, "available");
 
-                // Set seat click handler
+                seat.setOnAction(event -> handleSeatSelection(seat));
+
+                seatGrid.add(seat, j, i);
+            }
+        } */
+
+
+        int rows = 6;
+        int cols = 8;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                Button seat = new Button();
+                ImageView seatIcon = new ImageView(availableSeatIcon);
+                seatIcon.setFitHeight(30.0);
+                seatIcon.setFitWidth(30.0);
+                seat.setGraphic(seatIcon);
+                seat.setPrefSize(10, 30);
+
+                seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+                seatStatus.put(seat, "available");
+
                 seat.setOnAction(event -> handleSeatSelection(seat));
 
                 seatGrid.add(seat, j, i);
