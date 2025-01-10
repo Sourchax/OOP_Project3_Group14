@@ -1,7 +1,7 @@
 package entities;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Session {
     
@@ -9,8 +9,8 @@ public class Session {
     private String hall;
     private long seats;
     private String movie;
-    private Date sessionDate;
-    private Time sessionTime;
+    private LocalDate sessionDate;
+    private LocalTime sessionTime;
 
     public Session(){}
 
@@ -30,11 +30,11 @@ public class Session {
         return movie;
     }
 
-    public Date getSessionDate(){
+    public LocalDate getSessionDate(){
         return sessionDate;
     }
 
-    public Time getSessionTime(){
+    public LocalTime getSessionTime(){
         return sessionTime;
     }
 
@@ -54,11 +54,11 @@ public class Session {
         this.movie = movie;
     }
 
-    public void setSessionDate(Date sessionDate){
+    public void setSessionDate(LocalDate sessionDate){
         this.sessionDate = sessionDate;
     }
 
-    public void setSessionTime(Time sessionTime){
+    public void setSessionTime(LocalTime sessionTime){
         this.sessionTime = sessionTime;
     }
 }

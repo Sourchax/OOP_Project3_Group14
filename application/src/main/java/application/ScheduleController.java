@@ -8,8 +8,10 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -17,8 +19,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -41,89 +41,95 @@ public class ScheduleController {
     private TableView<Session> tableView;
 
     @FXML
-    private TableColumn<Session, String> sHall;
+    private TableColumn<Session, String> colHall;
 
     @FXML
-    private TableColumn<Session, String> sMovie;
+    private TableColumn<Session, String> colMovie;
 
     @FXML
-    private TableColumn<Session, String> sTime;
+    private TableColumn<Session, String> colTime;
 
     @FXML
-    private TableColumn<Session, Integer> sTickets;
+    private TableColumn<Session, String> colDate;
 
     @FXML
-    private Button createScheduleButton;
+    private TableColumn<Session, Integer> colTickets;
 
     @FXML
-    private Button updateScheduleButton;
+    private Button createButton;
 
     @FXML
-    private Button deleteScheduleButton;
+    private Button updateButton;
+
+    @FXML
+    private Button deleteButton;
 
     @FXML
     private DatePicker datePicker;
 
     @FXML
+    private DatePicker realDatePicker;
+
+    @FXML
     private Label warningLabel;
 
     @FXML
-    private ChoiceBox<String> movieBox;
+    private ComboBox<String> movieBox;
 
     @FXML
-    private ChoiceBox<String> timeBox;
+    private ComboBox<String> timeBox;
 
     @FXML
-    private ChoiceBox<String> hallBox;
+    private ComboBox<String> hallBox;
 
     private List<String> movies = NameifyMovies();
-    private String[] times = {"10:00:00", "12:00:00", "14:00:00", "16:00:00", "18:00:00", "20:00:00"};
+    private String[] times = {"10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"};
     private String[] halls = {"A", "B"};
 
     private Session selectedSession = null;
     private ObservableList<Session> sessionData;
     private BooleanProperty selectionBind = new SimpleBooleanProperty(false);
-    private Date date = null;
+    private LocalDate filterDate = null;
 
     private int index;
 
     @FXML
     private void initialize() {
-        createScheduleButton.setDisable(true);
-        updateScheduleButton.setDisable(true);
+        createButton.setDisable(true);
+        updateButton.setDisable(true);
         setTableColumns();
         populateTable(null);
         choiceBoxSetter();
 
-        createScheduleButton.disableProperty().bind(
+        createButton.disableProperty().bind(
             Bindings.createBooleanBinding(
                 () -> hallBox.getValue() == null || movieBox.getValue() == null ||
-                      timeBox.getValue() == null || datePicker.getValue() == null,
+                      timeBox.getValue() == null || realDatePicker.getValue() == null,
                 hallBox.valueProperty(), movieBox.valueProperty(),
-                timeBox.valueProperty(), datePicker.valueProperty()
+                timeBox.valueProperty(), realDatePicker.valueProperty()
             )
         );
 
-        updateScheduleButton.disableProperty().bind(
+        updateButton.disableProperty().bind(
             Bindings.createBooleanBinding(
                 () -> hallBox.getValue() == null || movieBox.getValue() == null ||
-                      timeBox.getValue() == null || datePicker.getValue() == null ||
+                      timeBox.getValue() == null || realDatePicker.getValue() == null ||
                       selectionBind.getValue() == false,
                 hallBox.valueProperty(), movieBox.valueProperty(),
-                timeBox.valueProperty(), datePicker.valueProperty(),
+                timeBox.valueProperty(), realDatePicker.valueProperty(),
                 selectionBind
             )
         );
 
-        deleteScheduleButton.disableProperty().bind(selectionBind.not());
+        deleteButton.disableProperty().bind(selectionBind.not());
 
         tableView.setOnMouseClicked(this::prepareFields);
-        createScheduleButton.setOnAction(event -> createSchedule());
-        updateScheduleButton.setOnAction(event -> updateSchedule());
-        deleteScheduleButton.setOnMouseClicked(event -> {deleteSchedule(event); prepareFields(event);});
+        createButton.setOnAction(event -> createSchedule());
+        updateButton.setOnAction(event -> updateSchedule());
+        deleteButton.setOnMouseClicked(event -> {deleteSchedule(event); prepareFields(event);});
         datePicker.setOnAction(event -> {
-            date = Date.valueOf(datePicker.getValue());
-            populateTable(date);
+            filterDate = datePicker.getValue();
+            populateTable(filterDate);
             selectionBind.setValue(false);
         });
     }
@@ -137,35 +143,54 @@ public class ScheduleController {
             movieBox.setValue(selectedSession.getMovie());
             hallBox.setValue(selectedSession.getHall());
             timeBox.setValue(selectedSession.getSessionTime().toString());
+            realDatePicker.setValue(selectedSession.getSessionDate());
             warningLabel.setText(null);
         }
         else{
             movieBox.setValue(null);
             hallBox.setValue(null);
             timeBox.setValue(null);
+            realDatePicker.setValue(null);
             selectionBind.setValue(false);
         }
     }
 
     private void setTableColumns(){
-        sHall.setCellValueFactory(new PropertyValueFactory<Session, String>("hall"));
-        sMovie.setCellValueFactory(new PropertyValueFactory<Session, String>("movie"));
-        sTime.setCellValueFactory(cd -> {
-            Time sessionTime = cd.getValue().getSessionTime();
+        colHall.setCellValueFactory(new PropertyValueFactory<Session, String>("hall"));
+        colMovie.setCellValueFactory(new PropertyValueFactory<Session, String>("movie"));
+        colTime.setCellValueFactory(//new PropertyValueFactory<Session, LocalTime>("sessionTime")
+            cd -> {
+            LocalTime sessionTime = cd.getValue().getSessionTime();
             return new SimpleStringProperty(sessionTime.toString());
-        });
-        sTickets.setCellValueFactory(cd -> {
+        }
+        );
+        colDate.setCellValueFactory(//new PropertyValueFactory<Session, LocalDate>("sessionDate")
+            cd -> {
+            LocalDate sessionDate = cd.getValue().getSessionDate();
+            return new SimpleStringProperty(sessionDate.toString());
+        }
+        );
+        colTickets.setCellValueFactory(cd -> {
             long seats = cd.getValue().getSeats();
             int tickets = calcTickets(seats);
             return new SimpleIntegerProperty(tickets).asObject();
         });
     }
 
-    private void populateTable(Date date){
-        if(date == null)
-            sessionData = FXCollections.observableArrayList(sessionDao.getList());
-        else
-            sessionData = FXCollections.observableArrayList(sessionDao.getListByFilter("sessionDate", date));
+    private void populateTable(LocalDate date){
+        List<Session> sessionList = sessionDao.getList();
+        if(date != null){
+            List<Session> dateFiltered = new ArrayList<>();
+            for(Session s : sessionList){
+                if(s.getSessionDate().getYear() == date.getYear() && s.getSessionDate().getMonth().equals(date.getMonth())){
+                    dateFiltered.add(s);
+                }
+            }
+            sessionData = FXCollections.observableArrayList(dateFiltered);
+        }
+        else{
+            sessionData = FXCollections.observableArrayList(sessionList);
+        }
         tableView.setItems(sessionData);
     }
 
@@ -177,42 +202,56 @@ public class ScheduleController {
     }
 
     private void createSchedule() {
-        int dateCheck = date.compareTo(Date.valueOf(LocalDate.now()));
-        Time time = Time.valueOf(timeBox.getValue());
-        int timeCheck = time.compareTo(Time.valueOf(LocalTime.now()));
+        LocalDate date = realDatePicker.getValue();
+        int dateCheck = date.compareTo(LocalDate.now());
+        LocalTime time = LocalTime.parse(timeBox.getValue());
+        int timeCheck = time.compareTo(LocalTime.now());
 
-        if(dateCheck < 0 && (dateCheck == 0 && timeCheck < 0)){
+        if(dateCheck < 0 || (dateCheck == 0 && timeCheck < 0)){
             warningLabel.setText("Cannot create a session for past date");
             return;
         }
 
         String hall = hallBox.getValue();
+        String movie = movieBox.getValue();
 
         for(Session s : sessionData){
-            if(s.getSessionTime().equals(time) && s.getHall().equals(hall)){
+            if(s.getSessionDate().equals(date) && s.getSessionTime().equals(time) && s.getHall().equals(hall)){
                 warningLabel.setText("Cannot create, This hall is occupied at this time.");
                 return;
             }
         }
 
-        Session session = new Session();
-        session.setMovie(movieBox.getValue());
-        session.setHall(hall);
-        session.setSessionTime(time);
-        session.setSessionDate(date);
-        session.setSeats(0);
-        sessionDao.insert(session);
-        populateTable(date);
-        warningLabel.setText("New session added");
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Create Session");
+        confirmation.setHeaderText("Are you sure you want to create this session?");
+        confirmation.setContentText("Movie: " + movie + "\n" + "Date: " + date.toString() + "\n" + "Time: " + time.toString() + "\n" + "Hall: " + hall + "\n");
+
+        if (confirmation.showAndWait().get() == ButtonType.OK) {
+            Session session = new Session();
+            session.setMovie(movie);
+            session.setHall(hall);
+            session.setSessionTime(time);
+            session.setSessionDate(date);
+            session.setSeats(0);
+            sessionDao.insert(session);
+    
+            populateTable(date);
+            warningLabel.setText("New session added");
+            return;
+        }
+        warningLabel.setText("Process canceled!");
+
     }
 
     private void updateSchedule() {
+        LocalDate date = realDatePicker.getValue();
         int tickets = calcTickets(selectedSession.getSeats());
-        int dateCheck = date.compareTo(Date.valueOf(LocalDate.now()));
-        Time time = Time.valueOf(timeBox.getValue());
-        int timeCheck = time.compareTo(Time.valueOf(LocalTime.now()));
+        int dateCheck = date.compareTo(LocalDate.now());
+        LocalTime time = LocalTime.parse(timeBox.getValue());
+        int timeCheck = time.compareTo(LocalTime.now());
 
-        if(dateCheck < 0 && (dateCheck == 0 && timeCheck < 0)){
+        if(dateCheck < 0 || (dateCheck == 0 && timeCheck < 0)){
             warningLabel.setText("Cannot update a past session");
             return;
         }

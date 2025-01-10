@@ -36,6 +36,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import dataAccess.GenericDao;
 import dataAccess.MoviesDao;
+import dataAccess.SessionDao;
 import entities.*;
 
 
@@ -88,6 +89,7 @@ public class MoviesTabController {
     private Blob selectedImageBlob;
     
     private MoviesDao database;
+    private SessionDao sessionDao;
 
     @FXML
     private void initialize() {
@@ -162,6 +164,7 @@ public class MoviesTabController {
             
                 byte[] imageBytes = file.readAllBytes();
                 selectedImageBlob = new SerialBlob(imageBytes);
+                file.close();
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -304,17 +307,16 @@ public class MoviesTabController {
         confirmation.setHeaderText("Delete " + selectedMovie.getName());
         confirmation.setContentText("Are you sure you want to delete this movie?");
 
-        database.deleteById(selectedMovie.getId());
-
         if (confirmation.showAndWait().get() == ButtonType.OK) {
-            /* if (database.deleteById(selectedMovie.getID())) {
+            if (sessionDao.getListByFilter("movie", selectedMovie.getName()).isEmpty()) {
+                database.deleteById(selectedMovie.getId());
             } else {
                 Alert error = new Alert(Alert.AlertType.ERROR);
                 error.setTitle("Error");
                 error.setHeaderText("Delete Failed");
                 error.setContentText("Could not delete the movie. It may be scheduled for showing.");
                 error.show();
-            } */
+            }
         }
         populateTableWithMovies();
         selectedMovie = movieData.get(0);
