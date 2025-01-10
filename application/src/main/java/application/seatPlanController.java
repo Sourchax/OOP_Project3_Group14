@@ -5,15 +5,27 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import entities.Session;
 
 public class seatPlanController {
 
     @FXML
     private GridPane seatGrid;
 
-    // Map to hold the seat buttons and their statuses
+    @FXML
+    private Button confirmButton;
+
+    @FXML
+    private Button backButton;
+
+    private List<Integer> selectedNums = new ArrayList<>();
+
     private final Map<Button, String> seatStatus = new HashMap<>();
 
     // Icons for seat statuses
@@ -26,77 +38,74 @@ public class seatPlanController {
     @FXML
     public void initialize() {
 
-/*
-        //Hangi hall olduğunu al
-        //if(hall == 'A'){
-            long seatCrypted = databaseden seat sayısı al;
+        confirmButton.setOnAction(event -> handleConfirm());
+        backButton.setOnAction(event -> handleBack());
+
+        Session movieSession = StaticSelection.staticSession;
+        long seatCrypted = movieSession.getSeats();
+
+        Integer seatNumber = 0;
+        if(movieSession.getHall().equals("A")){
             for(int i = 0; i<6; i++){
                 for(int j = 0; j<8; j++){
-                    if((seatCrypted & 1)){
-                        //occupied
+                    Button seat = new Button();
+                    seat.setPrefSize(10, 30);
+                    if((seatCrypted & 1) == 1){
+                        ImageView seatIcon = new ImageView(occupiedSeatIcon);
+                        seatIcon.setFitHeight(30.0);
+                        seatIcon.setFitWidth(30.0);
+                        seat.setGraphic(seatIcon);
+                        seat.getProperties().put("seatId", seatNumber);
+                        seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+                        seatStatus.put(seat, "occupied");
                     }
                     else{
-                        //available
+                        ImageView seatIcon = new ImageView(availableSeatIcon);
+                        seatIcon.setFitHeight(30.0);
+                        seatIcon.setFitWidth(30.0);
+                        seat.setGraphic(seatIcon);
+                        seat.getProperties().put("seatId", seatNumber);
+                        seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+                        seatStatus.put(seat, "available");
                     }
                     seatCrypted = seatCrypted >> 1;
+                    seat.setOnAction(event -> handleSeatSelection(seat));
+                    seatNumber++;
+                    seatGrid.add(seat, j, i);
                 }
             }
         }
-        //if(hall == 'B'){
-            long seatCrypted = databaseden seat sayısı al;
+        else{
             for(int i = 0; i<4; i++){
                 for(int j = 0; j<4; j++){
-                    if((seatCrypted & 1)){
-                        //occupied
+                    Button seat = new Button();
+                    seat.setPrefSize(10, 30);
+                    if((seatCrypted & 1) == 1){
+                        ImageView seatIcon = new ImageView(occupiedSeatIcon);
+                        seatIcon.setFitHeight(30.0);
+                        seatIcon.setFitWidth(30.0);
+                        seat.setGraphic(seatIcon);
+                        seat.getProperties().put("seatId", seatNumber);
+                        seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+                        seatStatus.put(seat, "occupied");
                     }
                     else{
-                        //available
+                        ImageView seatIcon = new ImageView(availableSeatIcon);
+                        seatIcon.setFitHeight(30.0);
+                        seatIcon.setFitWidth(30.0);
+                        seat.setGraphic(seatIcon);
+                        seat.getProperties().put("seatId", seatNumber);
+                        seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+                        seatStatus.put(seat, "available");
                     }
+
                     seatCrypted = seatCrypted >> 1;
+                    seat.setOnAction(event -> handleSeatSelection(seat));
+                    seatNumber++;
+                    seatGrid.add(seat, j, i);
                 }
             }
         }          
-
-        int rows = 4;
-        int cols = 4;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                Button seat = new Button();
-                ImageView seatIcon = new ImageView(availableSeatIcon);
-                seatIcon.setFitHeight(30.0);
-                seatIcon.setFitWidth(30.0);
-                seat.setGraphic(seatIcon);
-                seat.setPrefSize(10, 30);
-
-                seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-                seatStatus.put(seat, "available");
-
-                seat.setOnAction(event -> handleSeatSelection(seat));
-
-                seatGrid.add(seat, j, i);
-            }
-        } */
-
-
-        int rows = 6;
-        int cols = 8;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                Button seat = new Button();
-                ImageView seatIcon = new ImageView(availableSeatIcon);
-                seatIcon.setFitHeight(30.0);
-                seatIcon.setFitWidth(30.0);
-                seat.setGraphic(seatIcon);
-                seat.setPrefSize(10, 30);
-
-                seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-                seatStatus.put(seat, "available");
-
-                seat.setOnAction(event -> handleSeatSelection(seat));
-
-                seatGrid.add(seat, j, i);
-            }
-        }
     }
 
     // Handle seat selection logic
@@ -112,6 +121,7 @@ public class seatPlanController {
                 seat.setPrefSize(30, 30);
                 seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
                 seatStatus.put(seat, "selected");
+                handleSeatSale(seat, true);
                 break;
 
             case "selected":
@@ -122,15 +132,14 @@ public class seatPlanController {
                 seat.setPrefSize(30, 30);
                 seat.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
                 seatStatus.put(seat, "available");
+                handleSeatSale(seat, false);
                 break;
 
             case "occupied":
-                // Do nothing; occupied seats cannot be selected
                 break;
         }
     }
 
-    // Example method to mark seats as occupied
     public void markSeatsAsOccupied(int[][] occupiedSeats) {
         for (int[] seat : occupiedSeats) {
             int row = seat[0];
@@ -144,7 +153,6 @@ public class seatPlanController {
         }
     }
 
-    // Helper method to get a seat button by grid position
     private Button getSeatButton(int row, int col) {
         for (javafx.scene.Node node : seatGrid.getChildren()) {
             if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
@@ -152,5 +160,26 @@ public class seatPlanController {
             }
         }
         return null;
+    }
+
+    private void handleSeatSale(Button seat, boolean isNew){
+        Integer a = (Integer) seat.getProperties().get("seatId");
+        System.out.println(a);
+        if(isNew){
+            selectedNums.add(a);
+        }
+        else{
+            selectedNums.remove(a);
+        }
+    }
+
+    private void handleConfirm(){
+        StaticSelection.staticSeats = selectedNums;
+        for(Integer a : selectedNums)
+            System.out.println(a);
+    }
+
+    private void handleBack(){
+        cashierParent.getParent().handleScenes("cashierStage2"); 
     }
 }
