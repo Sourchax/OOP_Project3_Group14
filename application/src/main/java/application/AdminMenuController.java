@@ -50,7 +50,7 @@ public class AdminMenuController {
     @FXML
     private void initialize() {
         updateDateTimeField();
-        updateUserInfo("ErkDemirel", "Adminiş", "file:fxml\\deneme.jpg");
+        updateUserInfo(getData.username, getData.role, "file:fxml\\deneme.jpg");
     }
 
     @FXML

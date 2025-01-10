@@ -238,6 +238,7 @@ public class ScheduleController {
     
             populateTable(date);
             warningLabel.setText("New session added");
+            selectionBind.setValue(false);
             return;
         }
         warningLabel.setText("Process canceled!");
@@ -264,7 +265,7 @@ public class ScheduleController {
         int id = selectedSession.getId();
 
         for(Session s : sessionData){
-            if(s.getId() != id && s.getSessionTime().equals(time) && s.getHall().equals(hall)){
+            if(s.getId() != id && s.getSessionDate().equals(date) && s.getSessionTime().equals(time) && s.getHall().equals(hall)){
                 warningLabel.setText("Cannot update, this hall is occupied at this time.");
                 return;
             }
@@ -278,6 +279,12 @@ public class ScheduleController {
 
     @FXML
     private void deleteSchedule(MouseEvent event){
+        int tickets = calcTickets(selectedSession.getSeats());
+        if(tickets != 0){
+            warningLabel.setText("Cannot delete, too many tickets sold.");
+            return;
+        }
+
         tableView.getSelectionModel().clearSelection(index);
         tableView.getItems().remove(index);
         sessionDao.deleteById(selectedSession.getId());

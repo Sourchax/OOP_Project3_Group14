@@ -85,6 +85,9 @@ public class LoginController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager/managerScene.fxml"));
                 ManagerSceneController controller = loader.getController();
                 //controller.setCurrentEmployee(currentEmployee);
+                getData.username = currentEmployee.getUsername();
+                getData.role = currentEmployee.getRole();
+                
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 1200, 768);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -102,6 +105,9 @@ public class LoginController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/cashier/cashierScene.fxml"));
                 CashierSceneController controller = loader.getController();
                 //controller.setCurrentEmployee(currentEmployee);
+                getData.username = currentEmployee.getUsername();
+                getData.role = currentEmployee.getRole();
+
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 1200, 768);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -118,6 +124,9 @@ public class LoginController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/newAdminMenu.fxml"));
                 AdminMenuController controller = loader.getController();
                 //controller.setCurrentEmployee(currentEmployee);
+                getData.username = currentEmployee.getUsername();
+                getData.role = currentEmployee.getRole();
+
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 1200, 768);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
