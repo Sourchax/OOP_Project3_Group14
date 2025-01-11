@@ -28,35 +28,9 @@
                   <VBox prefHeight="163.0" prefWidth="414.0" spacing="10.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="150.0" spacing="20.0">
-                           <children>
-                              <Label minWidth="100.0" text="Role:">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Calibri" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="34.0" prefWidth="200.0" text="Manager">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Calibri" size="20.0" />
-                                 </font>
-                              </Label>
-                           </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="336.0" spacing="20.0">
                            <children>
                               <Label minWidth="100.0" text="Username:">
                                  <HBox.margin>
@@ -81,6 +55,8 @@
                                  </font>
                               </Label>
                            </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="336.0" spacing="20.0">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
@@ -109,8 +85,7 @@
                            <children>
                               <Button mnemonicParsing="false" onMouseClicked="#onClickInventory" text="Inventory" />
                               <Button mnemonicParsing="false" onMouseClicked="#onClickEmployees" text="Employees" />
-                              <Button mnemonicParsing="false" onMouseClicked="#onClickTickets" text="Tickets" />
-                              <Button mnemonicParsing="false" onMouseClicked="#onCLickRevenueTax" prefHeight="34.0" prefWidth="159.0" text="Revenue and Tax" />
+                              <Button fx:id="financialInfo" mnemonicParsing="false" onMouseClicked="#goFinanceInfoStage" prefHeight="40.0" prefWidth="197.0" text="Financial Information" />
                               <Button mnemonicParsing="false" onMouseClicked="#onLogoutClick" text="Log Out" />
                            </children>
                         </HBox>

@@ -8,16 +8,27 @@ import java.sql.Date;
  * Inherited by {@link users.RegularEmployee} and {@link users.Manager} classes.
  */
 public /*abstract*/ class Employee {
-
+    private int id;
     private String name;
     private String surname;
     private String username;
     private String role;
-    private Date dateOfBirth;
-    private Date dateOfStart;
-    private int id;
-    private Profile pr = new Profile();
+    private String passwd;
 
+
+    // Default Constructor
+    public Employee() {
+        
+    }
+
+    ////  Constructor with parameters
+    public Employee(String name, String surname, String username, String password, String role) {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.passwd = password;
+        this.role = role;
+    }
 
     // -- Getters --
 
@@ -54,19 +65,11 @@ public /*abstract*/ class Employee {
     }
 
     /** 
-    * Return the birth date of the employee object. 
-    * @return Date
+    * Return the password of the employee object. 
+    * @return String
     */
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    /** 
-    * Return the start date of the employee object. 
-    * @return Date
-    */
-    public Date getDateOfStart() {
-        return dateOfStart;
+    public String getPasswd() {
+        return passwd;
     }
 
     /** 
@@ -76,15 +79,6 @@ public /*abstract*/ class Employee {
     public int getId() {
         return id;
     }    
-
-    /** 
-    * Return the profile part of the employee object. 
-    * @return Profile
-    */
-    public Profile getProfile() {
-        return pr;
-    }
-   
 
     // -- Setters --
 
@@ -121,22 +115,6 @@ public /*abstract*/ class Employee {
     }
 
     /** 
-    * Set the birth date of the employee object. 
-    * @param Date
-    */
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    /** 
-    * Set the start date of the employee object. 
-    * @param Date
-    */
-    public void setDateOfStart(Date dateOfStart) {
-        this.dateOfStart = dateOfStart;
-    }
-
-    /** 
     * Set the id of the employee object. 
     * @param String
     */
@@ -145,24 +123,13 @@ public /*abstract*/ class Employee {
     }
 
     /** 
-    * Set the profile of the employee object. 
+    * Set the password of the employee object. 
     * @param String
     */
-    public void setProfile(Profile pr) {
-        this.pr = pr;
+    public void setPasswd(String password) {
+        this.passwd = password;
     }
 
-    /** 
-    * Prints the profile fields  
-    * @see users.Profile#getEmail()
-    * @see users.Profile#getPhoneNumber()
-    * @see utilities.Authentication#getCurrentPassword()
-    */
-    public void displayProfile() {
-        System.out.println("Email: " + this.pr.getEmail());
-        System.out.println("Phone Number: " + this.pr.getPhoneNumber());
-        System.out.println("Password: "/* + Authentication.getCurrentPassword()*/);
-    }
 
     /** 
     * Prints the non-profile fields  
@@ -179,8 +146,6 @@ public /*abstract*/ class Employee {
         System.out.println("Name: " + this.getName());
         System.out.println("Surname: " + this.getSurname());
         System.out.println("Username: " + this.getUsername());
-        System.out.println("Birth Date: " + this.getDateOfBirth());
         System.out.println("Role: " + this.getRole());
-        System.out.println("Start Date: " + this.getDateOfStart());
     }
 }

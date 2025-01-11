@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 public class MovieController {
 
@@ -16,6 +17,9 @@ public class MovieController {
 
     @FXML
     private ImageView moviePoster;
+
+    @FXML
+    private VBox movieBox;
 
     private MovieListener movieListener;
 

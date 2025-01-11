@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entities.Employee;
-import entities.Profile;
 
 public class EmployeesDao extends GenericDao<Employee>{
 
@@ -20,13 +19,7 @@ public class EmployeesDao extends GenericDao<Employee>{
         employee.setSurname(resultSet.getString("surname"));
         employee.setUsername(resultSet.getString("username"));
         employee.setRole(resultSet.getString("role"));
-        employee.setDateOfBirth(resultSet.getDate("date_of_birth"));
-        employee.setDateOfStart(resultSet.getDate("date_of_start"));
-
-        Profile profile = new Profile();
-        profile.setEmail(resultSet.getString("mail"));
-        profile.setPhoneNumber(resultSet.getString("phone_num"));
-        employee.setProfile(profile);
+        employee.setPasswd(resultSet.getString("passwd"));
         return employee;
     }
     

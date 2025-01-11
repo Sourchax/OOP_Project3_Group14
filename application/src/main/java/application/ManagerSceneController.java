@@ -23,9 +23,6 @@ public class ManagerSceneController {
     private ImageView logoImageView;
 
     @FXML
-    private Label managerLabel;
-
-    @FXML
     private Label usernameLabel;
     @FXML
     private Label roleLabel;
@@ -56,7 +53,7 @@ public class ManagerSceneController {
     private void initialize(){
         ManagerParent.setParent(this);
         System.out.println("manager scene");
-        //usernameLabel.setText(this.currentEmployee.getUsername());
+        usernameLabel.setText(currentUser.getUsername());
         handleScenes("fxml/manager/inventory.fxml");
     }
 
@@ -70,12 +67,9 @@ public class ManagerSceneController {
     }
 
     @FXML
-    void onClickTickets(MouseEvent event) {
-        System.out.println("Tickets section clicked");
-    }
-    @FXML
-    void onCLickRevenueTax(MouseEvent event) {
+    void goFinanceInfoStage(MouseEvent event) {
         System.out.println("Revenue tax section clicked");
+        handleScenes("fxml/manager/finance.fxml");
     }
 
     public void handleScenes(String path){

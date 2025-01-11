@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="585.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FinanceInformationController">
+   <children>
+      <VBox fx:id="managerSideBar" alignment="TOP_CENTER" layoutY="57.0" minHeight="400.0" minWidth="275.0" prefHeight="518.0" prefWidth="384.0" spacing="20.0">
+         <children>
+            <HBox spacing="20.0" />
+            <VBox alignment="CENTER" prefHeight="465.0" prefWidth="494.0" spacing="20.0">
+               <children>
+                  <HBox spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Ticket Price:">
+                           <font>
+                              <Font name="Calibri" size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="ticketPriceField" alignment="CENTER" prefHeight="25.0" prefWidth="140.0" text="10" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="discountRate" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Discount Rate:">
+                           <font>
+                              <Font name="Calibri" size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="discountRateField" alignment="CENTER" prefHeight="25.0" prefWidth="140.0" text="50" />
+                     </children>
+                  </HBox>
+                  <Button fx:id="editButton" mnemonicParsing="false" onAction="#edit" text="Edit" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="13.0" minHeight="50.0" minWidth="200.0" text="Tax and Revenue Section">
+         <font>
+            <Font name="Calibri" size="35.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" layoutX="509.0" layoutY="83.0" prefHeight="465.0" prefWidth="494.0" spacing="20.0">
+         <padding>
+            <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+         </padding>
+         <children>
+            <HBox spacing="20.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Total Revenue:">
+                     <font>
+                        <Font name="Calibri" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalRevenue" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="300.0" text="0">
+                     <font>
+                        <Font name="Calibri" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox spacing="20.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Tax to be pain:">
+                     <font>
+                        <Font name="Calibri" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalTax" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="300.0" text="0">
+                     <font>
+                        <Font name="Calibri" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

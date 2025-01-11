@@ -7,47 +7,72 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" minHeight="640.0" minWidth="800.0" stylesheets="@../styles/inventory.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InventoryController">
-   <left>
-      <VBox fx:id="sideBar" alignment="TOP_CENTER" minHeight="400.0" minWidth="275.0" spacing="20.0" BorderPane.alignment="CENTER">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InventoryController">
+   <children>
+      <VBox fx:id="managerSideBar" alignment="TOP_CENTER" layoutX="55.0" layoutY="31.0" minHeight="400.0" minWidth="275.0" prefHeight="575.0" prefWidth="314.0" spacing="20.0">
          <children>
           <Label alignment="CENTER" contentDisplay="CENTER" layoutX="982.0" layoutY="14.0" minHeight="50.0" minWidth="200.0" text="Inventory">
          <font>
             <Font name="Calibri" size="35.0" />
          </font>
       </Label>
-            <TextField promptText="Search" />
-            <VBox fx:id="chosenProductCard" alignment="CENTER" prefHeight="473.0" prefWidth="255.0" spacing="20.0">
+            <HBox spacing="20.0">
+               <children>
+                  <TextField fx:id="searchBar" prefHeight="25.0" prefWidth="242.0" promptText="Search" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Search" />
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="473.0" prefWidth="255.0" spacing="20.0">
                <children>
                   <ImageView fx:id="productImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="productNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="70.0" text="name">
-                     <font>
-                        <Font name="Calibri" size="20.0" />
-                     </font></Label>
-                  <Label fx:id="productQuantityLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="70.0" text="quantity">
+                  <Label fx:id="productNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="23.0" prefWidth="290.0" text="name">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="productPriceLabel" text="price">
+                  <Label fx:id="productQuantityLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="23.0" prefWidth="325.0" text="quantity">
                      <font>
-                        <Font size="20.0" />
-                     </font></Label>
-                  <Label fx:id="productTypeLabel" text="type">
+                        <Font name="Calibri" size="20.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <HBox fx:id="cashierPrice" alignment="CENTER" disable="true" visible="false">
+                           <children>
+                              <Label fx:id="productPriceLabel" text="price">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="managerPrice" alignment="CENTER" spacing="20.0">
+                           <children>
+                              <TextField fx:id="productPriceField" alignment="CENTER" />
+                              <Button fx:id="editButton" mnemonicParsing="false" onAction="#editPrice" text="Edit" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </StackPane>
+                  <Label fx:id="productTypeLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="298.0" text="type">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <ComboBox minWidth="150.0" />
-                  <Button mnemonicParsing="false" text="Button" />
+                  <ComboBox fx:id="stockComboBox" minWidth="150.0" />
+                  <StackPane>
+                     <children>
+                        <Button fx:id="addButton" disable="true" mnemonicParsing="false" text="Add Stock" visible="false" />
+                        <Button fx:id="buyButton" disable="true" mnemonicParsing="false" onAction="#buyProduct" text="Buy" visible="false" />
+                     </children>
+                  </StackPane>
                </children>
                <padding>
                   <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
@@ -58,34 +83,14 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </VBox>
-   </left>
-   <center>
-      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="700.0" spacing="10.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
-         <children>
-            <ScrollPane fx:id="productsScrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vbarPolicy="ALWAYS">
-               <content>
-                  <GridPane fx:id="productsGrid" alignment="CENTER" hgap="20.0" minHeight="0.0" minWidth="0.0" vgap="20.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                     </rowConstraints>
-                  </GridPane>
-               </content>
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </ScrollPane>
-         </children>
+      <ScrollPane fx:id="productsScrollPane" layoutX="505.28570556640625" layoutY="50.28571319580078" maxHeight="1.7976931348623157E308" maxWidth="750.0" vbarPolicy="ALWAYS">
+         <content>
+            <GridPane fx:id="productsGrid" alignment="CENTER" hgap="20.0" minHeight="0.0" minWidth="0.0" vgap="20.0">
+            </GridPane>
+         </content>
          <padding>
-            <Insets bottom="20.0" top="20.0" />
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
-      </HBox>
-   </center>
-</BorderPane>
+      </ScrollPane>
+   </children>
+</AnchorPane>

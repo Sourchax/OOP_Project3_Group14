@@ -8,7 +8,7 @@
 
 <AnchorPane onMousePressed="#click" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MovieController">
    <children>
-      <VBox alignment="CENTER" fillWidth="false" maxHeight="300.0" maxWidth="225.0" minHeight="300.0" minWidth="225.0" prefHeight="300.0" prefWidth="225.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="movieBox" alignment="CENTER" fillWidth="false" maxHeight="300.0" maxWidth="225.0" minHeight="300.0" minWidth="225.0" prefHeight="300.0" prefWidth="225.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fx:id="moviePoster" fitHeight="300.0" fitWidth="225.0" pickOnBounds="true" preserveRatio="true">
                <cursor>
