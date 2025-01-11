@@ -3,11 +3,16 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import dataAccess.MoviesDao;
 import entities.Movie;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,7 +31,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
-public class CashierStage1Controller implements Initializable {
+public class CashierStage1Controller {
 
     @FXML
     private TextField searchField;
@@ -81,41 +86,57 @@ public class CashierStage1Controller implements Initializable {
 
     private MovieListener movieListener;
 
-    private ObservableList<String> searchMethods = FXCollections.observableArrayList("Genre", "Partial Title", "Full Title");
+    private ObservableList<String> searchMethods = FXCollections.observableArrayList("Genre(s)", "Partial Title", "Full Title");
 
     @FXML
     private void initialize(){
-        System.out.println("initial");
+        
+        confirmButton.setDisable(true);
+
+        searchButton.setDisable(true);
+
+        searchField.setDisable(true);
+        
+        searchMethodsSelector.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                searchField.setDisable(false);
+                searchButton.setDisable(false);
+            }
+            else{
+                searchField.setDisable(true);
+            }
+        });
+        
+        ObservableList<String> naber = FXCollections.observableArrayList("Full Title", "Partial Title", "Genre(s)");
+        
+        searchMethodsSelector.setItems(naber);
+        
+        
+        
+        searchButton.setOnAction(event -> searchMovies());
         
         searchMethodsSelector.setItems(searchMethods);
-
+        
         confirmButton.setOnAction(event -> handleConfirmSelection());
 
-        searchMethodsSelector.setOnAction(event -> onSelection());
+        
+        moviesDatabase = new MoviesDao();
+        this.movies = moviesDatabase.getList();
+    
+        if (movies.size() > 0) {
+            movieListener = new MovieListener() {
+                @Override
+                public void clickListener(Movie movie) {
+                    setChosenMovie(movie);
+                }
+            };
+        }
     }
-
+    
     @FXML
     private void handleConfirmSelection() {
         System.out.println("Confirm");
         cashierParent.getParent().handleScenes("cashierStage2");
-    }
-    @FXML
-    void onSelection() {
-        String searchMethod = searchMethodsSelector.getValue();
-        switch (searchMethod) {
-            case "Genre":
-                handleSearchByGenre();
-                break;
-            case "Partial Title":
-                handleSearchByPartialTitle();
-                break;
-            case "Full Title":
-                handleSearchByFullTitle();
-                break;
-            default:
-                System.out.println("Unknown search method: " + searchMethod);
-                break;
-        }
     }
 
 
@@ -146,66 +167,114 @@ public class CashierStage1Controller implements Initializable {
         StaticSelection.staticMovie.setGenre(movie.getGenre());
         StaticSelection.staticMovie.setSummary(movie.getSummary());
         StaticSelection.staticMovie.setYear(movie.getYear());
+        confirmButton.setDisable(false);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("initial stage1 with parameters");
-        moviesDatabase = new MoviesDao();
-        this.movies = moviesDatabase.getList();
-        System.out.println(movies.size());
-
-        // select the first movie if there is any movie
-        if (movies.size() > 0) {
-            selectedMovie = movies.get(0);
-            setChosenMovie(movies.get(0));
-            movieListener = new MovieListener() {
-                @Override
-                public void clickListener(Movie movie) {
-                    setChosenMovie(movie);
-                }
-            };
-        }
-
-        //  number of gridColumnNumber for gridPane
+    private void searchMovies(){
+        
         int maxGridColumnNumber = 3;
         int columnIndex = 0;
         int rowIndex = 1;
 
-        try {
-            // Load fxml for each movie
-            for (int i = 0; i < movies.size(); i++) {
+        moviesGrid.getChildren().clear();
+
+        String searchingMethod = searchMethodsSelector.getValue();
+
+        String text = searchField.getText();
+
+        if(searchingMethod.equals("Full Title")){
+
+            movies = moviesDatabase.getListByFilter("name", text);
+            System.out.println(movies.size());
+        }
+        else if (searchingMethod.equals("Genre(s)")) {
+            movies = moviesDatabase.getList();
+        
+            List<String> genreList = handleGenre(searchField.getText());
+        
+            Iterator<Movie> iterator = movies.iterator();
+        
+            while (iterator.hasNext()) {
+                Movie movie = iterator.next();
+                
+                List<String> movieGenres = handleGenre(movie.getGenre());
+        
+                boolean matchesAnyGenre = false;
+                for (String searchGenre : genreList) {
+                    for (String movieGenre : movieGenres) {
+                        if (movieGenre.equalsIgnoreCase(searchGenre)) {
+                            matchesAnyGenre = true;
+                            break;
+                        }
+                    }
+                    if (matchesAnyGenre) {
+                        break;
+                    }
+                }
+
+                if (!matchesAnyGenre) {
+                    iterator.remove();
+                }
+            }
+        }
+        else if(searchingMethod.equals("Partial Title")){
+            movies = moviesDatabase.getList();
+            for(int i = movies.size()-1; i>=0; i--){
+                if(!movies.get(i).getName().toLowerCase().contains(searchField.getText().toLowerCase())){
+                    movies.remove(i);
+                }
+            }
+        }
+
+        for (int i = 0; i < movies.size(); i++) {
+
+            {
                 URL movieFXMLUrl = MovieController.class.getResource("fxml/cashier/movie.fxml");
                 System.out.println("Resource URL: " + movieFXMLUrl);
-
                 if (movieFXMLUrl != null) {
                     FXMLLoader fxmlLoader = new FXMLLoader(movieFXMLUrl);
-                    AnchorPane anchorPane = fxmlLoader.load();  
-
-                    // movie controller
-                    MovieController movieController = fxmlLoader.getController();
-                    movieController.setmovieData(movies.get(i), movieListener);
-
-                    // reset the column index when it becomes the maximumGridColumnNumber
-                    if (columnIndex == maxGridColumnNumber) {  
-                        columnIndex = 0;
-                        rowIndex++;
+                    try {
+                        AnchorPane anchorPane = fxmlLoader.load();  
+        
+                        MovieController movieController = fxmlLoader.getController();
+                        movieController.setmovieData(movies.get(i), movieListener);
+        
+                        if (columnIndex == maxGridColumnNumber) {  
+                            columnIndex = 0;
+                            rowIndex++;
+                        }
+        
+                        moviesGrid.add(anchorPane, columnIndex++, rowIndex);
+                        
+                    } catch (Exception e) {
                     }
-
-                    // add the loaded fxml to the grid
-                    moviesGrid.add(anchorPane, columnIndex++, rowIndex);
                 } else {
                     System.out.println("No such fxml");
                 }
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            }
         }
     }
 
-    @FXML
-    void handleLogOut() {
-        // Method to handle logout
+    private List<String> handleGenre(String text){
+
+        List<String> ans = new ArrayList<>();
+        String temp = "";
+        for(int i = 0; i<text.length(); i++){
+            if(text.charAt(i) == ','){
+                ans.add(temp);
+                temp = "";
+            }
+            else if(text.charAt(i) == ' '){
+                
+            }
+            else{
+                temp += text.charAt(i);
+            }
+        }
+
+        ans.add(temp);
+
+        return ans;
     }
 }
