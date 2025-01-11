@@ -1,0 +1,15 @@
+#discountCheck {
+    -fx-font-size: 14px; /* Adjust text size */
+    -fx-text-fill: black; /* Text color */
+    -fx-background-color: white; /* Background color */
+    -fx-border-color: #2758b3b9; /* Border color to match leftsection */
+}
+
+#discountCheck:hover {
+    -fx-background-color: #e6e6e6; /* Slightly darker background on hover */
+    -fx-text-fill: #333; /* Darker text color on hover */
+}
+
+#discountCheck.label {
+    -fx-text-fill: black; /* Ensure dropdown labels are visible */
+}

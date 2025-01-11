@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -74,65 +75,74 @@ public class CashierSceneController {
     private Line PtoT;
 
     @FXML
+    private SlidingSubSceneController controller;
+
+    @FXML
     private void initialize(){
         cashierParent.setParent(this);
         usernameLabel.setText(currentUser.getUsername());
         Image iconPlace = new Image(getClass().getResource("/application/fxml/icons/cashier-logo.png").toExternalForm());
-
         logoImageView.setImage(iconPlace);
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/slidingSubScene.fxml"));
-        HBox subSceneContent;
+    
         try {
-            subSceneContent = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/slidingSubScene.fxml"));
+            AnchorPane subSceneContent = loader.load();
+    
             mainPane.setBottom(subSceneContent);
+    
+            // Initialize the controller
+            controller = loader.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+    
         handleScenes("cashierStage1");
-    }
-
-    @FXML
-    void handleSearchByGenre() {
-        // Method to handle search by genre
-    }
-
-    @FXML
-    void handleSearchByPartialTitle() {
-        // Method to handle search by partial title
-    }
-
-    @FXML
-    void handleSearchByFullTitle() {
-        // Method to handle search by full title
     }
 
     public void handleScenes(String child){
         String path = "fxml/cashier/" + child + ".fxml"; 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(path));
+        if(child .equals("invoice")){
+            controller.root.setVisible(false);
+        }
+        else{
+            controller.root.setVisible(true);
+        }
         try {
             Node temp = fxmlLoader.load();
             if(mainPane.getCenter() != temp){
-                mainPane.setCenter(temp);
-                //changeProgress(child);         
+                mainPane.setCenter(temp);        
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-/*     public void changeProgress(String stage){
+    public void ticketsAdded(Integer discountNum, boolean isDiscountApplied){
+        controller.shipGrid.getChildren().clear();
+        controller.totalPriceTicket = 0.0;
+        if(discountNum != -1){
+            int i = 0;
+            for(i = 0; i<discountNum; i++){
+                controller.populateTicketGrid(i, isDiscountApplied);
+            }
+            while(i<StaticSelection.staticSeatValues.size()){
+                controller.populateTicketGrid(i, false);
+                i++;
+            }
+            controller.row = 0;
 
-        if(stage.equals("cashierStage1")){
+        }
+        controller.editTotal();
 
-            
-        }
-        else if(stage.equals("cashierStage2")){
-            
-            
-        }
-    }  */
+    }  
+
+    public void productAdded(){
+        controller.productGrid.getChildren().clear();
+        controller.populateProductGrid();
+        controller.row = 0;
+        controller.editTotal();
+    }
 
     @FXML
     void handleLogOut(MouseEvent event) throws IOException {

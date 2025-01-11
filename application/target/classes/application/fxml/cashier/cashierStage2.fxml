@@ -24,7 +24,7 @@
                                  <children>
                                     <Label fx:id="movieTitleLabel" prefHeight="49.0" prefWidth="108.0" text="Movie Title" />
                                     <Label fx:id="releaseYearLabel" prefHeight="49.0" prefWidth="108.0" text="Release Year:" />
-                                    <Label fx:id="movieGenresLabel" prefHeight="57.0" prefWidth="153.0" text="Genres: " />
+                                    <Label fx:id="movieGenresLabel" prefHeight="57.0" prefWidth="250.0" text="Genres: " />
                                     <Label fx:id="movieSummaryLabel" prefHeight="110.0" prefWidth="290.0" wrapText="true" />
                                  </children>
                                  <padding>

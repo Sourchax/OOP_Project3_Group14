@@ -40,8 +40,17 @@ public class LoginController {
 
     private Employee currentEmployee;
 
+    @FXML
+    private Label loginError;
+
     public void setMainPane(BorderPane borderPane) {
         this.mainPane = borderPane;
+    }
+
+
+    @FXML
+    private void initialize(){
+        loginError.setVisible(false);
     }
 
     @FXML
@@ -58,80 +67,58 @@ public class LoginController {
         String usernameEntry = usernameField.getText().trim();
         String passwordEntry = passwordField.getText().trim();
         System.out.println(usernameEntry + " " + passwordEntry);
-
+        loginError.setVisible(false);
         //get employee based on username and passwd filters that matched with the user entries 
         EmployeesDao employeeDatabase = new EmployeesDao();
         List<Employee> matchedEmployees = employeeDatabase.getListByFilter("username, passwd", usernameEntry, passwordEntry);
         if (!matchedEmployees.isEmpty()) {
             currentEmployee = matchedEmployees.get(0);
             currentUser.setUsername(usernameEntry);
+            currentUser.setRole(currentEmployee.getRole());
+            System.out.println(currentUser.getRole());
             currentEmployee.displayNonProfile();
 
-            try {
-                goRelatedPage(currentEmployee.getRole(), event);
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
+            goRelatedPage(currentEmployee.getRole(), event);
+
+        }
+        else{
+            loginError.setVisible(true);
+        }
+    }
+
+    private void createStage(String path, MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            ManagerSceneController controller = loader.getController();
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1200, 768);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
     
     //Employee currentEmployee
-    public void goRelatedPage(String currentUserRole, MouseEvent event) throws IOException {
+    public void goRelatedPage(String currentUserRole, MouseEvent event)  {
         switch (currentUserRole) {
             case "manager": {
                 System.out.println("You are a manager");
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager/managerScene.fxml"));
-                ManagerSceneController controller = loader.getController();
-                //controller.setCurrentEmployee(currentEmployee);
-                getData.username = currentEmployee.getUsername();
-                getData.role = currentEmployee.getRole();
-                
-                Parent root = loader.load();
-                Scene scene = new Scene(root, 1200, 768);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                createStage(("fxml/manager/managerScene.fxml"), event);
 
                 break;
             }
             case "cashier": {
                 System.out.println("You are a cashier");
-                //loginButton.getScene().getWindow().hide();
-                // changeScene("fxml/cashier/cashierScene.fxml");
+                createStage("fxml/cashier/cashierScene.fxml", event);
 
-                //changeScene("fxml/cashier/cashierScene.fxml", event);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/cashier/cashierScene.fxml"));
-                CashierSceneController controller = loader.getController();
-                //controller.setCurrentEmployee(currentEmployee);
-                getData.username = currentEmployee.getUsername();
-                getData.role = currentEmployee.getRole();
-
-                Parent root = loader.load();
-                Scene scene = new Scene(root, 1200, 768);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
                 break;
             }
             case "admin": {
                 System.out.println("You are an admin");
-                
-                //loginButton.getScene().getWindow().hide();
-
-                // changeScene("fxml/admin/adminScene.fxml", event);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/newAdminMenu.fxml"));
-                AdminMenuController controller = loader.getController();
-                //controller.setCurrentEmployee(currentEmployee);
-                getData.username = currentEmployee.getUsername();
-                getData.role = currentEmployee.getRole();
-
-                Parent root = loader.load();
-                Scene scene = new Scene(root, 1200, 768);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                createStage("fxml/newAdminMenu.fxml", event);
                 break;
             }
             default: {

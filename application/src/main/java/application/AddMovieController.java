@@ -136,7 +136,6 @@ public class AddMovieController {
             // TODO: handle exception
         }
 
-        // Close the window after adding the movie (optional)
         Stage stage = (Stage) titleField.getScene().getWindow();
         stage.close();
     }

@@ -23,12 +23,6 @@
             <Font name="Calibri" size="35.0" />
          </font>
       </Label>
-            <HBox spacing="20.0">
-               <children>
-                  <TextField fx:id="searchBar" prefHeight="25.0" prefWidth="242.0" promptText="Search" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Search" />
-               </children>
-            </HBox>
             <VBox alignment="CENTER" prefHeight="473.0" prefWidth="255.0" spacing="20.0">
                <children>
                   <ImageView fx:id="productImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />

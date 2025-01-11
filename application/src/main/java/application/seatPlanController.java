@@ -43,6 +43,7 @@ public class seatPlanController {
 
         Session movieSession = StaticSelection.staticSession;
         long seatCrypted = movieSession.getSeats();
+        confirmButton.setDisable(true);
 
         Integer seatNumber = 0;
         if(movieSession.getHall().equals("A")){
@@ -108,7 +109,6 @@ public class seatPlanController {
         }          
     }
 
-    // Handle seat selection logic
     private void handleSeatSelection(Button seat) {
         String currentStatus = seatStatus.get(seat);
 
@@ -164,22 +164,62 @@ public class seatPlanController {
 
     private void handleSeatSale(Button seat, boolean isNew){
         Integer a = (Integer) seat.getProperties().get("seatId");
-        System.out.println(a);
         if(isNew){
             selectedNums.add(a);
         }
         else{
             selectedNums.remove(a);
         }
+        if(selectedNums.size() > 0){
+            confirmButton.setDisable(false);
+        }
+        else{
+            confirmButton.setDisable(true);
+        }
+        StaticSelection.staticSeatIndeces = selectedNums;
+        List<String> seatValues = new ArrayList<>();
+        for(Integer b: selectedNums)
+            seatValues.add(convertIndex(b));
+        StaticSelection.staticSeatValues = seatValues;
+        cashierParent.getParent().ticketsAdded(0, false);
     }
 
     private void handleConfirm(){
-        StaticSelection.staticSeats = selectedNums;
-        for(Integer a : selectedNums)
-            System.out.println(a);
+        StaticSelection.staticSeatIndeces = selectedNums;
+        List<String> seatValues = new ArrayList<>();
+        for(Integer a: selectedNums)
+            seatValues.add(convertIndex(a));
+
+        StaticSelection.staticSeatValues = seatValues;
+        cashierParent.getParent().handleScenes("cashierStage4");
     }
 
     private void handleBack(){
         cashierParent.getParent().handleScenes("cashierStage2"); 
+    }
+
+    private String convertIndex(Integer num){
+        int seatChar;
+        int seatIndex;
+        String ans = "";
+        if(StaticSelection.staticSession.getHall().equals("B")){
+            seatChar = num/4;
+            seatIndex = num%4;
+
+
+            ans += (char)( seatChar+'A');
+            ans += String.valueOf(seatIndex+1);
+        }
+        else{
+            seatChar = num/8;
+            seatIndex = num%8;
+
+
+            ans += (char) ( seatChar+'A');
+            ans += String.valueOf(seatIndex+1);
+        }
+
+        System.out.println(ans);
+        return ans;
     }
 }

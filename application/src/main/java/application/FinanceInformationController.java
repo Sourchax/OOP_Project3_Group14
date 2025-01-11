@@ -1,6 +1,12 @@
 package application;
+import java.util.List;
+
+import dataAccess.PriceModifiersDao;
+import entities.PriceModifier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,30 +31,50 @@ public class FinanceInformationController {
     @FXML
     private Button editButton;
 
-    //database instance
+    private PriceModifiersDao database;
+    
+    private List<PriceModifier> pModifiers;
     
     @FXML
     private void initialize() {
         editButton.setOnAction(event -> edit(event));
-        //set total revenue total tax
+        
+        database = new PriceModifiersDao();
+
+        discountRateField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+        
+            if (newText.matches("\\d{0,2}")) {
+                return change; 
+            }
+            return null;
+        }));
+
+        pModifiers = database.getList();
+        discountRateField.setText(String.valueOf(pModifiers.get(1).getVal()));
+        ticketPriceField.setText(String.valueOf(pModifiers.get(0).getVal()));
     }
 
     @FXML
     void edit(ActionEvent event) {
+        if(discountRateField.getText() == null  || discountRateField.getText().trim() == "" || ticketPriceField.getText() == null || ticketPriceField.getText().trim() == ""){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Invalid number!");
+            alert.setHeaderText("Current Process Canceled");
+            alert.setContentText("Please enter a valid number!");
+            alert.showAndWait();
+            return;
+        }
         Integer discountRate = Integer.parseInt(discountRateField.getText());
         Float ticketPrice = Float.parseFloat(ticketPriceField.getText());
 
-        if (discountRate != 0 || ticketPrice != 0 || discountRateField.getText().isEmpty() || ticketPriceField.getText().isEmpty()) {
-            System.out.println("Please fill all fields without zero"); //make this a warning like an alert
-            return;
-        }
+
 
         try {
-            System.out.println("db update");
-            //employeesDataBase.updateById(selectedEmployee.getId(), "name, surname, username, role, passwd", name, surname, username, role, password);
+            database.updateById(1, "val",ticketPrice);
+            database.updateById(2, "val", discountRate);
             
         } catch (Exception e) {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
         }
     }
 }

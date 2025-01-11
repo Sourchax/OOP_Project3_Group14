@@ -18,11 +18,6 @@
             </GridPane>
          </children>
       </StackPane>
-        <HBox alignment="CENTER" layoutX="286.0" layoutY="423.0" spacing="20">
-            <Label style="-fx-font-size: 14px;" text="Available: " />
-            <Label style="-fx-font-size: 14px;" text="Occupied: " />
-            <Label style="-fx-font-size: 14px;" text="Selected: " />
-        </HBox>
 
     <ImageView fitHeight="60.0" fitWidth="200.0" layoutX="361.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="361.0" AnchorPane.rightAnchor="360.0282745361328">
          <image>

@@ -18,6 +18,7 @@
          <children>
             <VBox alignment="CENTER" minHeight="80.0" minWidth="200.0" spacing="20.0">
                <children>
+                  <Label fx:id="loginError" text="Invalid username of password!"/>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icons/logo2.png" />

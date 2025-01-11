@@ -19,6 +19,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -30,6 +32,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class CashierStage1Controller {
 
@@ -161,13 +165,35 @@ public class CashierStage1Controller {
     }
 
     public void setChosenMovie(Movie movie) {
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/cashier/movieDetails.fxml"));
+        Parent root;
+        try {
+            StaticSelection.staticMovie.setName(movie.getName());
+            StaticSelection.staticMovie.setPoster(movie.getPoster());
+            StaticSelection.staticMovie.setGenre(movie.getGenre());
+            StaticSelection.staticMovie.setSummary(movie.getSummary());
+            StaticSelection.staticMovie.setYear(movie.getYear());
+
+            root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Movie Details");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            if(StaticSelection.staticMovie.getGenre() != null){
+                confirmButton.setDisable(false);
+            }
+            else{
+                confirmButton.setDisable(true);
+            }
             
-        StaticSelection.staticMovie.setName(movie.getName());
-        StaticSelection.staticMovie.setPoster(movie.getPoster());
-        StaticSelection.staticMovie.setGenre(movie.getGenre());
-        StaticSelection.staticMovie.setSummary(movie.getSummary());
-        StaticSelection.staticMovie.setYear(movie.getYear());
-        confirmButton.setDisable(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void searchMovies(){
@@ -185,7 +211,6 @@ public class CashierStage1Controller {
         if(searchingMethod.equals("Full Title")){
 
             movies = moviesDatabase.getListByFilter("name", text);
-            System.out.println(movies.size());
         }
         else if (searchingMethod.equals("Genre(s)")) {
             movies = moviesDatabase.getList();
@@ -230,7 +255,6 @@ public class CashierStage1Controller {
 
             {
                 URL movieFXMLUrl = MovieController.class.getResource("fxml/cashier/movie.fxml");
-                System.out.println("Resource URL: " + movieFXMLUrl);
                 if (movieFXMLUrl != null) {
                     FXMLLoader fxmlLoader = new FXMLLoader(movieFXMLUrl);
                     try {

@@ -13,9 +13,9 @@
 
 <BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="1200.0" prefHeight="768.0" prefWidth="1200.0" stylesheets="@../styles/cashierScene.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CashierSceneController">
    <top>
-      <AnchorPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="120.0" prefWidth="1234.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox layoutX="21.0" layoutY="25.0" prefHeight="100.0" prefWidth="360.0" AnchorPane.leftAnchor="20.0">
+            <HBox layoutX="20.0" layoutY="13.0" prefHeight="100.0" prefWidth="360.0" AnchorPane.leftAnchor="20.0">
                <children>
                   <ImageView fx:id="logoImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -44,7 +44,7 @@
                </children>
             </HBox>
             <Button layoutX="1113.0" layoutY="63.0" maxHeight="80.0" maxWidth="80.0" mnemonicParsing="false" onMouseClicked="#handleLogOut" prefHeight="50.0" prefWidth="80.0" text="Log Out" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" />
-            <HBox alignment="BOTTOM_CENTER" layoutX="500.0" layoutY="86.0" prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0">
+            <HBox alignment="BOTTOM_CENTER" layoutX="500.0" layoutY="61.0" prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0">
                <children>
                   <ImageView fx:id="movieSelectionIcon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>

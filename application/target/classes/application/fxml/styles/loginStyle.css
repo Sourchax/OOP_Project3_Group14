@@ -14,6 +14,11 @@
     -fx-font-size: 18px;
 }
 
+#invalidError {
+    -fx-text-fill: red;
+    -fx-font-size: 18px;
+}
+
 .text-field, .password-field {
     -fx-padding: 10px;
     -fx-background-radius: 10px;
@@ -22,14 +27,6 @@
     -fx-border-width: 0px 0px 2px 0px;
     -fx-border-color: #8417e8;
 }
-
-/* #usernameLabel, #roleLabel {
-    -fx-text-fill: #8417e8;
-} */
-
-/* #topBar {
-    -fx-background-color: red;
-} */
 
 .button:hover {
     -fx-cursor: hand;

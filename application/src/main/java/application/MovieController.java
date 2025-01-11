@@ -32,7 +32,6 @@ public class MovieController {
     public void setmovieData(Movie movie, MovieListener movieListener) {
         this.movie = movie;
         this.movieListener = movieListener;
-        //nameLabel.setText(movie.getName());
         updateImage(movie.getPoster());
     }
 

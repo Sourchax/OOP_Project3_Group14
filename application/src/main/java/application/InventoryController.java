@@ -60,9 +60,6 @@ public class InventoryController {
     private VBox sideBar;
 
     @FXML
-    private TextField searchBar;
-
-    @FXML
     private ComboBox<Integer> stockComboBox;
 
     @FXML
@@ -119,7 +116,7 @@ public class InventoryController {
             managerPrice.setVisible(true);
             managerPrice.setDisable(false);
 
-            productsScrollPane.setPrefHeight(750);
+            productsScrollPane.setPrefHeight(500);
             productsScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         }
         else if (currentUser.getRole().equals("cashier")) {
