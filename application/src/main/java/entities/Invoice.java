@@ -9,7 +9,7 @@ public class Invoice {
     private String name;
     private String surname;
     private LocalDateTime purhcaseDate;
-    private Session session;
+    private int session;
     private Blob pdf;
 
     public Invoice(){}
@@ -32,7 +32,7 @@ public class Invoice {
         return purhcaseDate;
     }
 
-    public Session getSession(){
+    public int getSession(){
         return session;
     }
 
@@ -58,7 +58,7 @@ public class Invoice {
         this.purhcaseDate = purchaseDate;
     }
 
-    public void setSession(Session session) {
+    public void setSession(int session) {
         this.session = session;
     }
 

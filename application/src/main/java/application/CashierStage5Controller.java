@@ -114,8 +114,8 @@ public class CashierStage5Controller {
 
         x.setName(StaticSelection.customerName);
         x.setSurname(StaticSelection.customerSurname);
-        //Date-Session olayını halledin
-        //x.setPurchase_date(LocalDateTime.now());
+        x.setPurchaseDate(LocalDateTime.now());
+        x.setSession(StaticSelection.staticSession.getId());
 
         byte[] htmlBytes;
         try {
