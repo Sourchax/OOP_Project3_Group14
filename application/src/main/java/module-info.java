@@ -4,6 +4,7 @@ module application {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.sql.rowset;
+    requires javafx.web;
 
     opens application to javafx.fxml;
     exports application;

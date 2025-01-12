@@ -36,11 +36,6 @@
                         </Label>
                      </children>
                   </VBox>
-                  <Label text="Date">
-                     <HBox.margin>
-                        <Insets left="10.0" top="20.0" />
-                     </HBox.margin>
-                  </Label>
                </children>
             </HBox>
             <Button fx:id="logOutButton" layoutX="1118.0" layoutY="63.0" maxHeight="80.0" maxWidth="80.0" mnemonicParsing="false" onMouseClicked="#handleLogOut" prefHeight="50.0" prefWidth="80.0" text="Log Out" AnchorPane.bottomAnchor="37.57142857142857" AnchorPane.rightAnchor="40.28571428571422" AnchorPane.topAnchor="63.0" />

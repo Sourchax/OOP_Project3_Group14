@@ -73,7 +73,7 @@
             </HBox>
             <HBox spacing="20.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Tax to be pain:">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Tax to be paid:">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>

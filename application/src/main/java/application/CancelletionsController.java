@@ -25,6 +25,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -35,6 +36,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class CancelletionsController {
 
@@ -94,12 +99,14 @@ public class CancelletionsController {
     @FXML
     private void showReceipt() {
 
-       /*  Invoice selectedInvoice = invoiceTable.getSelectionModel().getSelectedItem();
+        Invoice selectedInvoice = invoiceTable.getSelectionModel().getSelectedItem();
 
         try (InputStream inputStream = selectedInvoice.getPdf().getBinaryStream()) {
-            File tempFile = File.createTempFile("invoice-",".html");
+            // Create the temporary file
+            File tempFile = File.createTempFile("invoice-", ".html");
             tempFile.deleteOnExit();
-            
+
+            // Write the content to the file
             try (OutputStream outputStream = new FileOutputStream(tempFile)) {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
@@ -107,11 +114,25 @@ public class CancelletionsController {
                     outputStream.write(buffer, 0, bytesRead);
                 }
             }
-            openInBrowser(tempFile);
-        } catch (SQLException | IOException e) {
-            // TODO Auto-generated catch block
+
+            WebView webView = new WebView();
+            webView.getEngine().load(tempFile.toURI().toString());
+
+            Stage webViewStage = new Stage();
+            webViewStage.setTitle("Invoice Viewer");
+
+            webViewStage.initModality(Modality.APPLICATION_MODAL);
+
+            BorderPane layout = new BorderPane(webView);
+            Scene scene = new Scene(layout, 800, 600);
+
+            // Configure and show the stage
+            webViewStage.setScene(scene);
+            webViewStage.show();
+        } catch (Exception e) {
             e.printStackTrace();
-        } */
+            // Handle exceptions (e.g., logging or user notification)
+        }
 
     }
 
@@ -213,32 +234,6 @@ public class CancelletionsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    private static void openInBrowser(File file) {
-        try {
-            String os = System.getProperty("os.name").toLowerCase();
-
-            String command = "";
-            if (os.contains("win")) {
-                command = "start " + file.getAbsolutePath();
-            } else if (os.contains("mac")) {
-                command = "open " + file.getAbsolutePath();
-            } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-                command = "xdg-open " + file.getAbsolutePath();
-            }
-
-            // Execute the command to open the file in the browser
-            if (!command.isEmpty()) {
-                Process process = Runtime.getRuntime().exec(command);
-                process.waitFor();
-            } else {
-                System.out.println("Unsupported OS");
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("Error opening the file: " + e.getMessage());
-        }
     }
 
     private void decrypt(Blob data){
