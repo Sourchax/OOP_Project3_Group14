@@ -119,6 +119,7 @@ public class CashierStage5Controller {
         x.setSurname(StaticSelection.customerSurname);
         x.setPurchaseDate(LocalDateTime.now());
         x.setSession(StaticSelection.staticSession.getId());
+        x.setTotalSpend(StaticSelection.totalAmount);
 
         byte[] htmlBytes;
         try {

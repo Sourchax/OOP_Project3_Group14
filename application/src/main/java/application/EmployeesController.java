@@ -113,6 +113,9 @@ public class EmployeesController {
 
     private static final String Regex_PASSWORD = "^(?=.*[a-zA-Z])(?=.*\\d).{6,}$";
 
+    /**
+     * 
+     */
     @FXML
     private void initialize() {        
         editButton.setOnAction(event -> editEmployeeDetails());
@@ -135,6 +138,10 @@ public class EmployeesController {
         populateEmployeeDetails(selectedEmployee);
     }
 
+    /**
+     * Takes employee as parameter and sets fields based on the employee values
+     * @param employee
+     */
     private void populateEmployeeDetails(Employee employee) {
         nameField.setText(employee.getName());
         surnameField.setText(employee.getSurname());

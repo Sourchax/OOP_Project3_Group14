@@ -10,11 +10,15 @@ public class Invoice {
     private String surname;
     private LocalDateTime purchaseDate;
     private int session;
+    private double totalSpend;
+    private double totalTax;
+
     private Blob pdf;
 
     public Invoice(){}
 
     /* Getters */
+    
 
     public int getId(){
         return id;
@@ -38,6 +42,14 @@ public class Invoice {
 
     public Blob getPdf(){
         return pdf;
+    }
+
+    public double getTotalSpend() {
+        return totalSpend;
+    }
+
+    public double getTotalTax() {
+        return totalTax;
     }
 
     /* Setters */
@@ -64,6 +76,14 @@ public class Invoice {
 
     public void setPdf(Blob pdf) {
         this.pdf = pdf;
+    }
+
+    public void setTotalSpend(double totalSpend) {
+        this.totalSpend = totalSpend;
+    }
+
+    public void setTotalTax(double totalTax) {
+        this.totalTax = totalTax;
     }
 
 }

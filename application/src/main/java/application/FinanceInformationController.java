@@ -1,7 +1,10 @@
 package application;
 import java.util.List;
 
+import dataAccess.InvoicesDao;
 import dataAccess.PriceModifiersDao;
+import entities.Employee;
+import entities.Invoice;
 import entities.PriceModifier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,10 +37,21 @@ public class FinanceInformationController {
     private PriceModifiersDao database;
     
     private List<PriceModifier> pModifiers;
+
+    private InvoicesDao invoicesDao;
     
     @FXML
     private void initialize() {
         editButton.setOnAction(event -> edit(event));
+
+        invoicesDao = new InvoicesDao();
+        List<Invoice> invoices = invoicesDao.getList();
+        double total = 0.0;
+        for (int i = 0; i < invoices.size(); i++) {
+            total += invoices.get(i).getTotalSpend();
+        }
+        totalRevenue.setText(String.valueOf(total));
+        
         
         database = new PriceModifiersDao();
 
@@ -67,8 +81,6 @@ public class FinanceInformationController {
         }
         Integer discountRate = Integer.parseInt(discountRateField.getText());
         Float ticketPrice = Float.parseFloat(ticketPriceField.getText());
-
-
 
         try {
             database.updateById(1, "val",ticketPrice);
