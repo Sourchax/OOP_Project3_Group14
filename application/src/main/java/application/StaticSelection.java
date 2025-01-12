@@ -14,4 +14,7 @@ public class StaticSelection {
     public static HashMap<Product, Integer> selectedProducts;
     public static String customerName;
     public static String customerSurname;
+    public static List<String> allTickets;
+    public static List<String> allProducts;
+    public static double totalAmount;
 }

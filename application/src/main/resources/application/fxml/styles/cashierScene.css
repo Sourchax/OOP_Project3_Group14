@@ -7,3 +7,26 @@
     -fx-text-fill: white;
     -fx-font-size: 12px;
 }
+
+#logOutButton {
+    -fx-background-color: #FF5733;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 4px 4px;
+    -fx-background-radius: 8px;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+#logOutButton:hover {
+    -fx-background-color: #C70039;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#logOutButton:active {
+    -fx-background-color: #900C3F;
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}

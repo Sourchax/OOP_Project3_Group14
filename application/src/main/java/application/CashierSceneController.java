@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -120,6 +121,7 @@ public class CashierSceneController {
 
     public void ticketsAdded(Integer discountNum, boolean isDiscountApplied){
         controller.shipGrid.getChildren().clear();
+        StaticSelection.allTickets= new ArrayList<>();
         controller.totalPriceTicket = 0.0;
         if(discountNum != -1){
             int i = 0;

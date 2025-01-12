@@ -195,6 +195,7 @@ public class seatPlanController {
     }
 
     private void handleBack(){
+        cashierParent.getParent().ticketsAdded(-1,false);
         cashierParent.getParent().handleScenes("cashierStage2"); 
     }
 

@@ -99,7 +99,7 @@ public class MoviesTabController {
         genreButton.setOnAction(event -> showGenreSelectionPopup());
         deleteButton.setOnAction(event -> handleDeleteMovie());
 
-
+        sessionDao = new SessionDao();
         yearField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
             String newText = change.getControlNewText();
         

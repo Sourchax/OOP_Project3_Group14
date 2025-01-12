@@ -13,12 +13,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="150.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SlidingSubSceneController">
+<AnchorPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SlidingSubSceneController">
    <children>
-      <HBox alignment="CENTER" layoutY="6.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" spacing="10" style="-fx-background-color: lightgray;">
+      <HBox alignment="CENTER" layoutY="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" spacing="10" style="-fx-background-color: lightgray;">
           <AnchorPane maxHeight="Infinity" maxWidth="Infinity" HBox.hgrow="ALWAYS">
               <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="33.0" layoutX="-8.0" stroke="BLACK" strokeType="INSIDE" width="1200.0" AnchorPane.rightAnchor="0.0">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="33.0" layoutX="25.0" stroke="BLACK" strokeType="INSIDE" width="1200.0" AnchorPane.rightAnchor="0.0">
                       <fill>
                           <LinearGradient endX="1.0" endY="1.0">
                               <stops>
@@ -53,13 +53,13 @@
               </children>
           </AnchorPane>
       </HBox>
-      <ScrollPane layoutX="26.0" layoutY="38.0" prefHeight="111.0" prefWidth="600.0" vbarPolicy="NEVER">
+      <ScrollPane layoutY="38.0" prefHeight="111.0" prefWidth="600.0" vbarPolicy="NEVER">
          <content>
             <GridPane fx:id="shipGrid" layoutX="-1.0" layoutY="24.0">
             </GridPane>
         </content>
       </ScrollPane>
-      <ScrollPane layoutX="626.0" layoutY="38.0" prefHeight="111.0" prefWidth="600.0" vbarPolicy="NEVER">
+      <ScrollPane layoutX="603.0" layoutY="38.0" prefHeight="111.0" prefWidth="600.0" vbarPolicy="NEVER">
          <content>
             <GridPane fx:id="productGrid" layoutX="-1.0" layoutY="24.0" />
          </content>

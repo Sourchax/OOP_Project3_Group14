@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dataAccess.PriceModifiersDao;
@@ -93,7 +94,6 @@ public class SlidingSubSceneController {
     public void populateTicketGrid(int i, boolean isDiscountApplied) {
 
         int discount = 0;
-
         if(isDiscountApplied){
             discount=pModifiers.get(1).getVal();
         }
@@ -108,10 +108,11 @@ public class SlidingSubSceneController {
 
         double lastPrice = (pModifiers.get(0).getVal()*((100-discount)/100.0))*((100+pModifiers.get(2).getVal())/100.0) ;
 
-        String ticketData = String.format("%s, %s, %s, %s, %s, %s, %s, %s %f%s",
+        String ticketData = String.format("%s, %s, %s, %s, %s, %s, %s, %s %.2f%s",
                 title, date, time, hall, seat, "Discount: %"+String.valueOf(discount), "Tax:%"+tax, "Price:",lastPrice,"₺");
         addBlockToGrid(true, ticketData, 0, row);
         totalPriceTicket+=lastPrice;
+        StaticSelection.allTickets.add(ticketData);
         row++;
     }
 
@@ -120,22 +121,26 @@ public class SlidingSubSceneController {
         int row = 0;
 
         totalPriceProduct = 0.0;
-        for (Product product : StaticSelection.selectedProducts.keySet()) {
-
-            Integer quantity = StaticSelection.selectedProducts.get(product);
-
-            int tax = pModifiers.get(3).getVal();
-
-            double lastPrice = (product.getPrice()*((100+tax)/100.0)*quantity);
-
-            if(quantity != 0){
-
-                String productData = String.format("%s, %s%d, %s, %d, %s %f%s", product.getName(), "Quantity: ",quantity, "Tax:%",tax , "Total Price:",lastPrice,"₺");
-                addBlockToGrid(false, productData, 0, row);
-
+        StaticSelection.allProducts= new ArrayList<>();
+        if(StaticSelection.selectedProducts.keySet() != null){
+            for (Product product : StaticSelection.selectedProducts.keySet()) {
+    
+                Integer quantity = StaticSelection.selectedProducts.get(product);
+    
+                int tax = pModifiers.get(3).getVal();
+    
+                double lastPrice = (product.getPrice()*((100+tax)/100.0)*quantity);
+    
+                if(quantity != 0){
+    
+                    String productData = String.format("%s, %s%d, %s, %d, %s %.2f%s", product.getName(), "Quantity: ",quantity, "Tax:%",tax , "Total Price:",lastPrice,"₺");
+                    addBlockToGrid(false, productData, 0, row);
+                    StaticSelection.allProducts.add(productData);
+    
+                }
+                totalPriceProduct+=lastPrice;
+                row++;
             }
-            totalPriceProduct+=lastPrice;
-            row++;
         }
     } 
 
@@ -168,5 +173,6 @@ public class SlidingSubSceneController {
         double totalPriceAll = totalPriceProduct + totalPriceTicket;
 
         totalAmount.setText(String.valueOf(totalPriceAll));
+        StaticSelection.totalAmount = totalPriceAll;
     }
 }

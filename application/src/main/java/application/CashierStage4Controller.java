@@ -94,7 +94,7 @@ public class CashierStage4Controller {
         nameField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
             String newText = change.getControlNewText();
         
-            if (newText.matches( "^[A-Za-zÇçĞğİıÖöŞşÜü]{2,20}(?: [A-Za-zÇçĞğİıÖöŞşÜü]{2,20})*$")) {
+            if (newText.matches( "^[A-Za-zÇçĞğİıÖöŞşÜü]{0,20}$")) {
                 return change; 
             }
             return null;
@@ -104,7 +104,7 @@ public class CashierStage4Controller {
         surnameField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
             String newText = change.getControlNewText();
         
-            if (newText.matches( "^[A-Za-zÇçĞğİıÖöŞşÜü]{2,20}(?: [A-Za-zÇçĞğİıÖöŞşÜü]{2,20})*$")) {
+            if (newText.matches( "^[A-Za-zÇçĞğİıÖöŞşÜü]{0,20}$")) {
                 return change; 
             }
             return null;
@@ -294,7 +294,7 @@ public class CashierStage4Controller {
         }
         else{
             StaticSelection.customerName = name;
-            StaticSelection.customerSurname = name;
+            StaticSelection.customerSurname = surname;
             cashierParent.getParent().handleScenes("invoice");
         }
     }

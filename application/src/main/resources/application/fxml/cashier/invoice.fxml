@@ -93,7 +93,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Pane fx:id="products" layoutX="64.0" layoutY="203.0" prefHeight="180.0" prefWidth="332.0" style="-fx-background-color: #D9CCD0;" />
+            <Pane fx:id="products" layoutX="-3.0" layoutY="221.0" prefHeight="180.0" prefWidth="411.0" style="-fx-background-color: #D9CCD0;" />
             <Label alignment="CENTER" layoutX="147.0" layoutY="426.0" prefHeight="17.0" prefWidth="128.0" text="Have a great time!">
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
@@ -126,8 +126,8 @@
             <Label fx:id="sessionDate" layoutX="90.0" layoutY="128.0" prefHeight="17.0" prefWidth="102.0" />
             <Label fx:id="movieName" layoutX="50.0" layoutY="97.0" prefHeight="17.0" prefWidth="200.0" />
             <Label fx:id="Hall" layoutX="305.0" layoutY="97.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="name" layoutX="164.0" layoutY="396.0" />
-            <Label fx:id="surname" layoutX="265.0" layoutY="396.0" text="Label" />
+            <Label fx:id="name" layoutX="108.0" layoutY="405.0" prefHeight="17.0" prefWidth="69.0" />
+            <Label fx:id="surname" layoutX="256.0" layoutY="405.0" text="Label" />
          </children>
       </Pane>
       <Pane layoutX="429.0" layoutY="14.0" prefHeight="200.0" prefWidth="357.0" style="-fx-background-color: #960003; -fx-border-color: #FFFFFF;">
