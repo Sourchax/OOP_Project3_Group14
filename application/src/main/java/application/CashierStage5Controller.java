@@ -55,6 +55,9 @@ public class CashierStage5Controller {
     private InvoicesDao invocies = new InvoicesDao();
 
     private SessionDao sessionDB = new SessionDao();
+
+    private String cryptedData;
+
     @FXML
     public void initialize() {
         movieName.setText(StaticSelection.staticMovie.getName());
@@ -162,7 +165,8 @@ public class CashierStage5Controller {
     private String createHTML(){
         StringBuilder html = new StringBuilder();
 
-        html.append("<!DOCTYPE html>")
+            html.append("<!DOCTYPE html>")
+            .append("<!-- ").append(cryptedData()).append(" -->\n")
             .append("<html lang=\"en\">")
             .append("<head>")
             .append("<meta charset=\"UTF-8\">")
@@ -258,4 +262,29 @@ public class CashierStage5Controller {
         ans += StaticSelection.staticSession.getSeats();
         sessionDB.updateById(StaticSelection.staticSession.getId(), "seats", ans);
     }
+
+    private String cryptedData(){
+        String ans = "";
+
+        for(Integer a: StaticSelection.staticSeatIndeces){
+            ans+= a.toString();
+            ans+=",";
+        }
+        ans+= "a";
+        if(StaticSelection.selectedProducts.keySet() != null){
+            for(Product a: StaticSelection.selectedProducts.keySet()){
+                if(StaticSelection.selectedProducts.get(a) != 0){
+                    
+                    ans+= String.valueOf(a.getId());
+                    ans+= ",";
+                    ans+= StaticSelection.selectedProducts.get(a);
+                    ans+=",";
+
+                }
+            }
+        }
+        ans+="b";
+        return ans;
+    }
+
 }

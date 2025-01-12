@@ -8,7 +8,7 @@ public class Invoice {
     private int id;
     private String name;
     private String surname;
-    private LocalDateTime purhcaseDate;
+    private LocalDateTime purchaseDate;
     private int session;
     private Blob pdf;
 
@@ -29,7 +29,7 @@ public class Invoice {
     }
 
     public LocalDateTime getPurchaseDate(){
-        return purhcaseDate;
+        return purchaseDate;
     }
 
     public int getSession(){
@@ -55,7 +55,7 @@ public class Invoice {
     }
 
     public void setPurchaseDate(LocalDateTime purchaseDate) {
-        this.purhcaseDate = purchaseDate;
+        this.purchaseDate = purchaseDate;
     }
 
     public void setSession(int session) {

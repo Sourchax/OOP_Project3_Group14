@@ -96,8 +96,14 @@ public class AdminMenuController {
 
     @FXML
     private void handleRequestsButtonAction() {
-        System.out.println("Requests button clicked.");
-        // Add logic to navigate to requests section
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/adminCancel.fxml"));
+        try {
+            Node temp = fxmlLoader.load();
+            if(mainPane.getCenter() != temp)
+                mainPane.setCenter(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Example method to dynamically update the dateTimeField

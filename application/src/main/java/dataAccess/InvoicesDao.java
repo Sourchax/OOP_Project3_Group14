@@ -19,6 +19,7 @@ public class InvoicesDao extends GenericDao<Invoice>{
         invoice.setPurchaseDate(resultSet.getTimestamp("purchaseDate").toLocalDateTime()); //change this
         invoice.setPdf(resultSet.getBlob("pdf"));
         invoice.setSession(resultSet.getInt("session")); //change this
+        invoice.setID(resultSet.getInt("id"));
         return invoice;
     }
     
