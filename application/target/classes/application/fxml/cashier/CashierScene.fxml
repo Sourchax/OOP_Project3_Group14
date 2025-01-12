@@ -43,7 +43,7 @@
                   </Label>
                </children>
             </HBox>
-            <Button fx:id="logOutButton" layoutX="1113.0" layoutY="63.0" maxHeight="80.0" maxWidth="80.0" mnemonicParsing="false" onMouseClicked="#handleLogOut" prefHeight="50.0" prefWidth="80.0" text="Log Out" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" />
+            <Button fx:id="logOutButton" layoutX="1118.0" layoutY="63.0" maxHeight="80.0" maxWidth="80.0" mnemonicParsing="false" onMouseClicked="#handleLogOut" prefHeight="50.0" prefWidth="80.0" text="Log Out" AnchorPane.bottomAnchor="37.57142857142857" AnchorPane.rightAnchor="40.28571428571422" AnchorPane.topAnchor="63.0" />
             <HBox alignment="BOTTOM_CENTER" layoutX="500.0" layoutY="61.0" prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0">
                <children>
                   <ImageView fx:id="movieSelectionIcon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -103,6 +103,7 @@
                      </HBox.margin></ImageView>
                </children>
             </HBox>
+            <Label fx:id="dateTimeField" alignment="CENTER" layoutX="1108.0" layoutY="13.0" minHeight="30.0" minWidth="100.0" prefHeight="30.0" prefWidth="100.0" styleClass="label-datetime" />
          </children>
       </AnchorPane>
    </top>

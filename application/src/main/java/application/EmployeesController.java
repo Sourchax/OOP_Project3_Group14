@@ -1,7 +1,6 @@
 package application;
 
 import java.util.List;
-import java.util.PrimitiveIterator;
 
 import dataAccess.EmployeesDao;
 import entities.Employee;
@@ -92,8 +91,27 @@ public class EmployeesController {
     private Employee selectedEmployee;
 
     private ObservableList<String> roles = FXCollections.observableArrayList("manager", "cashier", "admin");
-
     
+    /**
+     * Regular expression for validating names.
+     */
+    private static final String Regex_NAME = "^[A-Za-zÇçĞğİıÖöŞşÜü]{2,20}(?: [A-Za-zÇçĞğİıÖöŞşÜü]{2,20})*$";
+
+    /**
+     * Regular expression for validating surnames.
+     */
+    private static final String Regex_SURNAME = "^[A-Za-zÇçĞğİıÖöŞşÜü]{2,20}(?: [A-Za-zÇçĞğİıÖöŞşÜü]{2,20})*$";
+
+    /**
+     * Regular expression for validating usernames.
+     */
+    private static final String Regex_USERNAME = "^[A-Za-zÇçĞğİıÖöŞşÜü0-9._-]{3,20}$";
+
+    /**
+     * Regular expression for validating passwords.
+     */
+
+    private static final String Regex_PASSWORD = "^(?=.*[a-zA-Z])(?=.*\\d).{6,}$";
 
     @FXML
     private void initialize() {        
@@ -128,16 +146,19 @@ public class EmployeesController {
 
     private void loadEmployeeData() {
         List<Employee> employees = employeesDataBase.getList();
-        //remove current logged in employee
-        List<Employee> matchedEmployees = employeesDataBase.getListByFilter("username", currentUser.getUsername());
-        if (!matchedEmployees.isEmpty()) { 
-            employees.remove(matchedEmployees.get(0));
+    
+        if (employees == null || employees.isEmpty()) {
+            System.out.println("No employees found.");
+            return;
         }
-        
-
+    
+        // remove current Employee
+        employees.removeIf(employee -> employee.getUsername().equals(currentUser.getUsername()));
+    
         employeeData = FXCollections.observableArrayList(employees);
         employeesTableView.setItems(employeeData);
     }
+    
 
     private void fireEmployee(){
         Employee selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
@@ -161,6 +182,8 @@ public class EmployeesController {
         } else {
             System.out.println("Select an employee");
         }
+
+        resetTextFields();
     }
 
     private void editEmployeeDetails(){
@@ -169,18 +192,46 @@ public class EmployeesController {
         String username = usernameField.getText();
         String role = roleComboBox.getValue();
         String password = passwordField.getText();
-
-        if (name.isEmpty() || surname.isEmpty() || username.isEmpty() || role.isEmpty() || password.isEmpty()) {
-            System.out.println("Please fill all fields to update the employee"); //make this a warning like an alert
+        int id = selectedEmployee.getId();
+        if (name.isEmpty() || surname.isEmpty() || username.isEmpty() || role.isEmpty()) {
+            
+            showAlert(Alert.AlertType.WARNING, "Warning", "Fill all the fields");
+            return;
+        }
+        else if (!name.matches(Regex_NAME) || !surname.matches(Regex_SURNAME) || !username.matches(Regex_USERNAME))
+        {
+            showAlert(Alert.AlertType.WARNING, "Warning", "Enter valid values");
+            return;
+        }
+        else if (!password.matches(Regex_PASSWORD)) {
+            showAlert(Alert.AlertType.WARNING, "Warning", "Password should contain at least one character and digit.\n And it should be at least 6 character long.");
             return;
         }
 
         try {
             //check if the username already exists
+            boolean isValid = true;
             List<Employee> matchedEmployees = employeesDataBase.getListByFilter("username", username);
             System.out.println(matchedEmployees.size());
-            if (matchedEmployees.size() == 0) {
-                employeesDataBase.updateById(selectedEmployee.getId(), "name, surname, username, role, passwd", name, surname, username, role, password);
+            if (!matchedEmployees.isEmpty()) {
+                isValid = false;
+            }
+
+            //also checks if it is username of the selected employee
+            if(isValid == false) {
+                if (username.equals(selectedEmployee.getUsername()))
+                    isValid = true;
+            }
+
+            if (isValid) {
+                employeesDataBase.updateById(id, "name, surname, username, role, passwd", name, surname, username, role, password);
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText(null); // No header text
+                alert.setContentText("Already exist username try another one");
+                alert.showAndWait();
             }
         
         } catch (Exception e) {
@@ -188,6 +239,7 @@ public class EmployeesController {
         }
         
         loadEmployeeData();
+        resetTextFields();
     }
 
     @FXML
@@ -207,28 +259,51 @@ public class EmployeesController {
         String role = roleComboBox.getValue();
         String password = passwordField.getText();
 
-        boolean isValid = true;
-        if (username.equals(currentUser.getUsername())) {
-            System.out.println("This is your username");
-            isValid = false;
+        //check valid case
+        if (name.isEmpty() || surname.isEmpty() || username.isEmpty() || role.isEmpty() || password.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Warning", "Fill all the fields");
+            resetTextFields();
+            return;
         }
-        
-        List<Employee> employees = employeesDataBase.getList();
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getUsername().equals(username)) {
-                System.out.println("This username is already used");
-                isValid = false;
-            }
+        else if (!name.matches(Regex_NAME) || !surname.matches(Regex_SURNAME) || !username.matches(Regex_USERNAME))
+        {
+            showAlert(Alert.AlertType.WARNING, "Warning", "Enter valid values");
+            resetTextFields();
+            return;
         }
-        
-        if (isValid) {
-            
-            Employee hiredEmployee = new Employee(name, surname, username, password, role);
-            employeesDataBase.insert(hiredEmployee);
-            loadEmployeeData();
+        else if (!password.matches(Regex_PASSWORD)) {
+            showAlert(Alert.AlertType.WARNING, "Warning", "Password should contain at least one character and digit and 6 character long.");
+            resetTextFields();
+            return;
         }
 
-        
+        List<Employee> matchedEmployees = employeesDataBase.getListByFilter("username", username);
+        System.out.println(matchedEmployees.size());
+        if (!matchedEmployees.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Employee Hired", "Already exist username try another one");
+            resetTextFields();
+            return;
+        }
 
+        // if employee not exists insert new employee to db
+        Employee hiredEmployee = new Employee(name, surname, username, password, role);
+        employeesDataBase.insert(hiredEmployee);
+        loadEmployeeData();
+        resetTextFields();
+    }
+
+    private void resetTextFields() {
+        nameField.setText("");
+        usernameField.setText("");
+        surnameField.setText("");
+        roleComboBox.setValue("");
+        passwordField.setText("");
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

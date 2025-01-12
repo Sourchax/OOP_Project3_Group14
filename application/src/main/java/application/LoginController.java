@@ -42,12 +42,6 @@ public class LoginController {
 
     @FXML
     private Label loginError;
-
-    public void setMainPane(BorderPane borderPane) {
-        this.mainPane = borderPane;
-    }
-
-
     @FXML
     private void initialize(){
         loginError.setVisible(false);

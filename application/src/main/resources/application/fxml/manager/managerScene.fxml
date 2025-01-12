@@ -74,7 +74,7 @@
                      <children>
                         <HBox alignment="TOP_RIGHT">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="201.0" text="Date">
+                              <Label fx:id="dateTimeLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="201.0" text="Date">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

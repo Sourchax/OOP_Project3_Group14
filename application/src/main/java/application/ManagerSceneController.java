@@ -1,17 +1,14 @@
 package application;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 
-import entities.Employee;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +21,7 @@ public class ManagerSceneController {
 
     @FXML
     private Label usernameLabel;
+    
     @FXML
     private Label roleLabel;
 
@@ -31,29 +29,22 @@ public class ManagerSceneController {
     private Label dateLabel;
 
     @FXML
+    private Label dateTimeLabel;
+
+    @FXML
     private Button logOutButton;
 
     @FXML
     private BorderPane mainPane;
-
-    private Employee currentEmployee;
-
-    // Set the current employee before initialize is called
-    public void setCurrentEmployee(Employee currentEmployee) {
-        this.currentEmployee = currentEmployee;
-    }
-
-
-    public void setMainPane(BorderPane borderPane) {
-        this.mainPane = borderPane;
-    }
-
 
     @FXML
     private void initialize(){
         ManagerParent.setParent(this);
         System.out.println("manager scene");
         usernameLabel.setText(currentUser.getUsername());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        dateTimeLabel.setText(java.time.LocalDateTime.now().format(formatter));
         handleScenes("fxml/manager/inventory.fxml");
     }
 
@@ -88,8 +79,6 @@ public class ManagerSceneController {
     void onLogoutClick(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/login.fxml"));
         BorderPane root = loader.load();
-    
-        // Get the login screen controller
         LoginController loginController = loader.getController();
     
         // Get the current stage based on the event
@@ -100,8 +89,5 @@ public class ManagerSceneController {
         currentStage.setTitle("Login Page"); 
         currentStage.setScene(loginScene);   
         currentStage.show();
-    
-        // pass any data to the LoginController
-        // loginController.setSomeData(someData);
     }
 }

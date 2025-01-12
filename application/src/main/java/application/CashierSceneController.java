@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.animation.TranslateTransition;
@@ -40,7 +41,7 @@ public class CashierSceneController {
     private Label usernameLabel;
 
     @FXML
-    private Label dateLabel;
+    private Label dateTimeField;
 
     @FXML
     private Button logOutButton;
@@ -84,6 +85,9 @@ public class CashierSceneController {
         usernameLabel.setText(currentUser.getUsername());
         Image iconPlace = new Image(getClass().getResource("/application/fxml/icons/cashier-logo.png").toExternalForm());
         logoImageView.setImage(iconPlace);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        dateTimeField.setText(java.time.LocalDateTime.now().format(formatter));
     
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/slidingSubScene.fxml"));

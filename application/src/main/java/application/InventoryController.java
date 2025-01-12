@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -263,18 +264,41 @@ public class InventoryController {
             setChosenProduct(selectedProduct);
             productsDatabase.updateById(selectedProduct.getId(), "stock", currentStock - 1);
         }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("Out of stock");
+            alert.showAndWait();
+            return;
+        }
     }
 
 
     @FXML
     void editPrice(ActionEvent event) {
-        Float newPrice = Float.parseFloat(productPriceField.getText());
-        if (newPrice <= 0 || productPriceField.getText().isEmpty()) {
-            System.out.println("Invalid value or empty"); //make this a warning like an alert
+
+        String priceInput = productPriceField.getText().trim();
+        priceInput = priceInput.replace(',', '.');
+    
+        // check for valid input
+        if (!priceInput.matches("^[+]?\\d*(\\.\\d+)?$")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("Enter a valid number");
+            alert.showAndWait();
             return;
         }
 
         try {
+            float newPrice = Float.parseFloat(priceInput);
+            if (newPrice < 0 || priceInput.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setContentText("Enter a valid number");
+                alert.showAndWait();
+                return;
+            }
+
             Product copySelectedProduct = selectedProduct;
             selectedProduct.setPrice(newPrice);
             setChosenProduct(selectedProduct);
@@ -282,8 +306,11 @@ public class InventoryController {
             initGrid();
             setChosenProduct(copySelectedProduct);
             
-        } catch (Exception e) {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Warning");
+            alert.setContentText("Enter a valid number with valid format.");
+            alert.showAndWait();
         }
 
     }
