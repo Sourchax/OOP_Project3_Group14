@@ -45,6 +45,8 @@ public class SlidingSubSceneController {
 
     public double totalPriceTicket = 0.0;
     public double totalPriceProduct = 0.0;
+    public double totalTaxProduct = 0.0;
+    public double totalTaxTicket = 0.0;
 
     @FXML
     public void initialize() {
@@ -107,11 +109,12 @@ public class SlidingSubSceneController {
         String tax = String.valueOf(pModifiers.get(2).getVal());
 
         double lastPrice = (pModifiers.get(0).getVal()*((100-discount)/100.0))*((100+pModifiers.get(2).getVal())/100.0) ;
-
+        double taxVal = lastPrice-(pModifiers.get(0).getVal()*((100-discount)/100.0));
         String ticketData = String.format("%s, %s, %s, %s, %s, %s, %s, %s %.2f%s",
                 title, date, time, hall, seat, "Discount: %"+String.valueOf(discount), "Tax:%"+tax, "Price:",lastPrice,"₺");
         addBlockToGrid(true, ticketData, 0, row);
         totalPriceTicket+=lastPrice;
+        totalTaxTicket+=taxVal;
         StaticSelection.allTickets.add(ticketData);
         row++;
     }
@@ -119,8 +122,8 @@ public class SlidingSubSceneController {
 
     public void populateProductGrid() {
         int row = 0;
-
         totalPriceProduct = 0.0;
+        totalTaxProduct = 0.0;
         StaticSelection.allProducts= new ArrayList<>();
         if(StaticSelection.selectedProducts.keySet() != null){
             for (Product product : StaticSelection.selectedProducts.keySet()) {
@@ -130,15 +133,16 @@ public class SlidingSubSceneController {
                 int tax = pModifiers.get(3).getVal();
     
                 double lastPrice = (product.getPrice()*((100+tax)/100.0)*quantity);
-    
+                double taxVal = (lastPrice-(product.getPrice()*quantity));
                 if(quantity != 0){
     
-                    String productData = String.format("%s, %s%d, %s, %d, %s %.2f%s", product.getName(), "Quantity: ",quantity, "Tax:%",tax , "Total Price:",lastPrice,"₺");
+                    String productData = String.format("%s, %s%d, %s %d, %s %.2f%s", product.getName(), "Quantity: ",quantity, "Tax:%",tax , "Total Price:",lastPrice,"₺");
                     addBlockToGrid(false, productData, 0, row);
                     StaticSelection.allProducts.add(productData);
     
                 }
                 totalPriceProduct+=lastPrice;
+                totalTaxProduct+=taxVal;
                 row++;
             }
         }
@@ -165,14 +169,18 @@ public class SlidingSubSceneController {
 
         if(shipGrid.getChildren().isEmpty()){
             totalPriceTicket = 0.0;
+            totalTaxTicket = 0.0;
         }
         if(productGrid.getChildren().isEmpty()){
             totalPriceProduct = 0.0;
+            totalTaxProduct = 0.0;
         }
 
         double totalPriceAll = totalPriceProduct + totalPriceTicket;
+        double totalTaxAll = totalTaxProduct + totalTaxTicket;
 
         totalAmount.setText(String.valueOf(totalPriceAll));
         StaticSelection.totalAmount = totalPriceAll;
+        StaticSelection.totalTax = totalTaxAll;
     }
 }

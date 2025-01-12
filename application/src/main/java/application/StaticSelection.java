@@ -17,4 +17,5 @@ public class StaticSelection {
     public static List<String> allTickets;
     public static List<String> allProducts;
     public static double totalAmount;
+    public static double totalTax;
 }

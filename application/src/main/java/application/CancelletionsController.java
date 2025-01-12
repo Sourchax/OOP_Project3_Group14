@@ -99,6 +99,9 @@ public class CancelletionsController {
     @FXML
     private void showReceipt() {
 
+        if( invoiceTable.getSelectionModel().getSelectedItem() == null){
+            return;
+        }
         Invoice selectedInvoice = invoiceTable.getSelectionModel().getSelectedItem();
 
         try (InputStream inputStream = selectedInvoice.getPdf().getBinaryStream()) {

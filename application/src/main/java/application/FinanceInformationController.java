@@ -52,6 +52,11 @@ public class FinanceInformationController {
         }
         totalRevenue.setText(String.valueOf(total));
         
+        total = 0.0;
+        for (int i = 0; i < invoices.size(); i++) {
+            total += invoices.get(i).getTotalTax();
+        }
+        totalTax.setText(String.valueOf(total));
         
         database = new PriceModifiersDao();
 
@@ -59,6 +64,15 @@ public class FinanceInformationController {
             String newText = change.getControlNewText();
         
             if (newText.matches("\\d{0,2}")) {
+                return change; 
+            }
+            return null;
+        }));
+
+        ticketPriceField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+        
+            if (newText.matches("\\d+")) {
                 return change; 
             }
             return null;
