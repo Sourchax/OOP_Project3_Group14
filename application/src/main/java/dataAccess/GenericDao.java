@@ -10,18 +10,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utilities.Regex;
-
+/**
+ * Generic database access library
+ * <p>
+ * Utilizes a generic design to access database for the entities. 
+ * It is an abstract class that needs to be implemented and configured by a class that specializes for the related entity.
+ * configurations needed: 
+ *  - tableName field needs to be set with the table name of the database that entity will be connected to.
+ *  - mapToObj abstract function to map the values taken from the database to the related entity.
+ * </p>
+ */
 public abstract class GenericDao<T> {
     protected String tableName;
 
+    /**
+     * Abstract function to map values from database to entity.
+     * @param resultSet Object holding values from database.
+     * @return an object of related entity.
+     * @throws SQLException 
+     */
     public abstract T mapToObj(ResultSet resultSet) throws SQLException;
 
+    /**
+     * Prepares the given PreparedStatement with the values in the given Object array.
+     * @param statement PreparedStatement to be prepared.
+     * @param vararg Object array that contains the values.
+     * @throws SQLException
+     */
     public void mapToStatement(PreparedStatement statement, Object[] vararg) throws SQLException {
         for(int i = 1; i <= vararg.length; i++){
             statement.setObject(i, vararg[i-1]);
         }
     }
 
+    /**
+     * Prepares the given PreparedStatement with the values of the given object.
+     * utilizes reflection to read the fields and methods of the given object and invoke.
+     * @param statement PreparedStatement to be prepared.
+     * @param obj Object to take the values from.
+     * @throws Exception
+     */
     public void mapToStatement(PreparedStatement statement, T obj) throws Exception {
         Class<?> cla = obj.getClass();
         Field[] fields = cla.getDeclaredFields();
@@ -35,7 +63,12 @@ public abstract class GenericDao<T> {
         }
     }
 
-
+    /**
+     * Inserts fields of the given object to the table specified in the child class.
+     * @param obj Object to take values from.
+     * @see #mapToStatement(PreparedStatement, Object)
+     * @see #Regex.formatColumns(obj)
+     */
     public void insert(T obj){
         String[] queryParts = Regex.formatColumns(obj);
         String query = "INSERT INTO " + tableName + queryParts[0] + " VALUES " + queryParts[1] + ";";
@@ -51,6 +84,10 @@ public abstract class GenericDao<T> {
         }
     }
 
+    /**
+     * Deletes the entry with the given id from the database.
+     * @param id id of the entry.
+     */
     public void deleteById(int id){
         String query = "DELETE FROM " + tableName + " WHERE id = ?;";
 
@@ -66,6 +103,16 @@ public abstract class GenericDao<T> {
 
     }
 
+    /**
+     * Updates the entry with the given id of the database. 
+     * Columns that will be edited and the values they will be updated with need to be provided.
+     * Columns are provided in the following format: "column1, column2, column3"
+     * Values are provided as parameters for the variable argument.
+     * @param id id of the entry
+     * @param columnUpdate Columns of the database to be upgraded as a string
+     * @param vararg Variable argument containing the values to overwrite with.
+     * @see #mapToStatement(PreparedStatement, Object[])
+     */
     public void updateById(int id, String columnUpdate, Object... vararg){
         
         try{
@@ -85,6 +132,11 @@ public abstract class GenericDao<T> {
         }
     }
 
+    /**
+     * Gets all entries of the related database table and return as a list of objects
+     * @return list of objects with the entry data.
+     * @see #mapToObj(ResultSet)
+     */
     public List<T> getList(){
         String query = "SELECT * FROM " + tableName + ";";
         
@@ -106,6 +158,17 @@ public abstract class GenericDao<T> {
         }
     }
 
+    /**
+     * Gets all entries of the related database table that fits the provided filter and return as a list of objects
+     * Columns that will be filtered with and the values to filter with need to be provided.
+     * Columns are provided in the following format: "column1, column2, column3"
+     * Values are provided as parameters for the variable argument.
+     * @param columns columns of the table in given string format.
+     * @param vararg variable argument that contains the values for filter.
+     * @return list of objects with the entry data.
+     * @see #mapToStatement(PreparedStatement, Object[])
+     * @see #mapToObj(ResultSet)
+     */
     public List<T> getListByFilter(String columns, Object... vararg){
 
         try{
@@ -131,6 +194,16 @@ public abstract class GenericDao<T> {
         
     }
 
+    /**
+     * Get a single entry from the related database table that fits the provided filter and return it.
+     * Columns that will be filtered with and the values to filter with need to be provided.
+     * Columns are provided in the following format: "column1, column2, column3"
+     * Values are provided as parameters for the variable argument.
+     * Prints an error message if the result set of the query contains more than one row.
+     * @param columns columns of the table in given string format.
+     * @param vararg variable argument that contains the values for filter.
+     * @return object with the values from the entry.
+     */
     public T getByFilter(String columns, Object... vararg){
 
         try{

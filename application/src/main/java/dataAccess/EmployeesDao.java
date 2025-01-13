@@ -5,8 +5,17 @@ import java.sql.SQLException;
 
 import entities.Employee;
 
+/**
+ * Database Access Object to provide database functionalities for {@link entities.Employee} entity
+ * <p>
+ * This class extends the abstract definitions of {@link dataAccess.GenericDao} class.
+ * </p>
+ */
 public class EmployeesDao extends GenericDao<Employee>{
 
+    /**
+     * Constructor for initializing with the table name.
+     */
     public EmployeesDao(){
         this.tableName = "employees";
     }

@@ -6,8 +6,17 @@ import java.time.LocalDate;
 
 import entities.Session;
 
+/**
+ * Database Access Object to provide database functionalities for {@link entities.Session} entity
+ * <p>
+ * This class extends the abstract definitions of {@link dataAccess.GenericDao} class.
+ * </p>
+ */
 public class SessionDao extends GenericDao<Session>{
     
+    /**
+     * Constructor for initializing with the table name.
+     */
     public SessionDao(){
         this.tableName = "sessions";
     }

@@ -5,8 +5,17 @@ import java.sql.SQLException;
 
 import entities.Product;
 
+/**
+ * Database Access Object to provide database functionalities for {@link entities.Product} entity
+ * <p>
+ * This class extends the abstract definitions of {@link dataAccess.GenericDao} class.
+ * </p>
+ */
 public class ProductsDao extends GenericDao<Product>{
 
+    /**
+     * Constructor for initializing with the table name.
+     */
     public ProductsDao(){
         this.tableName = "products";
     }

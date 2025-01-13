@@ -4,10 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Database connection library
+ * <p>
+ * Includes database connection string and connection creator.
+ * </p>
+ */
 public class DBConnector {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/oop_cinema";
-    private static final String USER = "root";
-    private static final String PASSWD = "admin123";
+    private static final String USER = "myuser";
+    private static final String PASSWD = "1234";
     
     /**
      * Creates connection with the database for the other operations

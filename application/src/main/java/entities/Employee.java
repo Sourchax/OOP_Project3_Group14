@@ -4,10 +4,10 @@ import java.sql.Date;
 // import utilities.Authentication;
 
 /**
- * Abstract Employee class 
- * Inherited by {@link users.RegularEmployee} and {@link users.Manager} classes.
+ * Employee entity
+ * Contains various information of an employee of the company.
  */
-public /*abstract*/ class Employee {
+public class Employee {
     private int id;
     private String name;
     private String surname;

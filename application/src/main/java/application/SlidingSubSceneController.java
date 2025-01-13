@@ -226,6 +226,7 @@ public class SlidingSubSceneController {
     private void addBlockToGrid(boolean isTicket, String data, int column, int row) {
         VBox dataBlock = new VBox();
         Label label = new Label(data);
+        label.setStyle("-fx-text-fill: blue;");
         dataBlock.getChildren().add(label);
 
         dataBlock.setStyle("-fx-padding: 5px; -fx-background-color: lightgray; -fx-border-color: black;");

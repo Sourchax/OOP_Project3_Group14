@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InventoryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InventoryController">
    <children>
       <VBox fx:id="managerSideBar" alignment="TOP_CENTER" layoutX="55.0" layoutY="31.0" minHeight="400.0" minWidth="275.0" prefHeight="575.0" prefWidth="314.0" spacing="20.0">
          <children>
