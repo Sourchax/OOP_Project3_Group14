@@ -191,11 +191,9 @@ public class EmployeesController {
             
             ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
             if (result == yesButton) {
-                System.out.println("Burdayim");
                 employeeData.remove(selectedEmployee);
                 employeesDataBase.deleteById(selectedEmployee.getId());
             } else {
-                System.out.println("Surdayim");
                 return;
             }
             

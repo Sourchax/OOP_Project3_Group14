@@ -26,26 +26,40 @@ import javax.sql.rowset.serial.SerialBlob;
 import dataAccess.MoviesDao;
 import entities.Movie;
 
+
+/**
+ * Controller class for adding a movie to the application.
+ * It provides methods to upload images, select genres, and save movie details to the database.
+ */
 public class AddMovieController {
 
     @FXML
     private TextField titleField;
+
     @FXML
     private Label genreField;
+
     @FXML
     private TextField summaryField;
+
     @FXML
     private TextField yearField;
+
     @FXML
     private ImageView imageView;
+
     @FXML
     private Button uploadImageButton;
+
     @FXML
     private Button addGenreButton;
 
-
     private File selectedImageFile;
 
+    /**
+     * Initializes the AddMovieController.
+     * Sets up text field formatting for the year and genre selection button action.
+     */
     @FXML
     private void initialize(){
         yearField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
@@ -59,6 +73,9 @@ public class AddMovieController {
         addGenreButton.setOnAction(event -> showGenreSelectionPopup());
     }
 
+     /**
+     * Handles image file selection and displays the selected image in the image view.
+     */
     @FXML
     private void onUploadImage() {
         FileChooser fileChooser = new FileChooser();
@@ -75,7 +92,10 @@ public class AddMovieController {
         }
     }
 
-    // Add movie logic, e.g., save movie details to a database or a list
+    /**
+     * Adds a movie to the database with the provided details.
+     * Validates the inputs before saving the movie and its image to the database.
+     */
     @FXML
     private void onAddMovie() {
         String title = titleField.getText();
@@ -140,6 +160,9 @@ public class AddMovieController {
         stage.close();
     }
 
+    /**
+     * Closes the current window without saving any data.
+     */
     @FXML
     private void onCancel() {
         // Close the window without saving
@@ -147,6 +170,9 @@ public class AddMovieController {
         stage.close();
     }
 
+    /**
+     * Opens a popup window for selecting genres.
+     */
     private void showGenreSelectionPopup() {
         try {
 
@@ -169,11 +195,21 @@ public class AddMovieController {
         }
     }
 
+    /**
+     * Updates the genre field with the selected genres.
+     *
+     * @param genres A string builder containing the selected genres.
+     */
     public void updateSelectedGenres(StringBuilder genres) {
         if(genres.length()!=0)
             genreField.setText(genres.toString());
     }
 
+    /**
+     * Displays an error alert and cancels the current process.
+     *
+     * @param errorMessage The error message to be displayed in the alert.
+     */
     private void cancelProcess(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
         if(errorMessage.length() > 10){

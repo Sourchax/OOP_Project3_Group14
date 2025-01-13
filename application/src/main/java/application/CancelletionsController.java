@@ -41,6 +41,11 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for managing invoice cancellations.
+ * Provides functionality to view, search, filter, and cancel invoices, 
+ * as well as manage related session and product data.
+ */
 public class CancelletionsController {
 
 
@@ -72,6 +77,9 @@ public class CancelletionsController {
     private InvoicesDao invoicesDao = new InvoicesDao();
     private ObservableList<Invoice> invoiceList = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the table view and loads invoice data.
+     */
     @FXML
     public void initialize() 
     {
@@ -99,7 +107,10 @@ public class CancelletionsController {
         loadInvoices();
     }
 
-    // Function to handle "Show Receipt" action
+    /**
+     * Displays the receipt of the selected invoice in a WebView.
+     * The receipt is shown as an HTML file generated from the invoice's PDF data.
+     */
     @FXML
     private void showReceipt() {
 
@@ -143,6 +154,9 @@ public class CancelletionsController {
 
     }
 
+    /**
+     * Loads all invoices from the database and sets them to the table view.
+     */
     private void loadInvoices() 
     {
         List<Invoice> invoices = invoicesDao.getList();
@@ -150,6 +164,12 @@ public class CancelletionsController {
         invoiceTable.setItems(invoiceList);
     }
 
+    /**
+     * Handles the search functionality based on the entered keyword in the search bar.
+     * Filters invoices by name and surname.
+     *
+     * @param event The action event that triggers the search.
+     */
     @FXML
     void searchInvoice(ActionEvent event) 
     {
@@ -164,6 +184,12 @@ public class CancelletionsController {
         invoiceTable.setItems(filteredList);
     }
 
+    /**
+     * Filters the invoices displayed in the table view based on the selected date.
+     * Only invoices with the selected date will be shown.
+     *
+     * @param event The action event that triggers the date filtering.
+     */
     @FXML
     private void filterByDate(ActionEvent event) 
     {
@@ -178,6 +204,10 @@ public class CancelletionsController {
         invoiceTable.setItems(filteredList);
     }
 
+    /**
+     * Confirms the cancellation of the selected invoice and updates the related session and product data.
+     * The action is confirmed via a confirmation alert.
+     */
     @FXML
     private void confirmCancel() 
     {
@@ -225,6 +255,12 @@ public class CancelletionsController {
             }
         });
     }
+
+    /**
+     * Displays an error message in an alert dialog.
+     *
+     * @param message The error message to display.
+     */
     private void showError(String message) 
     {
         Alert alert = new Alert(AlertType.ERROR);
@@ -234,6 +270,12 @@ public class CancelletionsController {
         alert.showAndWait();
     }
 
+
+    /**
+     * Displays an informational message in an alert dialog.
+     *
+     * @param message The informational message to display.
+     */
     private void showInfo(String message) 
     {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -243,6 +285,11 @@ public class CancelletionsController {
         alert.showAndWait();
     }
 
+    /**
+     * Decrypts the invoice data, extracting seat and product information from the encrypted comment.
+     * 
+     * @param data The encrypted Blob data containing the invoice's seat and product information.
+     */
     private void decrypt(Blob data){
         try (InputStream inputStream = data.getBinaryStream()) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

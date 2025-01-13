@@ -17,6 +17,10 @@ import java.time.format.DateTimeFormatter;
 
 import javafx.event.ActionEvent;
 
+/**
+ * Controller class for the admin menu. Provides functionality for updating user information,
+ * handling button actions such as logging out, viewing movies, schedules, and requests.
+ */
 public class AdminMenuController {
 
     @FXML
@@ -45,14 +49,23 @@ public class AdminMenuController {
 
     @FXML
     private BorderPane mainPane;
-    
-    // Initialize method to set up initial state
+
+    /**
+     * Initializes the AdminMenuController by updating the date and time display,
+     * and user information on the screen.
+     */
     @FXML
     private void initialize() {
         updateDateTimeField();
         updateUserInfo(currentUser.getUsername(), currentUser.getRole(), "file:fxml\\deneme.jpg");
     }
 
+    /**
+     * Handles the log out action. Loads the login page and transitions the current window to the login scene.
+     *
+     * @param event The mouse event that triggers the log out action.
+     * @throws IOException If an error occurs while loading the login page.
+     */
     @FXML
     private void handleLogOutAction(MouseEvent event) throws IOException {
         System.out.println("Log Out button clicked.");
@@ -70,6 +83,9 @@ public class AdminMenuController {
         currentStage.show();
     }
 
+    /**
+     * Handles the action when the movies button is clicked. Loads and displays the movies tab in the main pane.
+     */
     @FXML
     private void handleMoviesButtonAction() {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/moviesTab.fxml"));
@@ -82,6 +98,9 @@ public class AdminMenuController {
         }
     }
 
+    /**
+     * Handles the action when the schedules button is clicked. Loads and displays the schedules tab in the main pane.
+     */
     @FXML
     private void handleSchedulesButtonAction() {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/schedulesTab.fxml"));
@@ -94,6 +113,9 @@ public class AdminMenuController {
         }
     }
 
+    /**
+     * Handles the action when the requests button is clicked. Loads and displays the admin cancel tab in the main pane.
+     */
     @FXML
     private void handleRequestsButtonAction() {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/adminCancel.fxml"));
@@ -106,13 +128,21 @@ public class AdminMenuController {
         }
     }
 
-    // Example method to dynamically update the dateTimeField
+    /**
+     * Updates the dateTimeField with the current date in the format "yyyy-MM-dd".
+     */
     public void updateDateTimeField() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dateTimeField.setText(java.time.LocalDateTime.now().format(formatter));
     }
 
-    // Example method to update user information dynamically
+    /**
+     * Updates the user information displayed on the screen, including username, role, and profile picture.
+     *
+     * @param username The username to be displayed.
+     * @param role The role of the user to be displayed.
+     * @param imagePath The path to the user's profile picture.
+     */
     public void updateUserInfo(String username, String role, String imagePath) {
         usernameField.setText(username);
         roleField.setText(role);
