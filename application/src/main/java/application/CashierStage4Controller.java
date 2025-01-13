@@ -128,6 +128,7 @@ public class CashierStage4Controller {
     private void initialize() {
 
         StaticSelection.selectedProducts = new HashMap<>();
+        cashierParent.getParent().productAdded();
 
         plusDiscount.setDisable(true);
         minusDiscount.setDisable(true);

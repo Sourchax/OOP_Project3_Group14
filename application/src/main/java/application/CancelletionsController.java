@@ -323,10 +323,11 @@ public class CancelletionsController {
                 productData+=comment.charAt(i++);
             }
 
-
             products = new ArrayList<>();
             String[] parts = productData.split(",");
-            
+            if(productData == ""){
+                return;
+            }
             for(String part: parts)
                 System.out.println(part);
 
