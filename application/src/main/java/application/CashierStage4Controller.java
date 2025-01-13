@@ -24,62 +24,106 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * The {@code CashierStage4Controller} class manages the cashier interface, handling interactions
+ * with the product grid, ticket grid, and user inputs. It includes functionalities for 
+ * managing discounts, products, and user details for invoice generation.
+ */
 public class CashierStage4Controller {
 
+    // FXML Components
+    /**
+     * TextField for the customer's first name.
+     */
     @FXML
     private TextField nameField;
 
+    /**
+     * TextField for the customer's last name.
+     */
     @FXML
     private TextField surnameField;
 
+    /**
+     * CheckBox for applying a discount.
+     */
     @FXML
     private CheckBox discountCheck;
 
+    /**
+     * Button to decrease the discount amount.
+     */
     @FXML
     private Button minusDiscount;
 
+    /**
+     * Label showing the current discount amount.
+     */
     @FXML
     private Label discountAmount;
 
+    /**
+     * Label displaying the selected product's name.
+     */
     @FXML
     private Label prodNameField;
 
+    /**
+     * Button to add the selected product to the cart.
+     */
     @FXML
     private Button addProd;
 
+    /**
+     * Button to remove the selected product from the cart.
+     */
     @FXML
     private Button removeProd;
 
+    /**
+     * Button to increase the discount amount.
+     */
     @FXML
     private Button plusDiscount;
 
+    /**
+     * Button to apply the discount to the ticket.
+     */
     @FXML
     private Button applyButton;
 
+    /**
+     * Button to navigate back to the previous screen.
+     */
     @FXML
     private Button backButton;
 
+    /**
+     * Button to confirm and proceed to the invoice generation.
+     */
     @FXML
     private Button confirmButton;
 
+    /**
+     * GridPane displaying the tickets purchased by the customer.
+     */
     @FXML
     private GridPane ticketGrid;
 
+    /**
+     * GridPane displaying the available products for purchase.
+     */
     @FXML
     private GridPane productGrid;
 
+    // Fields
     private List<Product> productList;
-
     private double ticketPrice;
-
-    private double discountRatio;
-
-    private double productTax;
-
-    private double ticketTax;
-
     private Product selectedProduct;
 
+    /**
+     * Initializes the controller. Sets up the input fields, buttons, and grids.
+     */
     @FXML
     private void initialize() {
 
@@ -101,6 +145,12 @@ public class CashierStage4Controller {
         }));
     
 
+        /**
+        * Validates text input for name and surname fields.
+        * 
+        * @param change the text change to validate
+        * @return the validated change, or null if invalid
+        */
         surnameField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
             String newText = change.getControlNewText();
         
@@ -117,9 +167,6 @@ public class CashierStage4Controller {
         List<PriceModifier> pfs = a.getList();
 
         ticketPrice = pfs.get(0).getVal();
-        discountRatio = pfs.get(1).getVal();
-        productTax = pfs.get(2).getVal();
-        ticketTax = pfs.get(3).getVal();
 
         productList = products.getList();
 
@@ -149,6 +196,9 @@ public class CashierStage4Controller {
         });
     }
 
+    /**
+     * Decreases the discount amount, if possible.
+     */
     private void decreaseDiscount() {
         Integer discountInt = Integer.parseInt(discountAmount.getText());
         if (discountInt != 0) {
@@ -163,6 +213,10 @@ public class CashierStage4Controller {
         }
     }
 
+
+    /**
+     * Increases the discount amount, ensuring it doesn't exceed the number of seats.
+     */
     private void increaseDiscount() {
         Integer discountInt = Integer.parseInt(discountAmount.getText());
         Integer seatNum = StaticSelection.staticSeatIndeces.size();
@@ -174,7 +228,9 @@ public class CashierStage4Controller {
         
     }
 
-
+    /**
+     * Populates the product grid with available products.
+     */
     private void populateProductGrid() {
         productGrid.getChildren().clear();
         productGrid.setHgap(10);
@@ -241,6 +297,9 @@ public class CashierStage4Controller {
 
     }
 
+    /**
+     * Populates the Ticket grid with available products.
+     */
     private void populateTicketGrid() {
         ticketGrid.getChildren().clear();
         ticketGrid.setHgap(10);
@@ -281,6 +340,10 @@ public class CashierStage4Controller {
         }
     }
 
+    /**
+     * Proceeds to the next stage of the cashier process if valid customer details are provided.
+     * Displays an error alert if the name or surname fields are empty.
+     */
     private void proceed() {
         String name = nameField.getText();
         String surname = surnameField.getText();
@@ -299,6 +362,10 @@ public class CashierStage4Controller {
         }
     }
 
+    /**
+     * Navigates back to the previous stage of the cashier process.
+     * Resets the selected products and updates the parent scene to "seatPlanStage".
+     */
     private void goBack() {
         cashierParent.getParent().ticketsAdded(-1, false);
         StaticSelection.selectedProducts = new HashMap<>();
@@ -306,12 +373,23 @@ public class CashierStage4Controller {
         cashierParent.getParent().handleScenes("seatPlanStage"); 
     }
 
+    /**
+     * Applies the discount specified in the discount amount field to the tickets.
+     * Updates the parent component with the discount information.
+     */
     private void handleApply(){
         Integer discountNum = Integer.parseInt(discountAmount.getText());
 
         cashierParent.getParent().ticketsAdded(discountNum, true);
     }
 
+
+    /**
+     * Updates the image based on the provided SQL Blob object.
+     * 
+     * @param imageBlob the SQL Blob containing image data
+     * @return an Image object if the Blob is valid; otherwise, returns null
+     */
     private Image updateImage(Blob imageBlob) {
 
         if(imageBlob == null){
@@ -329,6 +407,10 @@ public class CashierStage4Controller {
         }
     }
 
+    /**
+    * Adds the currently selected product to the cart.
+    * Increments the product's count in the selection map and updates the parent component.
+    */
     private void addProductToCart(){
         Integer a = StaticSelection.selectedProducts.get(selectedProduct);
         StaticSelection.selectedProducts.put(selectedProduct, ++a);
@@ -338,6 +420,13 @@ public class CashierStage4Controller {
 
     }
 
+    /**
+    * Updates the selected product based on the given index.
+    * Updates the UI to reflect the selected product's details and enables or disables buttons
+    * depending on the product's stock and selection count.
+    * 
+     * @param a the index of the selected product in the product list
+    */
     private void addToSelectedProduct(int a){
         selectedProduct = productList.get(a);
 
@@ -352,6 +441,11 @@ public class CashierStage4Controller {
         }
     }
 
+    /**
+    * Removes the currently selected product from the cart.
+    * Decrements the product's count in the selection map and updates the parent component.
+    * Disables the remove button if the product count reaches zero.
+    */
     private void removeProductFromCart(){
         Integer a = StaticSelection.selectedProducts.get(selectedProduct);
         StaticSelection.selectedProducts.put(selectedProduct, --a);

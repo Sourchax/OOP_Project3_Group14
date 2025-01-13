@@ -304,7 +304,14 @@ public class MoviesTabController {
                 return;
             }
         }
-
+        
+        if(!title.equals(selectedMovie.getName()) && !sessionDao.getListByFilter("movie", selectedMovie.getName()).isEmpty()){
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText("Edit Failed");
+            error.setContentText("Could not edit the title of the movie. It is scheduled");
+            error.show();
+        }
         if(!summary.equals(selectedMovie.getSummary())){
             if( !database.getListByFilter("summary", summaryField.getText()).isEmpty()){
                 cancelProcess("summary");
@@ -326,13 +333,6 @@ public class MoviesTabController {
             return;
         }
 
-        if(!sessionDao.getListByFilter("movie", selectedMovie.getName()).isEmpty()){
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Error");
-            error.setHeaderText("Edit Failed");
-            error.setContentText("Could not edit the title of the movie. It is scheduled");
-            error.show();
-        }
         else{
             database.updateById(selectedMovie.getId(), "name, year, genre, summary, poster", title, year, genre, summary, selectedImageBlob);
         }

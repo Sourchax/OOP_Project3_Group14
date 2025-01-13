@@ -59,7 +59,7 @@
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="175.0" styleClass="genre" text="Genre(s):" textAlignment="CENTER" GridPane.rowIndex="2" />
 
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="49.0" prefWidth="176.0" styleClass="summary" text="Summary:" textAlignment="CENTER" GridPane.rowIndex="4" />
-                  <TextArea fx:id="summaryField" prefHeight="99.0" prefWidth="331.0" styleClass="summaryField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextArea fx:id="summaryField" prefHeight="99.0" prefWidth="331.0" styleClass="summaryField" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="yearField" styleClass="yearField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="titleField" styleClass="titleField" GridPane.columnIndex="1" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
