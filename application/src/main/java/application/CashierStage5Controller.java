@@ -28,36 +28,39 @@ import dataAccess.SessionDao;
 import entities.Invoice;
 import entities.Product;
 
+/**
+ * Controller class for managing cashier operations during the final stage of the purchase process.
+ * This class handles the display of ticket details, updates stock, generates invoices, and navigates between scenes.
+ */
 public class CashierStage5Controller {
 
-    @FXML private Label movieName;
-    @FXML private Label Hall;
-    @FXML private Label sessionDate;
-    @FXML private Label sessionTime;
-    @FXML private Label transactionDate;
-    @FXML private Label seats;
-    @FXML private Label name;
-    @FXML private Label surname;
-    @FXML private Pane products;
-    @FXML private Label ticketMovieName;
-    @FXML private Label ticketHall;
-    @FXML private Label ticketDate;
-    @FXML private Label ticketTime;
-    @FXML private Label ticketSeats;
+    @FXML private Label movieName;  // Label displaying the movie name.
+    @FXML private Label Hall;  // Label displaying the hall name.
+    @FXML private Label sessionDate;  // Label displaying the session date.
+    @FXML private Label sessionTime;  // Label displaying the session time.
+    @FXML private Label transactionDate;  // Label displaying the transaction date.
+    @FXML private Label seats;  // Label displaying the selected seats.
+    @FXML private Label name;  // Label displaying the customer's first name.
+    @FXML private Label surname;  // Label displaying the customer's surname.
+    @FXML private Pane products;  // Pane displaying the list of products.
+    @FXML private Label ticketMovieName;  // Label displaying the movie name for the ticket.
+    @FXML private Label ticketHall;  // Label displaying the hall for the ticket.
+    @FXML private Label ticketDate;  // Label displaying the date of the ticket session.
+    @FXML private Label ticketTime;  // Label displaying the time of the ticket session.
+    @FXML private Label ticketSeats;  // Label displaying the seats in the ticket.
 
     @FXML 
-    private Button confirmButton;
+    private Button confirmButton;  // Button for confirming the transaction.
     @FXML 
-    private Button backButton;
+    private Button backButton;  // Button for navigating back.
 
-    private ProductsDao database = new ProductsDao();
+    private ProductsDao database = new ProductsDao();  // Data access object for managing products.
+    private InvoicesDao invocies = new InvoicesDao();  // Data access object for managing invoices.
+    private SessionDao sessionDB = new SessionDao();  // Data access object for managing session data.
 
-    private InvoicesDao invocies = new InvoicesDao();
-
-    private SessionDao sessionDB = new SessionDao();
-
-    private String cryptedData;
-
+    /**
+     * Initializes the stage with movie, session, and customer data.
+     */
     @FXML
     public void initialize() {
         movieName.setText(StaticSelection.staticMovie.getName());
@@ -104,11 +107,20 @@ public class CashierStage5Controller {
 
     }
 
+    /**
+     * Adds a label to the container.
+     * 
+     * @param container The VBox container to add the label to.
+     * @param text The text to display in the label.
+     */
     private void addLabelToContainer(VBox container, String text) {
         Label newLabel = new Label(text);
         container.getChildren().add(newLabel);
     }
 
+    /**
+     * Handles the confirm button click event, saving the invoice and updating the stock of products.
+     */
     private void handleConfirm() {
         String htmlContent = createHTML();
         saveToFile("CinemaReceipt.html", htmlContent);
@@ -155,15 +167,28 @@ public class CashierStage5Controller {
         cashierParent.getParent().productAdded();
     }
 
+    /**
+     * Handles the back button click event, navigating to the previous stage.
+     */
     private void handleBack() {
         cashierParent.getParent().handleScenes("cashierStage4");
     }
 
+    /**
+     * Gets the current date and time in the format "yyyy-MM-dd HH:mm:ss".
+     * 
+     * @return The current date and time as a string.
+     */
     private String getCurrentDateTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.now().format(formatter);
     }
 
+    /**
+     * Creates an HTML string representing the invoice details.
+     * 
+     * @return The HTML content as a string.
+     */
     private String createHTML(){
         StringBuilder html = new StringBuilder();
 
@@ -244,9 +269,14 @@ public class CashierStage5Controller {
         return html.toString();
     }
 
+    /**
+     * Saves the provided content to a file with the specified filename.
+     * 
+     * @param filename The name of the file to save the content to.
+     * @param content The content to save to the file.
+     */
     public static void saveToFile(String filename, String content) {
         try {
-            File file = new File(filename);
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
             writer.write(content);
             writer.close();
@@ -256,6 +286,10 @@ public class CashierStage5Controller {
         }
     }
 
+    /**
+     * Updates the seat sales information for the current session.
+     * This method calculates the new seat status using the seat indices and updates the session data.
+     */
     private void handleSeatSales(){
         long ans = 0;
         for(Integer i: StaticSelection.staticSeatIndeces){
@@ -265,6 +299,12 @@ public class CashierStage5Controller {
         sessionDB.updateById(StaticSelection.staticSession.getId(), "seats", ans);
     }
 
+    /**
+     * Encrypts or encodes the selected seat and product data.
+     * This method generates a string that represents the seat indices and product quantities in a specific format.
+     * 
+     * @return A string containing the encoded seat indices and product information.
+     */
     private String cryptedData(){
         String ans = "";
 

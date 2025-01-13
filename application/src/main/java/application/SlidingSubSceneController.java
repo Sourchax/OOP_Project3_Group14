@@ -17,37 +17,92 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+/**
+ * Controller for handling the sliding subscene that displays the shopping cart.
+ * It allows toggling the visibility of the cart, populating the ticket and product grids, 
+ * and calculating and displaying the total amount and tax for the cart's contents.
+ */
 public class SlidingSubSceneController {
 
+    /**
+     * Root anchor pane for the sliding subscene.
+     */
     @FXML
     public AnchorPane root;
 
+    /**
+     * Button to toggle the visibility of the sliding subscene.
+     */
     @FXML
     private Button slideButton;
 
+    /**
+     * Label displaying the total amount in the cart.
+     */
     @FXML
     private Label totalAmount;
     
+    /**
+     * Grid pane displaying ticket information.
+     */
     @FXML
     public GridPane shipGrid;
 
+    /**
+     * Grid pane displaying product information.
+     */
     @FXML
     public GridPane productGrid;
 
+    /**
+     * Flag to track whether the subscene is visible or not.
+     */
     private boolean isSubSceneVisible = false;
 
+    /**
+     * Image for the upward arrow icon (used when the subscene is visible).
+     */
     private Image arrowUpIcon;
+
+    /**
+     * Image for the downward arrow icon (used when the subscene is hidden).
+     */
     private Image arrowDownIcon;
 
+    /**
+     * List of price modifiers fetched from the database.
+     */
     private List<PriceModifier> pModifiers;
 
+    /**
+     * Row index used for placing elements in the grid.
+     */
     public int row = 0;
 
+    /**
+     * Total price of the tickets.
+     */
     public double totalPriceTicket = 0.0;
+
+    /**
+     * Total price of the products.
+     */
     public double totalPriceProduct = 0.0;
+
+    /**
+     * Total tax for the products.
+     */
     public double totalTaxProduct = 0.0;
+
+    /**
+     * Total tax for the tickets.
+     */
     public double totalTaxTicket = 0.0;
 
+    /**
+     * Initializes the controller by loading the icons and fetching the price modifiers 
+     * from the database. It also sets up the action for the slide button.
+     */
     @FXML
     public void initialize() {
 
@@ -64,12 +119,15 @@ public class SlidingSubSceneController {
         slideButton.setGraphic(icon);
         //populateTicketGrid(0);
 
-
         root.setTranslateY(120);
 
         slideButton.setOnAction(event -> toggleSubScene());
     }
 
+    /**
+     * Toggles the visibility of the sliding subscene and changes the icon and text 
+     * of the slide button accordingly.
+     */
     public void toggleSubScene() {
         TranslateTransition transition = new TranslateTransition(Duration.millis(300), root);
         if (isSubSceneVisible) {
@@ -92,7 +150,13 @@ public class SlidingSubSceneController {
         isSubSceneVisible = !isSubSceneVisible;
     }
 
-
+    /**
+     * Populates the ticket grid with information about the selected ticket, 
+     * including its price after applying discounts and tax.
+     * 
+     * @param i the index of the selected seat
+     * @param isDiscountApplied flag indicating whether a discount should be applied
+     */
     public void populateTicketGrid(int i, boolean isDiscountApplied) {
 
         int discount = 0;
@@ -119,7 +183,10 @@ public class SlidingSubSceneController {
         row++;
     }
 
-
+    /**
+     * Populates the product grid with information about the selected products, 
+     * including their total price and tax.
+     */
     public void populateProductGrid() {
         int row = 0;
         totalPriceProduct = 0.0;
@@ -148,6 +215,14 @@ public class SlidingSubSceneController {
         }
     } 
 
+    /**
+     * Adds a data block (representing either a ticket or product) to the appropriate grid.
+     * 
+     * @param isTicket flag indicating whether the data represents a ticket (true) or a product (false)
+     * @param data the data to be added in the block
+     * @param column the column index in the grid
+     * @param row the row index in the grid
+     */
     private void addBlockToGrid(boolean isTicket, String data, int column, int row) {
         VBox dataBlock = new VBox();
         Label label = new Label(data);
@@ -165,7 +240,11 @@ public class SlidingSubSceneController {
         }
     }
 
-    public void editTotal(){
+    /**
+     * Updates the total amount and total tax based on the current contents of the grids. 
+     * This method is called whenever there is a change in the cart.
+     */
+    public void editTotal() {
 
         if(shipGrid.getChildren().isEmpty()){
             totalPriceTicket = 0.0;

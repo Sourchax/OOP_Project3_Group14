@@ -13,28 +13,34 @@ import java.util.Map;
 
 import entities.Session;
 
+/**
+ * Controller class responsible for managing the seat selection functionality for a movie session.
+ * It allows the user to select available seats, view seat status (available, selected, or occupied), and proceed with the confirmation or go back to the previous screen.
+ */
 public class seatPlanController {
 
     @FXML
-    private GridPane seatGrid;
+    private GridPane seatGrid;  // GridPane for displaying seat layout.
 
     @FXML
-    private Button confirmButton;
+    private Button confirmButton;  // Button to confirm seat selection.
 
     @FXML
-    private Button backButton;
+    private Button backButton;  // Button to navigate back to the previous screen.
 
-    private List<Integer> selectedNums = new ArrayList<>();
+    private List<Integer> selectedNums = new ArrayList<>();  // List to hold selected seat numbers.
 
-    private final Map<Button, String> seatStatus = new HashMap<>();
+    private final Map<Button, String> seatStatus = new HashMap<>();  // Mapping of each seat button to its status (available, selected, occupied).
 
     // Icons for seat statuses
     private final Image availableSeatIcon = new Image(getClass().getResource("/application/fxml/icons/availableSeat.png").toExternalForm());
     private final Image selectedSeatIcon = new Image(getClass().getResource("/application/fxml/icons/selectedSeat.png").toExternalForm());
     private final Image occupiedSeatIcon = new Image(getClass().getResource("/application/fxml/icons/occupiedSeat.png").toExternalForm());
-    
 
-    // Initialize the seat layout dynamically
+    /**
+     * Initializes the seat plan grid based on the selected movie session.
+     * Dynamically displays the available, selected, or occupied seats.
+     */
     @FXML
     public void initialize() {
 
@@ -109,6 +115,13 @@ public class seatPlanController {
         }          
     }
 
+
+    /**
+     * Handles the seat selection action.
+     * It changes the seat's status between available, selected, and occupied.
+     * 
+     * @param seat The button representing the selected seat.
+     */
     private void handleSeatSelection(Button seat) {
         String currentStatus = seatStatus.get(seat);
 
@@ -140,6 +153,11 @@ public class seatPlanController {
         }
     }
 
+    /**
+     * Marks seats as occupied based on the provided array of occupied seat coordinates.
+     * 
+     * @param occupiedSeats A 2D array containing the row and column indices of occupied seats.
+     */
     public void markSeatsAsOccupied(int[][] occupiedSeats) {
         for (int[] seat : occupiedSeats) {
             int row = seat[0];
@@ -153,6 +171,13 @@ public class seatPlanController {
         }
     }
 
+    /**
+     * Gets the seat button at the specified row and column.
+     * 
+     * @param row The row index of the seat.
+     * @param col The column index of the seat.
+     * @return The seat button at the specified position, or null if not found.
+     */
     private Button getSeatButton(int row, int col) {
         for (javafx.scene.Node node : seatGrid.getChildren()) {
             if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
@@ -162,6 +187,12 @@ public class seatPlanController {
         return null;
     }
 
+    /**
+     * Handles the sale (or removal) of a seat, updating the list of selected seats and enabling or disabling the confirm button.
+     * 
+     * @param seat The seat button.
+     * @param isNew Whether the seat is being newly selected (true) or unselected (false).
+     */
     private void handleSeatSale(Button seat, boolean isNew){
         Integer a = (Integer) seat.getProperties().get("seatId");
         if(isNew){
@@ -184,6 +215,9 @@ public class seatPlanController {
         cashierParent.getParent().ticketsAdded(0, false);
     }
 
+    /**
+     * Handles the confirm action to finalize the seat selection and proceed to the next screen.
+     */
     private void handleConfirm(){
         StaticSelection.staticSeatIndeces = selectedNums;
         List<String> seatValues = new ArrayList<>();
@@ -194,11 +228,20 @@ public class seatPlanController {
         cashierParent.getParent().handleScenes("cashierStage4");
     }
 
+    /**
+     * Handles the back action to navigate back to the previous screen.
+     */
     private void handleBack(){
         cashierParent.getParent().ticketsAdded(-1,false);
         cashierParent.getParent().handleScenes("cashierStage2"); 
     }
 
+    /**
+     * Converts a seat number to a human-readable format (e.g., "A1", "B4").
+     * 
+     * @param seatId The seat ID to convert.
+     * @return The seat identifier as a string (e.g., "A1", "B4").
+     */
     private String convertIndex(Integer num){
         int seatChar;
         int seatIndex;

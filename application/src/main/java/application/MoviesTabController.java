@@ -47,50 +47,107 @@ import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
 
+/**
+ * The MoviesTabController class handles the UI interactions and logic for managing movies in a movie management system.
+ * It includes functionality for adding, editing, deleting, and selecting movies, as well as managing movie posters and genres.
+ * The controller interacts with the database through the MoviesDao and SessionDao classes to perform CRUD operations.
+ */
 public class MoviesTabController {
 
+    /**
+     * Button to add a new movie to the system.
+     */
     @FXML
     private Button addMovieButton;
 
+    /**
+     * Button to edit details of the selected movie.
+     */
     @FXML
     private Button editDetailsButton;
 
+    /**
+     * Button to delete the selected movie from the system.
+     */
     @FXML
     private Button deleteButton;
 
+    /**
+     * Button to display genre selection popup.
+     */
     @FXML
     private Button genreButton;
 
+    /**
+     * Button to select a new poster for the selected movie.
+     */
     @FXML
     private Button selectNewPosterButton;
 
+    /**
+     * List view to display the list of movies.
+     */
     @FXML
     private ListView<String> moviesList;
 
+    /**
+     * Text field for the movie title.
+     */
     @FXML
     private TextField titleField;
 
+    /**
+     * Text field for the movie release year.
+     */
     @FXML
     private TextField yearField;
 
+    /**
+     * Label to display the genre of the selected movie.
+     */
     @FXML
     private Label genreField;
 
+    /**
+     * Text area for the movie summary.
+     */
     @FXML
     private TextArea summaryField;
 
+    /**
+     * Image view to display the movie poster.
+     */
     @FXML
     private ImageView moviePoster;
 
+    /**
+     * Observable list of movies to populate the UI components.
+     */
     private ObservableList<Movie> movieData;
 
+    /**
+     * The currently selected movie.
+     */
     private Movie selectedMovie;
 
+    /**
+     * The Blob representing the poster image of the selected movie.
+     */
     private Blob selectedImageBlob;
-    
+
+    /**
+     * Data access object for managing movie-related database operations.
+     */
     private MoviesDao database;
+
+    /**
+     * Data access object for managing session-related database operations.
+     */
     private SessionDao sessionDao;
 
+    /**
+     * Initializes the controller, setting up event handlers and populating the movie list.
+     */
     @FXML
     private void initialize() {
         addMovieButton.setOnAction(event -> onAddNewMovie());
@@ -119,7 +176,11 @@ public class MoviesTabController {
         selectedImageBlob = movieData.get(0).getPoster();
         populateMovieDetails(selectedMovie);
     }
-
+    /**
+     * Handles the selection of a movie from the list and updates the movie details display.
+     *
+     * @param event The mouse event that triggers the method.
+     */
     @FXML
     private void handleMovieSelection(MouseEvent event) {
         int index = moviesList.getSelectionModel().getSelectedIndex();
@@ -130,6 +191,9 @@ public class MoviesTabController {
         selectedImageBlob = movieData.get(index).getPoster();
     }
 
+     /**
+     * Opens a popup to allow the user to select movie genres.
+     */
     private void showGenreSelectionPopup() {
         try {
 
@@ -150,6 +214,9 @@ public class MoviesTabController {
         }
     }
 
+    /**
+     * Allows the user to select a new poster image for the selected movie.
+     */
     @FXML
     private void selectNewPoster(){
         FileChooser fileChooser = new FileChooser();
@@ -178,6 +245,9 @@ public class MoviesTabController {
         }
     }
 
+    /**
+     * Opens a modal window to add a new movie to the system.
+     */
     @FXML
     private void onAddNewMovie() {
         System.out.println("Add New Movie button clicked!");
@@ -185,6 +255,9 @@ public class MoviesTabController {
         openAddMovieWindow();
     }
 
+    /**
+     * Opens the window to add a new movie.
+     */
     private void openAddMovieWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/AddMovieScene.fxml"));
@@ -202,6 +275,10 @@ public class MoviesTabController {
         }
     }
 
+
+    /**
+     * Edits the details of the selected movie.
+     */
     private void editMovieDetails(){
         String title = titleField.getText();
         String genre = genreField.getText();
@@ -264,6 +341,9 @@ public class MoviesTabController {
 
     }
 
+    /**
+     * Populates the table with the list of movies from the database.
+     */
     private void populateTableWithMovies() {
         List<Movie> movieList = database.getList();
         for(Movie a: movieList){
@@ -278,6 +358,12 @@ public class MoviesTabController {
 
     }
 
+    
+    /**
+     * Populates the movie details section with information about the selected movie.
+     *
+     * @param movie The movie whose details are to be displayed.
+     */
     private void populateMovieDetails(Movie movie) {
         titleField.setText(movie.getName());
         updateImage(movie.getPoster());
@@ -286,6 +372,11 @@ public class MoviesTabController {
         yearField.setText(movie.getYear());
     }
 
+    /**
+     * Updates the movie poster displayed in the UI.
+     *
+     * @param imageBlob The Blob representing the movie's poster image.
+     */
     private void updateImage(Blob imageBlob) {
         // Update the ImageView with a new image
         if(imageBlob == null){
@@ -304,11 +395,20 @@ public class MoviesTabController {
         }
     }
 
+
+   /**
+     * Updates the selected genres displayed in the UI.
+     *
+     * @param genres A StringBuilder containing the selected genres.
+     */
     public void updateSelectedGenres(StringBuilder genres) {
         if(genres.length()!=0)
             genreField.setText(genres.toString());
     }
 
+    /**
+     * Handles the deletion of the selected movie from the system.
+     */
     private void handleDeleteMovie() {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Delete Movie");
@@ -332,6 +432,11 @@ public class MoviesTabController {
         populateMovieDetails(selectedMovie);
     }
 
+    /**
+     * Cancels the current process and displays an error message.
+     *
+     * @param errorMessage The error message to display.
+     */
     private void cancelProcess(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR);
         if(errorMessage.length() > 10){
