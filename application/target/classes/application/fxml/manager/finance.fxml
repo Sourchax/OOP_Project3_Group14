@@ -16,24 +16,24 @@
             <HBox spacing="20.0" />
             <VBox alignment="CENTER" prefHeight="465.0" prefWidth="494.0" spacing="20.0">
                <children>
-                  <HBox spacing="20.0">
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="60.0" prefWidth="353.0" spacing="20.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Ticket Price:">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" styleClass="finance" text="Ticket Price:">
                            <font>
                               <Font name="Calibri" size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="ticketPriceField" alignment="CENTER" prefHeight="25.0" prefWidth="140.0" text="10" />
+                        <TextField fx:id="ticketPriceField" alignment="CENTER" prefHeight="25.0" prefWidth="140.0" styleClass="finance" text="10" />
                      </children>
                   </HBox>
-                  <HBox fx:id="discountRate" spacing="20.0">
+                  <HBox fx:id="discountRate" alignment="BOTTOM_LEFT" prefHeight="51.0" prefWidth="353.0" spacing="20.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Discount Rate:">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" styleClass="finance" text="Discount Rate:">
                            <font>
                               <Font name="Calibri" size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="discountRateField" alignment="CENTER" prefHeight="25.0" prefWidth="140.0" text="50" />
+                        <TextField fx:id="discountRateField" alignment="CENTER" prefHeight="25.0" prefWidth="140.0" styleClass="finance" text="50" />
                      </children>
                   </HBox>
                   <Button fx:id="editButton" mnemonicParsing="false" onAction="#edit" text="Edit" />
@@ -47,7 +47,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </VBox>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="13.0" minHeight="50.0" minWidth="200.0" text="Tax and Revenue Section">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="13.0" minHeight="50.0" minWidth="200.0" styleClass="finance" text="Tax and Revenue Section">
          <font>
             <Font name="Calibri" size="35.0" />
          </font>
@@ -57,28 +57,28 @@
             <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
          </padding>
          <children>
-            <HBox spacing="20.0">
+            <HBox prefHeight="50.0" prefWidth="484.0" spacing="20.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Total Revenue:">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" styleClass="finance" text="Total Revenue:">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="totalRevenue" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="300.0" text="0">
+                  <Label fx:id="totalRevenue" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="300.0" styleClass="finance" text="0">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <HBox spacing="20.0">
+            <HBox prefHeight="40.0" prefWidth="484.0" spacing="20.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" text="Tax to be paid:">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="148.0" styleClass="finance" text="Tax to be paid:">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="totalTax" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="300.0" text="0">
+                  <Label fx:id="totalTax" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="300.0" styleClass="finance" text="0">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>

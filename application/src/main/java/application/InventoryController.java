@@ -31,6 +31,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Inventory controller for both cashier and manager and different functionalities based on role.
+ */
 public class InventoryController {
 
     @FXML
@@ -81,8 +84,6 @@ public class InventoryController {
     @FXML
     private TextField productPriceField;
 
-
-
     public Product selectedProduct;
     
     private ProductsDao productsDatabase;
@@ -91,11 +92,11 @@ public class InventoryController {
 
     private CardClickListener cardClickListener;
 
-
-
-
     private ObservableList<Integer> stockIncreaseValues = FXCollections.observableArrayList(1, 10, 25, 50, 100);
     
+    /**
+     * Set visible or disable some UI elements based on the logged in user role and set product grid.
+     */
     @FXML
     private void initialize(){
         if(currentUser.getRole().equals("manager")) {
@@ -119,6 +120,16 @@ public class InventoryController {
 
             productsScrollPane.setPrefHeight(500);
             productsScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            productPriceField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
+                String newText = change.getControlNewText();
+            
+                // Regular expression to allow up to two digits before and after the decimal point.
+                if (newText.matches("\\d{0,3}(\\.\\d{0,2})?")) {
+                    return change; 
+                }
+                return null;
+            }));
         }
         else if (currentUser.getRole().equals("cashier")) {
             buyButton.setVisible(true);
@@ -148,6 +159,10 @@ public class InventoryController {
         initGrid();
     }
 
+
+    /**
+     * Initialize the grid of products
+     */
     private void initGrid() {
         productsDatabase = new ProductsDao();
         this.products = productsDatabase.getList();
@@ -204,9 +219,6 @@ public class InventoryController {
                         }
                         productsGrid.add(anchorPane, columnIndex++, rowIndex);
                     }
-
-                    // add the loaded fxml to the grid
-
                     
                 } else {
                     System.out.println("No such fxml");
@@ -218,6 +230,10 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Set fields as chosen product values from the product parameter.
+     * @param product to set
+     */
     public void setChosenProduct(Product product) {
         productNameLabel.setText(product.getName());
         updateImage(product.getImage());
@@ -227,6 +243,9 @@ public class InventoryController {
         productTypeLabel.setText(product.getType());
     }
 
+    /**
+     * Update image method for updating selected product image
+     */
     private void updateImage(Blob imageBlob) {
         // Update the ImageView with a new image
         if(imageBlob == null){
@@ -244,6 +263,9 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Increase stock in the db and the UI
+     */
     private void increaseStock() {
         try {
             int currentStock = selectedProduct.getStock();
@@ -256,6 +278,10 @@ public class InventoryController {
         
     }
 
+    /**
+     * Buy method for product decrease stock if exists and alert if out of stock
+     * @param event The mouse event triggered by the button click.
+     */
     @FXML
     void buyProduct(ActionEvent event) {
         int currentStock = selectedProduct.getStock();
@@ -274,11 +300,14 @@ public class InventoryController {
     }
 
 
+    /**
+     * Edit the pric of product if logged in as manager
+     * @param event The mouse event triggered by the button click.
+     */
     @FXML
     void editPrice(ActionEvent event) {
 
         String priceInput = productPriceField.getText().trim();
-        priceInput = priceInput.replace(',', '.');
     
         // check for valid input
         if (!priceInput.matches("^[+]?\\d*(\\.\\d+)?$")) {

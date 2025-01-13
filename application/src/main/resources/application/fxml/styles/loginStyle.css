@@ -50,3 +50,8 @@
     -fx-border-color: #8417e8;
     -fx-border-radius: 20px;
 }
+
+.finance {
+    -fx-text-fill: black;
+    -fx-font-size: 22px;
+}

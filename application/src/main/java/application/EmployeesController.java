@@ -20,6 +20,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Employees Controller class is used for manageing employees and their details for manager scene.
+ */
 public class EmployeesController {
     @FXML
     private Button addEmployeeButton;
@@ -114,7 +117,8 @@ public class EmployeesController {
     private static final String Regex_PASSWORD = "^(?=.*[a-zA-Z])(?=.*\\d).{6,}$";
 
     /**
-     * 
+     * Initializes the controller by setting up event handlers for the confirm and cancel buttons
+     * and populating the UI elements with the selected employee details.
      */
     @FXML
     private void initialize() {        
@@ -140,7 +144,7 @@ public class EmployeesController {
 
     /**
      * Takes employee as parameter and sets fields based on the employee values
-     * @param employee
+     * @param employee the employee whose details will be set in the fields
      */
     private void populateEmployeeDetails(Employee employee) {
         nameField.setText(employee.getName());
@@ -150,7 +154,9 @@ public class EmployeesController {
         roleComboBox.setValue(employee.getRole());
     }
 
-
+    /**
+     * load employee data from the database.
+     */
     private void loadEmployeeData() {
         List<Employee> employees = employeesDataBase.getList();
     
@@ -166,7 +172,9 @@ public class EmployeesController {
         employeesTableView.setItems(employeeData);
     }
     
-
+    /**
+     * Fire selected employee by deleting from db.
+     */
     private void fireEmployee(){
         Employee selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
         
@@ -191,8 +199,12 @@ public class EmployeesController {
         }
 
         resetTextFields();
+        employeesTableView.getSelectionModel().clearSelection();
     }
-
+    /**
+     * 
+     * Edit employee details from the name field entries.
+     */
     private void editEmployeeDetails(){
         String name = nameField.getText();
         String surname = surnameField.getText();
@@ -247,8 +259,13 @@ public class EmployeesController {
         
         loadEmployeeData();
         resetTextFields();
+        employeesTableView.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Handle selection for the employee on the tableview
+     * @param event The mouse event triggered by the button click.
+     */
     @FXML
     private void handleEmployeeSelection(MouseEvent event) {
         int index = employeesTableView.getSelectionModel().getSelectedIndex();
@@ -258,6 +275,13 @@ public class EmployeesController {
         }
     }
 
+    /**
+     * Handles the event when the hire employee button is clicked.
+     * Validates the input fields, checks if the employee already exists in the database,
+     * and if all checks pass, inserts the new employee into the database.
+     * 
+     * @param event The mouse event triggered by the button click.
+     */
     @FXML
     void hireEmployee(MouseEvent event) {
         String name = nameField.getText();
@@ -269,18 +293,15 @@ public class EmployeesController {
         //check valid case
         if (name.isEmpty() || surname.isEmpty() || username.isEmpty() || role.isEmpty() || password.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Warning", "Fill all the fields");
-            resetTextFields();
             return;
         }
         else if (!name.matches(Regex_NAME) || !surname.matches(Regex_SURNAME) || !username.matches(Regex_USERNAME))
         {
             showAlert(Alert.AlertType.WARNING, "Warning", "Enter valid values");
-            resetTextFields();
             return;
         }
         else if (!password.matches(Regex_PASSWORD)) {
             showAlert(Alert.AlertType.WARNING, "Warning", "Password should contain at least one character and digit and 6 character long.");
-            resetTextFields();
             return;
         }
 
@@ -288,7 +309,6 @@ public class EmployeesController {
         System.out.println(matchedEmployees.size());
         if (!matchedEmployees.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Employee Hired", "Already exist username try another one");
-            resetTextFields();
             return;
         }
 
@@ -297,8 +317,12 @@ public class EmployeesController {
         employeesDataBase.insert(hiredEmployee);
         loadEmployeeData();
         resetTextFields();
+        employeesTableView.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Resets text fields
+     */
     private void resetTextFields() {
         nameField.setText("");
         usernameField.setText("");
@@ -307,10 +331,14 @@ public class EmployeesController {
         passwordField.setText("");
     }
 
+    /**
+     * Show alert based on parameters
+     */
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
+        employeesTableView.getSelectionModel().clearSelection();
     }
 }

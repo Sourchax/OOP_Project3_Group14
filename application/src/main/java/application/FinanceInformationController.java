@@ -16,6 +16,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Finance information controller is for editing ticket price and discount amount also seeing total tax and revenue.
+ */
 public class FinanceInformationController {
 
     @FXML
@@ -30,7 +33,6 @@ public class FinanceInformationController {
     @FXML
     private Label totalTax;
 
-
     @FXML
     private Button editButton;
 
@@ -40,6 +42,9 @@ public class FinanceInformationController {
 
     private InvoicesDao invoicesDao;
     
+    /**
+     * Initialize invoices values and required text field adjusments
+     */
     @FXML
     private void initialize() {
         editButton.setOnAction(event -> edit(event));
@@ -83,6 +88,10 @@ public class FinanceInformationController {
         ticketPriceField.setText(String.valueOf(pModifiers.get(0).getVal()));
     }
 
+    /**
+     * edit method for ticketPrice and discount
+     * @param event The mouse event triggered by the button click.
+     */
     @FXML
     void edit(ActionEvent event) {
         if(discountRateField.getText() == null  || discountRateField.getText().trim() == "" || ticketPriceField.getText() == null || ticketPriceField.getText().trim() == ""){

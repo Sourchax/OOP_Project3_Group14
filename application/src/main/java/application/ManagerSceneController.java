@@ -14,6 +14,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for handling manager methods
+ * This class is responsible for update inventory, employee and see financial stuff
+ */
 public class ManagerSceneController {
 
     @FXML
@@ -37,6 +41,9 @@ public class ManagerSceneController {
     @FXML
     private BorderPane mainPane;
 
+    /**
+     * Set date and load inventory
+     */
     @FXML
     private void initialize(){
         ManagerParent.setParent(this);
@@ -48,21 +55,38 @@ public class ManagerSceneController {
         handleScenes("fxml/manager/inventory.fxml");
     }
 
+    /**
+     * Go to inventory section
+     * @param event mouseevent
+     */
     @FXML
     void onClickInventory(MouseEvent event) {
         handleScenes("fxml/manager/inventory.fxml");
     }
+
+    /**
+     * Go to employees section
+     * @param event mouseevent
+     */
     @FXML
     void onClickEmployees(MouseEvent event) {
         handleScenes("fxml/manager/employees.fxml");
     }
 
+    /**
+     * Go to Revenue tax section  section
+     * @param event mouseevent
+     */
     @FXML
     void goFinanceInfoStage(MouseEvent event) {
         System.out.println("Revenue tax section clicked");
         handleScenes("fxml/manager/finance.fxml");
     }
 
+    /**
+     * load fxml based on path
+     * @param path fxml path
+     */
     public void handleScenes(String path){
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(path));
         try {
@@ -75,6 +99,11 @@ public class ManagerSceneController {
         }
     }
 
+    /**
+     * logout the application
+     * @param event mouse event
+     * @throws IOException if path not found
+     */
     @FXML
     void onLogoutClick(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/login.fxml"));

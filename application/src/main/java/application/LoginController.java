@@ -18,6 +18,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * LoginController for loading fxml based on role
+ */
 public class LoginController {
 
     @FXML
@@ -42,21 +45,37 @@ public class LoginController {
 
     @FXML
     private Label loginError;
+    
+    /**
+     * set login error message as invinsible
+     */
     @FXML
     private void initialize(){
         loginError.setVisible(false);
     }
 
+    /**
+     * login click
+     * @param event
+     */
     @FXML
     void onClickLogin(MouseEvent event) {
         login(event);
     }
 
+    /**
+     * exit app
+     * @param event
+     */
     @FXML
     void onExit(MouseEvent event) {
         System.exit(0);
     }
 
+    /**
+     * login to application set currentUser fields  
+     * @param event
+     */
     private void login(MouseEvent event) {
         String usernameEntry = usernameField.getText().trim();
         String passwordEntry = passwordField.getText().trim();
@@ -80,6 +99,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * Create stage based on role
+     * @param path of fxml
+     * @param event mouse event
+     */
     private void createStage(String path, MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
@@ -95,7 +119,12 @@ public class LoginController {
         }
     }
     
-    //Employee currentEmployee
+
+    /**
+     * load fxml based on current role
+     * @param currentUserRole
+     * @param event
+     */
     public void goRelatedPage(String currentUserRole, MouseEvent event)  {
         switch (currentUserRole) {
             case "manager": {
