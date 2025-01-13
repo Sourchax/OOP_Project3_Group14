@@ -22,7 +22,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                      <image>
-                        <Image url="@../hornet.gif" />
+                        <Image url="@../icons/hornet.gif" />
                      </image>
                   </ImageView>
                   <VBox prefHeight="163.0" prefWidth="414.0" spacing="10.0">

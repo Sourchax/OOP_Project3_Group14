@@ -88,9 +88,13 @@ public class CancelletionsController {
             return new javafx.beans.property.SimpleObjectProperty<>(purchaseDate.toLocalDate());
         });
 
+        TableColumn<Invoice, Double> totalColumn = new TableColumn<>("TotalAmout");
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("totalSpend"));
+
         invoiceTable.getColumns().add(nameColumn);
         invoiceTable.getColumns().add(surnameColumn);
         invoiceTable.getColumns().add(dateColumn);
+        invoiceTable.getColumns().add(totalColumn);
 
         loadInvoices();
     }

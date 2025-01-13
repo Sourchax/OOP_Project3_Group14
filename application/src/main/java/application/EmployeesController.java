@@ -182,12 +182,12 @@ public class EmployeesController {
                 employeeData.remove(selectedEmployee);
                 employeesDataBase.deleteById(selectedEmployee.getId());
             }
-
-            employeeData.remove(selectedEmployee);
-            employeesDataBase.deleteById(selectedEmployee.getId());
+            else{
+                return;
+            }
 
         } else {
-            System.out.println("Select an employee");
+            showAlert(Alert.AlertType.WARNING, "Warning", "Select An Employee!");
         }
 
         resetTextFields();
