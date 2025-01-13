@@ -1,11 +1,12 @@
 package entities;
 
-import java.sql.Date;
-// import utilities.Authentication;
-
 /**
- * Employee entity
- * Contains various information of an employee of the company.
+ * Represents an employee entity within the company.
+ * <p>
+ * This class encapsulates various details about an employee, such as their
+ * name, username, role, and more. It provides methods to access and modify
+ * these details.
+ * </p>
  */
 public class Employee {
     private int id;
@@ -15,13 +16,24 @@ public class Employee {
     private String role;
     private String passwd;
 
-
-    // Default Constructor
+    /**
+     * Default constructor.
+     * <p>
+     * Initializes a new instance of the Employee class with default values.
+     * </p>
+     */
     public Employee() {
-        
     }
 
-    ////  Constructor with parameters
+    /**
+     * Constructs an Employee object with the specified details.
+     *
+     * @param name     the first name of the employee
+     * @param surname  the last name of the employee
+     * @param username the username for the employee's account
+     * @param password the password for the employee's account
+     * @param role     the role of the employee (e.g., Manager, Regular Employee)
+     */
     public Employee(String name, String surname, String username, String password, String role) {
         this.name = name;
         this.surname = surname;
@@ -32,115 +44,129 @@ public class Employee {
 
     // -- Getters --
 
-    /** 
-    * Return the name of the employee object. 
-    * @return String
-    */
+    /**
+     * Gets the first name of the employee.
+     *
+     * @return the first name of the employee
+     */
     public String getName() {
         return this.name;
     }
 
-    /** 
-    * Return the surname of the employee object. 
-    * @return String
-    */
+    /**
+     * Gets the last name of the employee.
+     *
+     * @return the last name of the employee
+     */
     public String getSurname() {
         return this.surname;
     }
-    
-    /** 
-    * Return the username of the employee object. 
-    * @return String
-    */
-    public String getUsername(){
+
+    /**
+     * Gets the username of the employee's account.
+     *
+     * @return the username of the employee
+     */
+    public String getUsername() {
         return this.username;
     }
 
-    /** 
-    * Return the role of the employee object. 
-    * @return String
-    */
+    /**
+     * Gets the role of the employee.
+     *
+     * @return the role of the employee
+     */
     public String getRole() {
         return role;
     }
 
-    /** 
-    * Return the password of the employee object. 
-    * @return String
-    */
+    /**
+     * Gets the password of the employee's account.
+     *
+     * @return the password of the employee
+     */
     public String getPasswd() {
         return passwd;
     }
 
-    /** 
-    * Return the id number of the employee object. 
-    * @return int
-    */
+    /**
+     * Gets the unique ID of the employee.
+     *
+     * @return the unique ID of the employee
+     */
     public int getId() {
         return id;
-    }    
+    }
 
     // -- Setters --
 
-    /** 
-    * Set the name of the employee object. 
-    * @param String
-    */
+    /**
+     * Sets the first name of the employee.
+     *
+     * @param name the first name to set
+     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /** 
-    * Set the surname of the employee object. 
-    * @param String
-    */
+    /**
+     * Sets the last name of the employee.
+     *
+     * @param surname the last name to set
+     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    /** 
-    * Set the username of the employee object. 
-    * @param String
-    */
+    /**
+     * Sets the username of the employee's account.
+     *
+     * @param username the username to set
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /** 
-    * Set the role of the employee object. 
-    * @param String
-    */
+    /**
+     * Sets the role of the employee.
+     *
+     * @param role the role to set
+     */
     public void setRole(String role) {
         this.role = role;
     }
 
-    /** 
-    * Set the id of the employee object. 
-    * @param String
-    */
+    /**
+     * Sets the unique ID of the employee.
+     *
+     * @param id the ID to set
+     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /** 
-    * Set the password of the employee object. 
-    * @param String
-    */
+    /**
+     * Sets the password of the employee's account.
+     *
+     * @param password the password to set
+     */
     public void setPasswd(String password) {
         this.passwd = password;
     }
 
-
-    /** 
-    * Prints the non-profile fields  
-    * @see #getName()
-    * @see #getId()
-    * @see #getSurname()
-    * @see #getUsername()
-    * @see #getDateOfBirth()
-    * @see #getDateOfStart()
-    * @see #getRole()
-    */
+    /**
+     * Displays non-sensitive details of the employee.
+     * <p>
+     * Prints the following details of the employee to the console:
+     * ID, name, surname, username, and role.
+     * </p>
+     *
+     * @see #getId()
+     * @see #getName()
+     * @see #getSurname()
+     * @see #getUsername()
+     * @see #getRole()
+     */
     public void displayNonProfile() {
         System.out.println("ID: " + this.getId());
         System.out.println("Name: " + this.getName());
