@@ -1,5 +1,6 @@
 package application;
 
+import java.lang.runtime.ExactConversionsSupport;
 import java.util.List;
 
 import dataAccess.EmployeesDao;
@@ -184,22 +185,27 @@ public class EmployeesController {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirm Deletion");
             alert.setHeaderText("Are you sure you want to fire this employee?");
-
-            ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
-            if (result == ButtonType.YES) {
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            alert.getButtonTypes().setAll(yesButton, noButton);
+            
+            ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
+            if (result == yesButton) {
+                System.out.println("Burdayim");
                 employeeData.remove(selectedEmployee);
                 employeesDataBase.deleteById(selectedEmployee.getId());
-            }
-            else{
+            } else {
+                System.out.println("Surdayim");
                 return;
             }
-
-        } else {
+            
+        } 
+        else {
             showAlert(Alert.AlertType.WARNING, "Warning", "Select An Employee!");
         }
-
         resetTextFields();
         employeesTableView.getSelectionModel().clearSelection();
+
     }
     /**
      * 
