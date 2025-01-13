@@ -23,30 +23,57 @@ import javafx.event.ActionEvent;
  */
 public class AdminMenuController {
 
+     /**
+     * ImageView that displays the profile picture of the current user.
+     */
     @FXML
     private ImageView userPicture;
 
+    /**
+     * Label that displays the role of the current user (e.g., admin, user).
+     */
     @FXML
     private Label roleField;
 
+    /**
+     * Label that displays the username of the current user.
+     */
     @FXML
     private Label usernameField;
 
+    /**
+     * Label that displays the current date in the format "yyyy-MM-dd".
+     */
     @FXML
     private Label dateTimeField;
 
+    /**
+     * Button that logs out the current user and redirects to the login page.
+     */
     @FXML
     private Button logOutButton;
 
+    /**
+     * Button that loads and displays the movies tab when clicked.
+     */
     @FXML
     private Button moviesButton;
 
+    /**
+     * Button that loads and displays the schedules tab when clicked.
+     */
     @FXML
     private Button schedulesButton;
 
+    /**
+     * Button that loads and displays the requests tab for admin actions when clicked.
+     */
     @FXML
     private Button requestsButton;
 
+    /**
+     * BorderPane that serves as the main layout for the admin menu and is used to display different tabs.
+     */
     @FXML
     private BorderPane mainPane;
 

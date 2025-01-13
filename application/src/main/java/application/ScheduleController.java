@@ -29,56 +29,108 @@ import dataAccess.SessionDao;
 import entities.Movie;
 import entities.Session;
 
+/**
+ * Controller class that manages the schedule of movie sessions.
+ * It allows creating, updating, and deleting movie sessions and displays them in a table.
+ */
 public class ScheduleController {
 
     private SessionDao sessionDao = new SessionDao();
     private MoviesDao moviesDao = new MoviesDao();
 
+    /**
+     * Label for displaying the title of the schedules.
+     */
     @FXML
     private Label schedulesLabel;
 
+    /**
+     * TableView to display the list of movie sessions.
+     */
     @FXML
     private TableView<Session> tableView;
 
+    /**
+     * TableColumn for displaying the hall of a session.
+     */
     @FXML
     private TableColumn<Session, String> colHall;
 
+    /**
+     * TableColumn for displaying the movie of a session.
+     */
     @FXML
     private TableColumn<Session, String> colMovie;
 
+    /**
+     * TableColumn for displaying the time of a session.
+     */
     @FXML
     private TableColumn<Session, String> colTime;
 
+    /**
+     * TableColumn for displaying the date of a session.
+     */
     @FXML
     private TableColumn<Session, String> colDate;
 
+    /**
+     * TableColumn for displaying the number of tickets sold for a session.
+     */
     @FXML
     private TableColumn<Session, Integer> colTickets;
 
+    /**
+     * Button to create a new movie session.
+     */
     @FXML
     private Button createButton;
 
+    /**
+     * Button to update an existing movie session.
+     */
     @FXML
     private Button updateButton;
 
+    /**
+     * Button to delete a movie session.
+     */
     @FXML
     private Button deleteButton;
 
+    /**
+     * DatePicker for selecting the date to filter the movie sessions.
+     */
     @FXML
     private DatePicker datePicker;
 
+    /**
+     * DatePicker for selecting the date when a new session is created or updated.
+     */
     @FXML
     private DatePicker realDatePicker;
 
+    /**
+     * Label for displaying warning messages related to session operations.
+     */
     @FXML
     private Label warningLabel;
 
+    /**
+     * ComboBox for selecting the movie for a session.
+     */
     @FXML
     private ComboBox<String> movieBox;
 
+    /**
+     * ComboBox for selecting the time for a session.
+     */
     @FXML
     private ComboBox<String> timeBox;
 
+    /**
+     * ComboBox for selecting the hall for a session.
+     */
     @FXML
     private ComboBox<String> hallBox;
 
@@ -93,6 +145,9 @@ public class ScheduleController {
 
     private int index;
 
+    /**
+     * Initializes the controller. Sets up table columns, data bindings, and event handlers.
+     */
     @FXML
     private void initialize() {
         createButton.setDisable(true);
@@ -134,6 +189,11 @@ public class ScheduleController {
         });
     }
 
+    /**
+     * Prepares the form fields based on the selected session in the table.
+     *
+     * @param event The mouse event triggered by selecting a session.
+     */
     @FXML
     private void prepareFields(MouseEvent event){
         index = tableView.getSelectionModel().getSelectedIndex();
@@ -155,6 +215,9 @@ public class ScheduleController {
         }
     }
 
+    /**
+     * Sets up the columns for the session table.
+     */
     private void setTableColumns(){
         colHall.setCellValueFactory(new PropertyValueFactory<Session, String>("hall"));
         colMovie.setCellValueFactory(new PropertyValueFactory<Session, String>("movie"));
@@ -177,6 +240,11 @@ public class ScheduleController {
         });
     }
 
+    /**
+     * Populates the table with session data. Optionally filters by date.
+     *
+     * @param date The date to filter the sessions, or null to display all sessions.
+     */
     private void populateTable(LocalDate date){
         List<Session> sessionList = sessionDao.getList();
         if(date != null){
@@ -194,6 +262,9 @@ public class ScheduleController {
         tableView.setItems(sessionData);
     }
 
+    /**
+     * Sets the available options for the choice boxes (movies, times, and halls).
+     */
     private void choiceBoxSetter(){
         if(movies != null)
             movieBox.getItems().addAll(movies);
@@ -201,6 +272,9 @@ public class ScheduleController {
         hallBox.getItems().addAll(halls);
     }
 
+    /**
+     * Creates a new movie session.
+     */
     private void createSchedule() {
         LocalDate date = realDatePicker.getValue();
         int dateCheck = date.compareTo(LocalDate.now());
@@ -245,6 +319,9 @@ public class ScheduleController {
 
     }
 
+    /**
+     * Updates an existing movie session.
+     */
     private void updateSchedule() {
         LocalDate date = realDatePicker.getValue();
         int tickets = calcTickets(selectedSession.getSeats());
@@ -277,6 +354,11 @@ public class ScheduleController {
         populateTable(date);
     }
 
+    /**
+     * Deletes a selected movie session.
+     *
+     * @param event The mouse event triggered by clicking the delete button.
+     */
     @FXML
     private void deleteSchedule(MouseEvent event){
         int tickets = calcTickets(selectedSession.getSeats());
@@ -306,6 +388,12 @@ public class ScheduleController {
         
     }
 
+    /**
+     * Calculates the number of tickets sold based on the number of seats.
+     *
+     * @param seats The number of seats in the session.
+     * @return The number of tickets sold.
+     */
     private int calcTickets(long seats){
         int tickets = 0;
         while(seats != 0){

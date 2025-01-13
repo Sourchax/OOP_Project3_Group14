@@ -23,26 +23,58 @@ import javafx.stage.Stage;
  */
 public class LoginController {
 
+    /**
+     * The PasswordField for entering the user's password.
+     * This field is used for inputting the password during login.
+     */
     @FXML
     private PasswordField passwordField;
 
+    /**
+     * The TextField for entering the user's username.
+     * This field is used for inputting the username during login.
+     */
     @FXML
     private TextField usernameField;
 
+    /**
+     * The Label displaying the role of the current user.
+     * This label is used to show the role (e.g., manager, cashier) of the user after login.
+     */
     @FXML
     private Label roleLabel;
 
+    /**
+     * The Label displaying the username text.
+     * This label is used to provide a description for the username field.
+     */
     @FXML
     private Label usernameLabel;
 
+    /**
+     * The Button to initiate the login process.
+     * This button triggers the login process when clicked by the user.
+     */
     @FXML
     private Button loginButton;
 
+    /**
+     * The BorderPane layout that holds the main scene.
+     * This is the main container that manages the layout of the login scene.
+     */
     @FXML
     private BorderPane mainPane;
 
+    /**
+     * The current Employee object representing the logged-in user.
+     * This object holds the details of the currently logged-in employee, including their role.
+     */
     private Employee currentEmployee;
 
+    /**
+     * The Label that displays the login error message.
+     * This label is used to show an error message when the login credentials are invalid.
+     */
     @FXML
     private Label loginError;
     

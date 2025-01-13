@@ -48,33 +48,66 @@ import javafx.stage.Stage;
  */
 public class CancelletionsController {
 
-
+    /**
+     * Button to show the receipt of a selected invoice.
+     */
     @FXML
     private Button showReceipt;
 
+    /**
+     * Button to confirm the cancellation of the selected invoice.
+     */
     @FXML
     private Button confirmCancel;
 
+    /**
+     * Button to navigate back to the previous screen.
+     */
     @FXML
     private Button goBack;
 
+    /**
+     * Table view to display invoices.
+     */
     @FXML
     private TableView<Invoice> invoiceTable;    
 
+    /**
+     * AnchorPane to display the receipt of the selected invoice.
+     */
     @FXML
     private AnchorPane printReceipe;
 
+    /**
+     * TextField to enter search keywords for filtering invoices.
+     */
     @FXML
     private TextField researchBar;
 
+    /**
+     * DatePicker to select a date to filter invoices by purchase date.
+     */
     @FXML
     private DatePicker selectDate;
 
+    /**
+     * List to hold seat data extracted from the invoice's encrypted data.
+     */
     private List<Integer> seats;
 
+    /**
+     * List to hold product data extracted from the invoice's encrypted data.
+     */
     private List<Integer> products;
 
+    /**
+     * Data access object for interacting with the invoices table in the database.
+     */
     private InvoicesDao invoicesDao = new InvoicesDao();
+    
+    /**
+     * Observable list to hold the invoice data and update the table view.
+     */
     private ObservableList<Invoice> invoiceList = FXCollections.observableArrayList();
 
     /**

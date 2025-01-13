@@ -35,63 +35,153 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for the Cashier Stage 1 scene in the application.
+ * This class manages the search, selection, and confirmation of movies in the interface.
+ * It handles user interactions with the UI components and communicates with the MoviesDao
+ * to fetch and filter movies based on user input.
+ */
 public class CashierStage1Controller {
 
+    /**
+     * TextField for entering search terms.
+     * Used by the user to input keywords for movie search.
+     */
     @FXML
     private TextField searchField;
 
+    /**
+     * Button for searching movies by their genres.
+     * Triggers a genre-based search when clicked.
+     */
     @FXML
     private Button searchByGenreButton;
 
+    /**
+     * Button for searching movies by a partial title.
+     * Allows the user to find movies containing the input text in their titles.
+     */
     @FXML
     private Button searchByPartialTitleButton;
 
+    /**
+     * Button for searching movies by their full title.
+     * Finds movies with titles that exactly match the input text.
+     */
     @FXML
     private Button searchByFullTitleButton;
 
+    /**
+     * Label displaying the name of the currently selected movie.
+     * Updates when a movie is selected from the search results.
+     */
     @FXML
     private Label selectedMovieLabel;
 
+    /**
+     * Button to confirm the selected movie.
+     * Enables the user to proceed to the next stage with the selected movie.
+     */
     @FXML
     private Button confirmButton;
 
+    /**
+     * ListView displaying the search results as a list of movie titles.
+     * Updates dynamically based on the search criteria.
+     */
     @FXML
     private ListView<String> searchResultsListView;
 
+    /**
+     * ImageView displaying the poster of the currently selected movie.
+     * Updates when a movie is selected.
+     */
     @FXML
     private ImageView selectedMoviePoster;
 
+    /**
+     * Label displaying the title of the currently selected movie.
+     * Updates when a movie is selected.
+     */
     @FXML
     private Label selectedMovieTitle;
 
+    /**
+     * Label displaying the genres of the currently selected movie.
+     * Shows a comma-separated list of genres associated with the movie.
+     */
     @FXML
     private Label selectedMovieGenres;
 
+    /**
+     * Label displaying a summary of the currently selected movie.
+     * Provides a brief description or plot summary.
+     */
     @FXML
     private Label selectedMovieSummary;
 
+    /**
+     * ComboBox for selecting the search method.
+     * Allows the user to choose between "Genre(s)", "Partial Title", or "Full Title" search options.
+     */
     @FXML
     private ComboBox<String> searchMethodsSelector;
 
+    /**
+     * ScrollPane containing the movies grid.
+     * Provides scrollable access to the movie cards displayed in a grid layout.
+     */
     @FXML
     private ScrollPane moviesScrollPane;
 
+    /**
+     * Button to initiate the search process.
+     * Triggers the search logic based on the selected method and input text.
+     */
     @FXML
     private Button searchButton;
 
+    /**
+     * GridPane displaying movie cards in a grid format.
+     * Each card represents a movie and provides details such as the poster and title.
+     */
     @FXML
     private GridPane moviesGrid;
 
+    /**
+     * The currently selected movie object.
+     * Holds the data of the movie that the user has chosen.
+     */
     public Movie selectedMovie;
 
+    /**
+     * Data Access Object for retrieving movie data.
+     * Provides methods to fetch and filter the list of movies.
+     */
     private MoviesDao moviesDatabase;
 
+    /**
+     * List of movies retrieved from the database.
+     * Updated based on the search criteria and used to populate the grid or list view.
+     */
     private List<Movie> movies =  new ArrayList<>();
 
+    /**
+     * Listener interface for handling movie selection events.
+     * Used to respond to user interactions with movie cards.
+     */
     private MovieListener movieListener;
 
+    /**
+     * ObservableList containing the search method options.
+     * Populates the ComboBox with available search methods: "Genre(s)", "Partial Title", "Full Title".
+     */
     private ObservableList<String> searchMethods = FXCollections.observableArrayList("Genre(s)", "Partial Title", "Full Title");
 
+    /**
+     * Initializes the controller class. This method is automatically called after the FXML
+     * file has been loaded. It sets up listeners, initializes the movie database, and populates UI components.
+     */
     @FXML
     private void initialize(){
         
@@ -137,33 +227,60 @@ public class CashierStage1Controller {
         }
     }
     
+    /**
+     * Handles the action of confirming the selected movie.
+     * This method is triggered when the "Confirm" button is clicked.
+     */
     @FXML
     private void handleConfirmSelection() {
         System.out.println("Confirm");
         cashierParent.getParent().handleScenes("cashierStage2");
     }
 
-
+    /**
+     * Triggered when the search button is clicked. Currently empty, 
+     * but can be used for additional handling during the search click.
+     * 
+     * @param event The mouse event that triggers this method.
+     */
     @FXML
     void onSearchClicked(MouseEvent event) {
         
     }   
 
+    /**
+     * Handles searching movies by their genre(s). 
+     * Logs a message to the console indicating the method was triggered.
+     */
     @FXML
     void handleSearchByGenre() {
         System.out.println("handleSearchByGenre");
     }
 
+    /**
+     * Handles searching movies by a partial title. 
+     * Logs a message to the console indicating the method was triggered.
+     */
     @FXML
     void handleSearchByPartialTitle() {
         System.out.println("handleSearchByPartialTitle");
     }
 
+    /**
+     * Handles searching movies by their full title. 
+     * Logs a message to the console indicating the method was triggered.
+     */
     @FXML
     void handleSearchByFullTitle() {
         System.out.println("handleSearchByFullTitle");
     }
 
+    /**
+     * Displays the details of the selected movie in a modal dialog.
+     * Enables or disables the confirm button based on the movie selection.
+     * 
+     * @param movie The movie selected by the user.
+     */
     public void setChosenMovie(Movie movie) {
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/cashier/movieDetails.fxml"));
@@ -192,10 +309,13 @@ public class CashierStage1Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
+    /**
+     * Searches for movies based on the selected search method and the input text.
+     * Populates the grid with matching movies, filtering by full title, 
+     * partial title, or genres as specified by the user.
+     */
     private void searchMovies(){
         
         int maxGridColumnNumber = 3;
@@ -280,6 +400,13 @@ public class CashierStage1Controller {
         }
     }
 
+    /**
+     * Splits a given text into a list of genres. 
+     * Genres are separated by commas, and spaces are ignored.
+     * 
+     * @param text The text containing genres to be parsed.
+     * @return A list of individual genre strings.
+     */
     private List<String> handleGenre(String text){
 
         List<String> ans = new ArrayList<>();

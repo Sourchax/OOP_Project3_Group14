@@ -20,24 +20,52 @@ import javafx.stage.Stage;
  */
 public class ManagerSceneController {
 
+    /**
+     * The ImageView displaying the logo.
+     * This is used to display the logo image in the manager scene.
+     */
     @FXML
     private ImageView logoImageView;
 
+    /**
+     * The Label displaying the username of the logged-in user.
+     * This label is used to show the username of the current user (manager).
+     */
     @FXML
     private Label usernameLabel;
     
+    /**
+     * The Label displaying the role of the logged-in user.
+     * This label is used to display the role (e.g., Manager) of the current user.
+     */
     @FXML
     private Label roleLabel;
 
+    /**
+     * The Label displaying the date.
+     * This label is used to show the current date in the manager scene.
+     */
     @FXML
     private Label dateLabel;
 
+    /**
+     * The Label displaying the current date and time.
+     * This label is used to display the current date and time formatted as "yyyy-MM-dd".
+     */
     @FXML
     private Label dateTimeLabel;
 
+    /**
+     * The Button to log out of the application.
+     * This button triggers the log out process and redirects the user to the login page.
+     */
     @FXML
     private Button logOutButton;
 
+     /**
+     * The BorderPane layout that holds the main scene.
+     * This is the main container that manages the layout of the manager scene.
+     */
     @FXML
     private BorderPane mainPane;
 

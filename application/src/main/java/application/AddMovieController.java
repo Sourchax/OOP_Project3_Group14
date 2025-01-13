@@ -33,27 +33,51 @@ import entities.Movie;
  */
 public class AddMovieController {
 
+    /**
+     * Text field for entering the title of the movie.
+     */
     @FXML
     private TextField titleField;
 
+    /**
+     * Label displaying the selected genres for the movie.
+     */
     @FXML
     private Label genreField;
 
+    /**
+     * Text field for entering a brief summary of the movie.
+     */
     @FXML
     private TextField summaryField;
 
+    /**
+     * Text field for entering the year of release for the movie.
+     */
     @FXML
     private TextField yearField;
 
+    /**
+     * ImageView for displaying the movie poster after selecting an image file.
+     */
     @FXML
     private ImageView imageView;
 
+    /**
+     * Button that opens the file chooser to upload an image for the movie poster.
+     */
     @FXML
     private Button uploadImageButton;
 
+    /**
+     * Button that opens a pop-up window to select genres for the movie.
+     */
     @FXML
     private Button addGenreButton;
 
+    /**
+     * The file object representing the selected image file for the movie poster.
+     */
     private File selectedImageFile;
 
     /**

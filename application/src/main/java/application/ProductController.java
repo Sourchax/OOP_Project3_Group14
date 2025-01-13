@@ -16,17 +16,37 @@ import javafx.scene.input.MouseEvent;
  */
 public class ProductController {
 
+    /**
+     * The Product object representing the product to be displayed.
+     * This object contains the data of the product such as its name, price, and image.
+     */
     private Product product;
 
+    /**
+     * The Label displaying the name of the product.
+     * This label is used to show the product's name in the product view.
+     */
     @FXML
     private Label nameLabel;
 
+    /**
+     * The Label displaying the price of the product.
+     * This label is used to show the product's price in the product view.
+     */
     @FXML
     private Label priceLabel;
 
+    /**
+     * The ImageView used to display the product's image.
+     * This ImageView shows the image of the product, which is fetched from the Blob data.
+     */
     @FXML
     private ImageView productImage;
 
+    /**
+     * The CardClickListener that handles the product click events.
+     * This listener is used to define actions when the product card is clicked.
+     */
     private CardClickListener cardListener;
 
     /**
